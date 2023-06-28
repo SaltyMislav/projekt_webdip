@@ -23,3 +23,5 @@ else
 {
   http_response_code(404);
 }
+
+mysqli_close($con);
