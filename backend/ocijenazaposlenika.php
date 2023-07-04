@@ -1,7 +1,5 @@
 <?php
-/**
- * Returns the list of cars.
- */
+
 require 'connection.php';
     
 $ocijene = [];

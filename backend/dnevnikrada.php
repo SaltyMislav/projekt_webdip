@@ -3,7 +3,7 @@
 require 'connection.php';
 
 $dnevnikrada = [];
-$sql = "SELECT dr.ID, dr.Detail, dr.DatumPromjene, vp.Naziv FROM dnevnikrada dr LEFT JOIN vrstapromjene vp ON dr.VrstaPromjeneID = vp.ID";
+$sql = "SELECT dr.ID, dr.Detail, dr.DatumPromjene, dr.VrstaPromjeneID, vp.Naziv FROM dnevnikrada dr LEFT JOIN vrstapromjene vp ON dr.VrstaPromjeneID = vp.ID";
 
 if ($result = mysqli_query($con, $sql))
 {
@@ -13,6 +13,7 @@ if ($result = mysqli_query($con, $sql))
         $dnevnikrada[$cr]['ID'] = $row['ID'];
         $dnevnikrada[$cr]['Detail'] = $row['Detail'];
         $dnevnikrada[$cr]['DatumPromjene'] = $row['DatumPromjene'];
+        $dnevnikrada[$cr]['VrstaPromjeneID'] = $row['VrstaPromjeneID'];
         $dnevnikrada[$cr]['Naziv'] = $row['Naziv'];
         $cr++;
     }
