@@ -15,6 +15,9 @@ import { DolazakNaPosaoComponent } from './modules/dolazak-na-posao/dolazak-na-p
 import { AppHeaderComponent } from './app-header.component';
 import { AppFooterComponent } from './app-footer.component';
 import { AppMenuComponent } from './app-menu.component';
+import { AppMenuComponentComponent } from './app.menu.component.component';
+import { AppFooterComponentComponent } from './app.footer.component.component';
+import { AppHeaderComponentComponent } from './app.header.component.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { AppMenuComponent } from './app-menu.component';
     PoduzecaComponent,
     RadniZadatakComponent,
     NatjecajComponent,
-    DolazakNaPosaoComponent
+    DolazakNaPosaoComponent,
+    AppMenuComponentComponent,
+    AppFooterComponentComponent,
+    AppHeaderComponentComponent
   ],
   imports: [
     BrowserModule,
