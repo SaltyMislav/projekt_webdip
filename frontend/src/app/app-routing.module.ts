@@ -7,19 +7,24 @@ import { KorisniciComponent } from './modules/korisnici/korisnici.component';
 import { NatjecajComponent } from './modules/natjecaj/natjecaj.component';
 import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
+import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: AppHomepageComponent,
+  },
   { path: 'registracija', component: RegistracijaComponent },
   { path: 'prijava', component: PrijavaComponent },
   { path: 'dolazak-na-posao', component: DolazakNaPosaoComponent },
   { path: 'korisnici', component: KorisniciComponent },
   { path: 'natjecaj', component: NatjecajComponent },
   { path: 'poduzeca', component: PoduzecaComponent },
-  { path: 'radni-zadatak', component: RadniZadatakComponent }
+  { path: 'radni-zadatak', component: RadniZadatakComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

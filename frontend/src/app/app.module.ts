@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -15,6 +17,7 @@ import { DolazakNaPosaoComponent } from './modules/dolazak-na-posao/dolazak-na-p
 import { AppFooterComponent } from './app-footer.component';
 import { AppHeaderComponent } from './app-header.component';
 import { AppMenuComponent } from './app-menu.component';
+import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
 
 @NgModule({
   declarations: [
@@ -28,12 +31,15 @@ import { AppMenuComponent } from './app-menu.component';
     DolazakNaPosaoComponent,
     AppFooterComponent,
     AppHeaderComponent,
-    AppMenuComponent
+    AppMenuComponent,
+    AppHomepageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,926 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.clear {
+  clear: both;
+  height: 75px;
+}
+
+body {
+  background-color: #bdd5ea;
+}
+body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.wrapper {
+  flex: 1;
+}
+
+.header {
+  width: 100%;
+  background-color: #bdd5ea;
+  position: relative;
+  top: 0;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 75px;
+  padding: 0 2em;
+}
+.header-left {
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  flex-grow: 1;
+}
+
+.slika {
+  width: auto;
+  height: 50px;
+}
+
+.header-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.title {
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 20;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+}
+
+.popup_era {
+  margin: 25px auto;
+  background: #fff;
+  border-radius: 5px;
+  width: 60%;
+  position: relative;
+  overflow-y: scroll !important;
+  max-height: 900px;
+}
+
+.popup_era img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+.popup_era figcaption {
+  text-align: center;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close,
+.popup_era .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
+.popup .close:hover,
+.popup_era .close:hover {
+  color: red;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .box {
+    width: 70%;
+  }
+  .popup {
+    width: 70%;
+  }
+}
+
+.navigation {
+  text-align: center;
+}
+
+.navigation ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e7e7e7;
+  background-color: #f7f7ff;
+  overflow: hidden;
+}
+
+.navigation ul li {
+  display: inline;
+  float: left;
+  display: list-item;
+}
+
+.navigation ul li a {
+  display: block;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+.navigation ul li a:hover {
+  background-color: darkgrey;
+}
+
+.navigation .odjava {
+  float: right;
+}
+
+.footer {
+  text-align: center;
+  width: 100%;
+  background-color: #eceff4;
+  display: inline-flex;
+  justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 75px;
+  padding: 0 2em;
+}
+
+.footer .copyright {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer img {
+  width: auto;
+  height: 50px;
+}
+
+.footer ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.footer ul li {
+  display: inline;
+  float: left;
+  display: list-item;
+}
+
+.footer .podatci {
+  display: flex;
+  align-items: center;
+}
+
+.Microsoft .figMic {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+.Microsoft img {
+  width: 100%;
+  max-height: 332px;
+}
+
+.Microsoft {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  margin: auto;
+}
+
+.BillGates {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  max-width: 200px;
+  margin: auto;
+}
+
+.BillGates img {
+  max-height: 200px;
+}
+
+.BillGates .figBill {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+.netflix .figNetflix {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+.netflix img {
+  width: 100%;
+  max-height: 445px;
+}
+
+.netflix {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  margin: auto;
+}
+
+.Google .figGoogle {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+.Google img {
+  width: 100%;
+  max-height: 515px;
+}
+
+.Google {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  margin: auto;
+}
+
+.LarryPage {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  max-width: 200px;
+  margin: auto;
+}
+
+.LarryPage img {
+  max-height: 200px;
+}
+
+.LarryPage .figLarry {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+article {
+  width: 95%;
+  margin: auto;
+  padding: 10px;
+  background-color: #f7f7ff;
+}
+
+#Microsoft {
+  border-style: dotted;
+  border-width: 2px;
+  border-color: #333;
+  margin-bottom: 10px;
+}
+
+#Netflix {
+  border-style: dotted;
+  border-width: 2px;
+  border-color: #333;
+  margin-bottom: 10px;
+}
+
+#Google {
+  border-style: dotted;
+  border-width: 2px;
+  border-color: #333;
+  margin-bottom: 10px;
+}
+
+#Microsoft:target h2 {
+  text-decoration: underline;
+}
+
+#Netflix:target h2 {
+  text-decoration: underline;
+}
+
+#Google:target h2 {
+  text-decoration: underline;
+}
+
+.sadrzaj_navigation {
+  text-align: center;
+}
+
+.content-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sadrzaj .sadrzaj_navigation {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sadrzaj .sadrzaj_navigation li {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.sadrzaj .sadrzaj_navigation li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  margin-bottom: 5px;
+  text-decoration: none;
+  min-width: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
+}
+
+.sadrzaj .sadrzaj_navigation li a:hover {
+  background-color: #333;
+  border-color: #333;
+  color: #fff;
+}
+
+.sadrzaj h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.sadrzaj .content_body {
+  text-align: center;
+  font-size: large;
+  margin-bottom: 20px;
+}
+
+.povijestpregledavanja {
+  width: 95%;
+  margin: auto;
+  padding: 10px;
+  background-color: #f7f7ff;
+  text-align: center;
+  display: block;
+}
+
+.povijestpregledavanja h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.povijestpregledavanja aside {
+  display: inline-block;
+  width: 200px;
+}
+
+.povijestpregledavanja img:hover {
+  filter: brightness(130%);
+}
+
+.container .img-title {
+  background-color: #bdd5ea;
+  position: relative;
+  bottom: 0;
+  color: white;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px 0;
+  text-align: center;
+  opacity: 0;
+  transition: 0.6s;
+}
+.container:hover .img-title {
+  opacity: 1;
+}
+
+.sadrzaj_autor section {
+  display: block;
+}
+
+.left_section {
+  float: left;
+  width: 45%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.left_section .up_div {
+  background-color: #f7f7ff;
+  margin-bottom: 5px;
+}
+
+.left_section .down_div {
+  background-color: #f7f7ff;
+}
+
+.left_section .up_div h2 {
+  text-align: center;
+}
+
+.left_section .up_div p {
+  text-align: justify;
+  padding: 10px;
+}
+
+.left_section .down_div img {
+  display: block;
+  padding: 5px;
+  margin: auto;
+  min-width: 300px;
+  min-height: 400px;
+}
+
+.left_section .down_div .vlastiti_podatci {
+  text-align: center;
+  list-style-type: none;
+}
+
+.right_section {
+  float: right;
+  width: 45%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.right_section .up_div {
+  background-color: #f7f7ff;
+  margin-bottom: 5px;
+}
+
+.right_section .up_div h2 {
+  text-align: center;
+}
+
+.right_section .up_div .racunalne_vjestine {
+  margin-left: 20px;
+  white-space: nowrap;
+  overflow: auto;
+  padding-bottom: 10px;
+}
+
+.right_section .up_div .racunalne_vjestine li {
+  display: inline;
+}
+
+.right_section .up_div .racunalne_vjestine ul {
+  margin-left: 25px;
+  white-space: nowrap;
+  display: list-item;
+}
+
+.right_section .up_div .racunalne_vjestine ul li {
+  display: inline;
+}
+
+.right_section .down_div {
+  background-color: #f7f7ff;
+}
+
+.right_section .down_div h2 {
+  text-align: center;
+}
+
+.right_section .down_div .podrucja_interesa {
+  padding-bottom: 10px;
+  margin-left: 20px;
+}
+
+.col-1 {
+  width: 8.33%;
+  margin: 2px;
+}
+.col-2 {
+  width: 16.66%;
+  margin: 2px;
+}
+.col-3 {
+  width: 25%;
+  margin: 2px;
+}
+.col-4 {
+  width: 33.33%;
+  margin: 2px;
+}
+.col-5 {
+  width: 41.66%;
+  margin: 2px;
+}
+.col-6 {
+  width: 50%;
+  margin: 2px;
+}
+.col-7 {
+  width: 58.33%;
+  margin: 2px;
+}
+.col-8 {
+  width: 66.66%;
+  margin: 2px;
+}
+.col-9 {
+  width: 75%;
+  margin: 2px;
+}
+.col-10 {
+  width: 83.33%;
+  margin: 2px;
+}
+.col-11 {
+  width: 91.66%;
+  margin: 2px;
+}
+.col-12 {
+  width: 100%;
+  margin: 2px;
+}
+
+.sadrzaj_autentikacija {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.sadrzaj_autentikacija .forma_registracija {
+  grid-column: 1;
+  width: 95%;
+  margin-left: 45px;
+  margin-top: 10px;
+  border: 1px dotted red;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.sadrzaj_autentikacija .forma_prijava {
+  grid-column: 2;
+  width: 95%;
+  margin-right: 45px;
+  margin-top: 10px;
+  border: 1px dotted red;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.sadrzaj_autentikacija .povijestpregledavanja {
+  grid-column: 1/3;
+}
+
+.sadrzaj_obrazac .forma_obrazac {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 130px;
+  bottom: 0;
+}
+.sadrzaj_obrazac .forma_obrazac .prvi {
+  margin: auto;
+  max-width: fit-content;
+}
+
+.sadrzaj_obrazac .forma_obrazac .drugi {
+  margin: auto;
+  max-width: fit-content;
+}
+
+.sadrzaj_obrazac .forma_obrazac .button {
+  margin: auto;
+  width: 250px;
+}
+
+.sadrzaj_obrazac .forma_obrazac .prvi input,
+.sadrzaj_obrazac .forma_obrazac .prvi textarea {
+  margin-left: 15px;
+}
+
+.sadrzaj_obrazac .povijestpregledavanja {
+  max-height: 200px;
+  position: fixed !important;
+  bottom: 75px !important;
+  margin-left: 2.5%;
+}
+
+.sadrzaj_multimedija {
+  display: block;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+.sadrzaj_multimedija .prvi {
+  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  background-color: #f7f7ff;
+}
+
+.sadrzaj_multimedija .prvi div {
+  display: inline-block;
+  margin: 10px;
+}
+
+.sadrzaj_multimedija .drugi div {
+  display: inline-block;
+  margin: 10px;
+}
+
+.sadrzaj_multimedija .prvi div ul,
+.sadrzaj_multimedija .drugi div ul {
+  list-style-type: none;
+}
+
+.sadrzaj_multimedija .drugi {
+  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  background-color: #f7f7ff;
+}
+
+.sadrzaj_popis table {
+  border-collapse: collapse;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 10px;
+}
+
+.sadrzaj_popis th,
+td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #000;
+}
+
+.sadrzaj_popis tfoot td {
+  text-align: right;
+}
+
+.sadrzaj_popis tfoot td:nth-child(even) {
+  text-align: left;
+}
+
+.sadrzaj_popis tfoot tr {
+  background-color: #fff !important;
+}
+
+.sadrzaj_popis th {
+  background-color: #00ff00;
+}
+
+.sadrzaj_popis tr:nth-child(even) {
+  background-color: #e2f3da;
+}
+
+.sadrzaj_popis tr:nth-child(odd) {
+  background-color: #f9f9e7;
+}
+
+.sadrzaj_popis caption {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sadrzaj_era .era_model img,
+.sadrzaj_navigacijski .era_model img {
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.sadrzaj_era .era_model figcaption,
+.sadrzaj_navigacijski .era_model figcaption {
+  text-align: center;
+}
+
+.button_forma {
+  background-color: #0a0a23;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  min-height: 25px;
+  min-width: 120px;
+}
+
+.button_forma:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.posalji {
+  background-color: #28a745 !important;
+  float: right;
+}
+
+.greska {
+  border: 4px solid #da4d4d !important;
+}
+
+.greskaCheckbox {
+  background-color: #da4d4d !important;
+  opacity: 0.6;
+}
+/* The container */
+.custom-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  height: 1rem;
+  width: 1rem;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.custom-checkbox:hover input ~ .checkmark {
+  background-color: #ccc !important;
+}
+
+/* When the checkbox is checked, add a blue background */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #2196f3 !important;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.custom-checkbox .checkmark:after {
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.ispisGreskeRegistracija {
+  grid-column: 1;
+  width: 95%;
+  margin-left: 45px;
+  margin-top: 10px;
+  color: red;
+  font-size: large;
+  text-align: center;
+}
+
+.ispisUspjesnoRegistracija {
+  grid-column: 1;
+  width: 95%;
+  margin-left: 45px;
+  margin-top: 10px;
+  color: green;
+  font-size: large;
+  text-align: center;
+}
+
+.ispisGreskePrijava {
+  grid-column: 2;
+  width: 95%;
+  margin-right: 45px;
+  margin-top: 10px;
+  color: red;
+  font-size: large;
+  text-align: center;
+}
+
+.ispisUpjesnoPrijava {
+  grid-column: 2;
+  width: 95%;
+  margin-right: 45px;
+  margin-top: 10px;
+  color: green;
+  font-size: large;
+  text-align: center;
+}
+
+#tablica_wrapper {
+  padding: 20px;
+}
+
+#tablica_filter input,
+#tablica_length select {
+  background-color: white;
+}
+
+.box {
+  text-align: center;
+}

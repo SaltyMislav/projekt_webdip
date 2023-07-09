@@ -1,1 +1,39 @@
-<p>app-header works!</p>
+<header class="header">
+    <div class="header-left">
+      <a href="./">
+        <img
+          class="slika"
+          src="./multimedija/foi-logo.jpg"
+          alt="Logo stranice"
+        />
+      </a>
+      <div class="title">Početna stranica</div>
+    </div>
+
+    <div class="header-right">
+      <div class="search-button">
+        <a class="button" href="#modal"
+          ><i class="material-icons">search</i></a
+        >
+      </div>
+
+      <div class="dropdown">
+        <select name="jezici" class="jezici">
+          <option value="hrvatski" selected>HR</option>
+          <option value="engleski">EN</option>
+          <option value="njemacki">GER</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="modal" class="overlay">
+      <div class="popup">
+        <h2>Pretraživanje</h2>
+        <a class="close" href="./index.html">&times;</a>
+        <div class="content">
+            <input type="text" id="search" name="Search" placeholder="Pretraživanje..." />
+            <input type="button" id="go" value="Pretraži" disabled/>
+        </div>
+      </div>
+    </div>
+  </header>
