@@ -1,35 +1,35 @@
 <footer class="footer">
-    <p class="copyright">2023, Mislav Žnidarec &copy;</p>
-    <ul class="validation">
-      <li>
-        <a
-          href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fbarka.foi.hr%2FWebDiP%2F2022%2Fzadaca_01%2Fmznidarec%2F"
-          target="_blank"
-        >
-          <img
-            src="https://barka.foi.hr/WebDiP/2020/materijali/zadace/HTML5.png"
-            alt="HTML5 logo"
-          />
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fbarka.foi.hr%2FWebDiP%2F2022%2Fzadaca_01%2Fmznidarec%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"
-          target="_blank"
-        >
-          <img
-            src="https://barka.foi.hr/WebDiP/2020/materijali/zadace/CSS3.png"
-            alt="CSS logo"
-          />
-        </a>
-      </li>
-    </ul>
-    <div class="podatci">
-      <label for="podatci">Prikupljanje podataka: </label>
-      <select id="podatci" name="podatci" class="podatci">
-        <option value="bez prikupljanja">Bez prikupljanja</option>
-        <option value="osnovno">Osnovno</option>
-        <option value="sve">Sve</option>
-      </select>
-    </div>
-  </footer>
+  <p class="copyright">2023, Mislav Žnidarec &copy;</p>
+  <ul class="validation">
+    <li>
+      <a
+        href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fbarka.foi.hr%2FWebDiP%2F2022%2Fzadaca_01%2Fmznidarec%2F"
+        target="_blank"
+      >
+        <img
+          src="https://barka.foi.hr/WebDiP/2020/materijali/zadace/HTML5.png"
+          alt="HTML5 logo"
+        />
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fbarka.foi.hr%2FWebDiP%2F2022%2Fzadaca_01%2Fmznidarec%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"
+        target="_blank"
+      >
+        <img
+          src="https://barka.foi.hr/WebDiP/2020/materijali/zadace/CSS3.png"
+          alt="CSS logo"
+        />
+      </a>
+    </li>
+  </ul>
+  <mat-form-field class="podaci">
+    <mat-label>Prikupljanje podataka</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let prikupljanje of prikupljanjePodataka" [value]="prikupljanje.value">
+        {{prikupljanje.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</footer>

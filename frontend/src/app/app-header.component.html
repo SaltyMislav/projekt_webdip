@@ -1,23 +1,16 @@
-<header class="header">
-    <div class="header-left">
-      <a href="./">
-        <img
-          class="slika"
-          src="./multimedija/foi-logo.jpg"
-          alt="Logo stranice"
-        />
-      </a>
-      <div class="title">Početna stranica</div>
-    </div>
+<mat-toolbar>
+  <button mat-icon-button class="material-icon-sharp">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Zapošljavanje</span>
 
-    <div class="header-right">
-      <div class="search-button">
-        <a class="button" href="#modal"
-          ><i class="material-icons">search</i></a
-        >
-      </div>
+  <span class="example-spacer"></span>
 
-      <div class="dropdown">
+  <button mat-icon-button class="material-icon-sharp">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-raised-button color="primary" routerLink="/prijava">Prijava</button>
+      <!-- <div class="dropdown">
         <select name="jezici" class="jezici">
           <option value="hrvatski" selected>HR</option>
           <option value="engleski">EN</option>
@@ -35,5 +28,5 @@
             <input type="button" id="go" value="Pretraži" disabled/>
         </div>
       </div>
-    </div>
-  </header>
+    </div> -->
+</mat-toolbar>
