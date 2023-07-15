@@ -89,7 +89,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "@angular/material/prebuilt-themes/purple-green.css"
+              "src/theme.scss"
             ],
             "scripts": []
           }

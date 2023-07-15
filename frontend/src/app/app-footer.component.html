@@ -26,7 +26,7 @@
   </ul>
   <mat-form-field class="podaci">
     <mat-label>Prikupljanje podataka</mat-label>
-    <mat-select>
+    <mat-select (selectionChange)="onPrikupljanjePodatakaChange($event)" [(value)]="selected">
       <mat-option *ngFor="let prikupljanje of prikupljanjePodataka" [value]="prikupljanje.value">
         {{prikupljanje.viewValue}}
       </mat-option>

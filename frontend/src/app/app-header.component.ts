@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -11,4 +13,14 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class AppHeaderComponent {}
+export class AppHeaderComponent {
+  constructor(public dialog: MatDialog) {}
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(SearchDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+}
