@@ -5,6 +5,9 @@ export interface Natjecaj {
     VrijemeKraja: string;
     Opis?: string;
     StatusNatjecajaID: number;
+    VrstaStatusa: string;
+    PoduzeceID: number;
+    NazivPoduzeca: string;
 }
 
 export interface StatusNatjecaja {
