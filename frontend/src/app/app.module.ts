@@ -33,12 +33,14 @@ import { AppComponent } from './app.component';
 import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
 import { DolazakNaPosaoComponent } from './modules/dolazak-na-posao/dolazak-na-posao.component';
 import { KorisniciComponent } from './modules/korisnici/korisnici.component';
+import { NatjecajPublicComponent } from './modules/natjecaj-public/natjecaj-public.component';
 import { NatjecajComponent } from './modules/natjecaj/natjecaj.component';
 import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
 import { PrijavaComponent } from './modules/prijava/prijava.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { RegistracijaComponent } from './modules/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
+import { KorisniciPublicComponent } from './modules/korisnici-public/korisnici-public.component';
 
 @NgModule({
   declarations: [
@@ -48,13 +50,15 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
     KorisniciComponent,
     PoduzecaComponent,
     RadniZadatakComponent,
-    NatjecajComponent,
+    NatjecajPublicComponent,
     DolazakNaPosaoComponent,
     AppFooterComponent,
     AppHeaderComponent,
     AppMenuComponent,
     AppHomepageComponent,
     SearchDialogComponent,
+    NatjecajComponent,
+    KorisniciPublicComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +84,7 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
-    CookieService
+    CookieService,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,58 @@
+<mat-card class="razmak">
+  <mat-card-title class="razmak">Popis natječaja</mat-card-title>
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.ID }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Naziv">
+      <th mat-header-cell *matHeaderCellDef>Naziv</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.Naziv }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="VrijemePocetka">
+      <th mat-header-cell *matHeaderCellDef>Početak</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.VrijemePocetka | date: 'dd-MM-yyy HH:mm:ss' }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="VrijemeKraja">
+      <th mat-header-cell *matHeaderCellDef>Kraj</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.VrijemeKraja | date: 'dd-MM-yyy HH:mm:ss' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Opis">
+      <th mat-header-cell *matHeaderCellDef>Opis</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.Opis }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="StatusNatjecajaNaziv">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let natjecaj">
+        {{ natjecaj.StatusNatjecajaNaziv }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="PoduzeceNaziv">
+      <th mat-header-cell *matHeaderCellDef>Poduzeće</th>
+      <td mat-cell *matCellDef="let natjecaj">{{ natjecaj.PoduzeceNaziv }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</mat-card>
