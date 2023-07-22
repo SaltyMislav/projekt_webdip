@@ -10,6 +10,10 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
       .example-spacer {
         flex: 1 1 auto;
       }
+
+      span {
+        cursor: pointer;
+      }
     `,
   ],
 })
@@ -22,5 +26,9 @@ export class AppHeaderComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
+  }
+
+  goToHomePage() {
+    window.location.href = '/';
   }
 }

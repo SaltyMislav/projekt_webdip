@@ -11,7 +11,7 @@ interface PrikupljanjePodataka {
   templateUrl: './app-footer.component.html',
   styles: [],
 })
-export class AppFooterComponent implements OnInit{
+export class AppFooterComponent implements OnInit {
   prikupljanjePodataka: PrikupljanjePodataka[] = [
     { value: 'noCollection', viewValue: 'Bez Prikupljanja' },
     { value: 'BasicCollection', viewValue: 'Osnovno' },
@@ -20,8 +20,10 @@ export class AppFooterComponent implements OnInit{
 
   selected = '';
 
-  constructor(private cookieService: CookieService,
-    private cdref: ChangeDetectorRef) {}
+  constructor(
+    private cookieService: CookieService,
+    private cdref: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (this.cookieService.check('prikupljanjePodataka')) {
@@ -46,7 +48,7 @@ export class AppFooterComponent implements OnInit{
       case 'noCollection':
         if (this.cookieService.check('prikupljanjePodataka'))
           this.cookieService.delete('prikupljanjePodataka');
-          this.cdref.detectChanges();
+        this.cdref.detectChanges();
         break;
       case 'BasicCollection':
         this.cookieService.set('prikupljanjePodataka', 'BasicCollection', 2);
