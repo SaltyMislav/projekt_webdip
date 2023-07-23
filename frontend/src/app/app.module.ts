@@ -42,6 +42,7 @@ import { PrijavaComponent } from './modules/prijava/prijava.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { RegistracijaComponent } from './modules/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
+import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
     SearchDialogComponent,
     NatjecajComponent,
     KorisniciPublicComponent,
+    AktivacijaComponent,
   ],
   imports: [
     BrowserModule,

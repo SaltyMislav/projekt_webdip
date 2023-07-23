@@ -8,6 +8,7 @@ import { NatjecajComponent } from './modules/natjecaj/natjecaj.component';
 import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
+import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'natjecaj', component: NatjecajComponent },
   { path: 'poduzeca', component: PoduzecaComponent },
   { path: 'radni-zadatak', component: RadniZadatakComponent },
+  { path: 'aktivacija', component: AktivacijaComponent },
 ];
 
 @NgModule({
