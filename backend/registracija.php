@@ -33,12 +33,20 @@ if (isset($postData) && !empty($postData)) {
     $token = bin2hex(openssl_random_pseudo_bytes(20));
 
     //token expiry time set to 10 hours
-    $expiry = 36000;
-    $istekAktivacije = time() + $expiry; //86400 = 1 dan
+    $currentDateTime = date('Y-m-d H:i:s');
+    // Add 10 hours to the current date and time
+    $istekAktivacije = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +10 hours'));
 
-    $sql = "INSERT INTO korisnik (Ime, Prezime, KorisnickoIme, Email, Password, Lozinka_Upis, DatumRegistracije, Token, IstekTokena, UlogaKorisnikaID) VALUES ('$ime', '$prezime', '$userName', '$email', '$passwordHashed', '$password', NOW(), '$token', '$istekAktivacije', 1)";
+    $sql = "INSERT INTO korisnik (Ime, Prezime, KorisnickoIme, Email, Password, Lozinka_Upis, DatumRegistracije, Token, IstekTokena, UlogaKorisnikaID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    //generate prepared statement
+    $stmt = mysqli_prepare($con, $sql);
+    //bind parameters
+    $ulogaKorisnikaID = 1;
+    mysqli_stmt_bind_param($stmt, "sssssssssi", $ime, $prezime, $userName, $email, $passwordHashed, $password, $currentDateTime, $token, $istekAktivacije, $ulogaKorisnikaID);
+    mysqli_stmt_execute($stmt); //execute query
+
     //insert data into database
-    if (mysqli_query($con, $sql)) {
+    if (mysqli_stmt_affected_rows($stmt) > 0) {
         slanjeMaila($email, $token);
         http_response_code(201);
     } else {
@@ -135,9 +143,16 @@ function validate_email($result)
 
 function provjeraKorisnika($userName, $con)
 {
-    $sqlProvjera = "SELECT * FROM korisnik WHERE KorisnickoIme = '$userName'";
-    $provjeraPodataka = mysqli_query($con, $sqlProvjera);
-    if (mysqli_num_rows($provjeraPodataka) > 0) {
+    $sql = "SELECT * FROM korisnik WHERE KorisnickoIme = ?"; //sql query
+    $stmt = mysqli_prepare($con, $sql); //prepare statement
+    mysqli_stmt_bind_param($stmt, "s", $userName); //bind parameters
+    mysqli_stmt_execute($stmt); //execute query
+
+    $stmt_rows = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($stmt_rows) > 0) {
         trigger_error("Korisnik već postoji", E_USER_ERROR);
     }
+
+    mysqli_stmt_close($stmt); //close statement
 }
