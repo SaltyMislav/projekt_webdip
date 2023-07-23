@@ -53,6 +53,7 @@ if (isset($postData) && !empty($postData)) {
         http_response_code(422);
     }
     
+    mysqli_stmt_close($stmt); //close statement
     mysqli_close($con);
 }
 
