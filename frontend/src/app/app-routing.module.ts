@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'poduzeca', component: PoduzecaComponent },
   { path: 'radni-zadatak', component: RadniZadatakComponent },
   { path: 'aktivacija', component: AktivacijaComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@ import { NatjecajService } from '../services/natjecaj.service';
 @Component({
   selector: 'app-natjecaj-public',
   templateUrl: './natjecaj-public.component.html',
-  styleUrls: ['./natjecaj-public.component.css']
+  styleUrls: ['./natjecaj-public.component.css'],
 })
 export class NatjecajPublicComponent {
   dataSource!: MatTableDataSource<Natjecaj>;
@@ -36,16 +36,15 @@ export class NatjecajPublicComponent {
   }
 
   getNatjecaj(): void {
-    this.natjecajService.getAllNatjecaj().subscribe(
-      (data: Natjecaj[]) => {
-        console.log(data);
+    this.natjecajService.getAllNatjecaj().subscribe({
+      next: (data: Natjecaj[]) => {
         this.natjecaji = data;
         this.dataSource = new MatTableDataSource(this.natjecaji);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.cdref.detectChanges();
       },
-      (error) => console.log(error)
-    );
+      error: (error) => console.log(error),
+    });
   }
 }
