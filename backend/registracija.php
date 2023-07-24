@@ -129,8 +129,7 @@ function validate_email($result)
 {
     if (isset($result->data->email) && !empty($result->data->email)) {
         $email = trim($result->data->email);
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        if (!filter_var($email, 274)) //274 is FILTER_VALIDATE_EMAIL
+        if (!filter_var($email, FILTER_SANITIZE_EMAIL)) //274 is FILTER_VALIDATE_EMAIL
         {
             trigger_error("Email nije ispravan", E_USER_ERROR);
         } else {
