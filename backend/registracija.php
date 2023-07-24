@@ -59,17 +59,11 @@ if (isset($postData) && !empty($postData)) {
 
 
 function slanjeMaila($email, $token) {
-    //generate link based on production or development environment
-    if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
-        $link = "http://localhost/aktivacija?email=$email&token=$token";
-    } else {
-        $link = "http://barka.foi.hr/WebDiP/2022_projekti/WebDiP2022x057/aktivacija?email=$email&token=$token";
-    }
     $subject = "Registracija";
-    $message = `Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na: <a href="$link"></a>link</a>`;
+    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost/aktivacija?email=$email&token=$token";
     $headers = array(
         'From' => 'mznidarec@foi.hr',
-        'Content-Type' => 'text/html; charset=UTF-8' . '\r\n',
+        'Content-Type' => 'text/plain; charset=UTF-8' . '\r\n',
     );
     //send email
     if (mail($email, $subject, $message, $headers))
