@@ -33,26 +33,37 @@ export class PoduzeceDialogComponent implements OnInit {
   onSave(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.poduzeceService.insertUpdatePoduzeca(this.formGroup.value).subscribe({
-        next: (data: any) => {
-          this.snackBar.open('Poduzeće uspješno spremljeno', 'U redu', {panelClass: 'green-snackbar'});
-          this.dialogRef.close();
-        },
-        error: (error) => {
-          this.snackBar.open(error.error.error.errstr, 'U redu', {panelClass: 'red-snackbar', duration: 100000});
-        }
-      }
-      );
+      this.poduzeceService
+        .insertUpdatePoduzeca(this.formGroup.value)
+        .subscribe({
+          next: (data: any) => {
+            this.snackBar.open('Poduzeće uspješno spremljeno', 'U redu', {
+              panelClass: 'green-snackbar',
+            });
+            this.dialogRef.close();
+          },
+          error: (error) => {
+            this.snackBar.open(error.error.error.errstr, 'U redu', {
+              panelClass: 'red-snackbar',
+            });
+          },
+        });
     }
   }
 
-  onDelete():void {
+  onDelete(): void {
     this.poduzeceService.deletePoduzece(this.formGroup.value.ID).subscribe({
       next: (data: any) => {
-        this.snackBar.open('Poduzeće uspješno obrisano', 'U redu', {panelClass: 'green-snackbar'});
+        this.snackBar.open('Poduzeće uspješno obrisano', 'U redu', {
+          panelClass: 'green-snackbar',
+        });
         this.dialogRef.close();
       },
-      error: (error) => {this.snackBar.open(error.error.error.errstr, 'U redu', {panelClass: 'red-snackbar'})}
+      error: (error) => {
+        this.snackBar.open(error.error.error.errstr, 'U redu', {
+          panelClass: 'red-snackbar',
+        });
+      },
     });
   }
 

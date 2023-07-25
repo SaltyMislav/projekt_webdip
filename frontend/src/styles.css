@@ -583,12 +583,14 @@ article {
   --mdc-snackbar-container-color: #e4f8f0 !important;
   --mat-snack-bar-button-color: #1ea97c !important;
   --mdc-snackbar-supporting-text-color: #1ea97c !important;
+  --mdc-snackbar-supporting-text-line-height: 40px !important;
 }
 
 .red-snackbar {
   --mdc-snackbar-container-color: #ffe7e6 !important;
   --mat-snack-bar-button-color: #ff5757 !important;
   --mdc-snackbar-supporting-text-color: #ff5757 !important;
+  --mdc-snackbar-supporting-text-line-height: 40px !important;
 }
 
 .button_forma {

@@ -28,8 +28,6 @@ export class PoduzeceService {
 
     const params = new HttpParams()
         .set('id', id.toString());
-    
-        console.log(params);
 
     return this.http
       .delete(environment.apiUrl + '/poduzecedelete', { params: params })
