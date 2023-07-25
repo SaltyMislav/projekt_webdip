@@ -21,3 +21,19 @@ function connect()
 }
 
 $con = connect();
+
+function customError($errno, $errstr) {
+  $error_response = array(
+    'error' => array(
+      'errHeader' => 'Greška!',
+      'errno' => $errno,
+      'errstr' => $errstr
+    )
+  );
+
+  http_response_code(500);
+  echo json_encode($error_response, JSON_UNESCAPED_UNICODE);
+  die();
+}
+
+set_error_handler("customError", E_USER_ERROR);

@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
@@ -31,6 +32,7 @@ import { AppHeaderComponent } from './app-header.component';
 import { AppMenuComponent } from './app-menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent, CookieSheet } from './app.component';
+import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
 import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
 import { DolazakNaPosaoComponent } from './modules/dolazak-na-posao/dolazak-na-posao.component';
 import { KorisniciPublicComponent } from './modules/korisnici-public/korisnici-public.component';
@@ -38,11 +40,11 @@ import { KorisniciComponent } from './modules/korisnici/korisnici.component';
 import { NatjecajPublicComponent } from './modules/natjecaj-public/natjecaj-public.component';
 import { NatjecajComponent } from './modules/natjecaj/natjecaj.component';
 import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
+import { PoduzeceDialogComponent } from './modules/poduzece-dialog/poduzece-dialog.component';
 import { PrijavaComponent } from './modules/prijava/prijava.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { RegistracijaComponent } from './modules/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
-import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
     NatjecajComponent,
     KorisniciPublicComponent,
     AktivacijaComponent,
+    PoduzeceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,6 @@ import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
     MatIconModule,
     MatButtonModule,
     MatSelectModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
@@ -86,9 +88,13 @@ import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
     MatPaginatorModule,
     MatCardModule,
     MatBottomSheetModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSnackBarModule,
   ],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 7000, horizontalPosition: 'end', verticalPosition: 'top' }},
     CookieService,
   ],
   bootstrap: [AppComponent],

@@ -31,7 +31,6 @@ if (isset($postData) && !empty($postData)) {
 function find_user_by_email($korisnickoIme, $con) {
     $sql = "SELECT ID, KorisnickoIme, Password, Active, UlogaKorisnikaID FROM korisnik WHERE KorisnickoIme = ?";
 
-    
     $korisnickoIme = trim($korisnickoIme);
     $korisnickoIme = strip_tags($korisnickoIme);
     $korisnickoIme = htmlspecialchars($korisnickoIme);

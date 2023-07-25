@@ -394,55 +394,9 @@ article {
   text-decoration: underline;
 }
 
-.sadrzaj_navigation {
-  text-align: center;
-}
-
 .content-title {
   text-align: center;
   margin-bottom: 10px;
-}
-
-.sadrzaj .sadrzaj_navigation {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.sadrzaj .sadrzaj_navigation li {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.sadrzaj .sadrzaj_navigation li a {
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 16px;
-  margin-bottom: 5px;
-  text-decoration: none;
-  min-width: 100px;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 50%;
-}
-
-.sadrzaj .sadrzaj_navigation li a:hover {
-  background-color: #333;
-  border-color: #333;
-  color: #fff;
-}
-
-.sadrzaj h1 {
-  text-align: center;
-  margin-bottom: 10px;
-}
-.sadrzaj .content_body {
-  text-align: center;
-  font-size: large;
-  margin-bottom: 20px;
 }
 
 .povijestpregledavanja {
@@ -482,10 +436,6 @@ article {
 }
 .container:hover .img-title {
   opacity: 1;
-}
-
-.sadrzaj_autor section {
-  display: block;
 }
 
 .left_section {
@@ -629,161 +579,16 @@ article {
   margin: 2px;
 }
 
-.sadrzaj_autentikacija {
-  display: grid;
-  box-sizing: border-box;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.green-snackbar {
+  --mdc-snackbar-container-color: #e4f8f0 !important;
+  --mat-snack-bar-button-color: #1ea97c !important;
+  --mdc-snackbar-supporting-text-color: #1ea97c !important;
 }
 
-.sadrzaj_autentikacija .forma_registracija {
-  grid-column: 1;
-  width: 95%;
-  margin-left: 45px;
-  margin-top: 10px;
-  border: 1px dotted red;
-  border-radius: 5px;
-  padding-left: 10px;
-}
-
-.sadrzaj_autentikacija .forma_prijava {
-  grid-column: 2;
-  width: 95%;
-  margin-right: 45px;
-  margin-top: 10px;
-  border: 1px dotted red;
-  border-radius: 5px;
-  padding-left: 10px;
-}
-
-.sadrzaj_autentikacija .povijestpregledavanja {
-  grid-column: 1/3;
-}
-
-.sadrzaj_obrazac .forma_obrazac {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  top: 130px;
-  bottom: 0;
-}
-.sadrzaj_obrazac .forma_obrazac .prvi {
-  margin: auto;
-  max-width: fit-content;
-}
-
-.sadrzaj_obrazac .forma_obrazac .drugi {
-  margin: auto;
-  max-width: fit-content;
-}
-
-.sadrzaj_obrazac .forma_obrazac .button {
-  margin: auto;
-  width: 250px;
-}
-
-.sadrzaj_obrazac .forma_obrazac .prvi input,
-.sadrzaj_obrazac .forma_obrazac .prvi textarea {
-  margin-left: 15px;
-}
-
-.sadrzaj_obrazac .povijestpregledavanja {
-  max-height: 200px;
-  position: fixed !important;
-  bottom: 75px !important;
-  margin-left: 2.5%;
-}
-
-.sadrzaj_multimedija {
-  display: block;
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
-.sadrzaj_multimedija .prvi {
-  text-align: center;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  background-color: #f7f7ff;
-}
-
-.sadrzaj_multimedija .prvi div {
-  display: inline-block;
-  margin: 10px;
-}
-
-.sadrzaj_multimedija .drugi div {
-  display: inline-block;
-  margin: 10px;
-}
-
-.sadrzaj_multimedija .prvi div ul,
-.sadrzaj_multimedija .drugi div ul {
-  list-style-type: none;
-}
-
-.sadrzaj_multimedija .drugi {
-  text-align: center;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  background-color: #f7f7ff;
-}
-
-.sadrzaj_popis table {
-  border-collapse: collapse;
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  margin-bottom: 10px;
-}
-
-.sadrzaj_popis th,
-td {
-  text-align: center;
-  padding: 8px;
-  border: 1px solid #000;
-}
-
-.sadrzaj_popis tfoot td {
-  text-align: right;
-}
-
-.sadrzaj_popis tfoot td:nth-child(even) {
-  text-align: left;
-}
-
-.sadrzaj_popis tfoot tr {
-  background-color: #fff !important;
-}
-
-.sadrzaj_popis th {
-  background-color: #00ff00;
-}
-
-.sadrzaj_popis tr:nth-child(even) {
-  background-color: #e2f3da;
-}
-
-.sadrzaj_popis tr:nth-child(odd) {
-  background-color: #f9f9e7;
-}
-
-.sadrzaj_popis caption {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.sadrzaj_era .era_model img,
-.sadrzaj_navigacijski .era_model img {
-  display: block;
-  margin: auto;
-  margin-top: 40px;
-}
-
-.sadrzaj_era .era_model figcaption,
-.sadrzaj_navigacijski .era_model figcaption {
-  text-align: center;
+.red-snackbar {
+  --mdc-snackbar-container-color: #ffe7e6 !important;
+  --mat-snack-bar-button-color: #ff5757 !important;
+  --mdc-snackbar-supporting-text-color: #ff5757 !important;
 }
 
 .button_forma {
