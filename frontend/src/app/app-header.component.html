@@ -11,5 +11,6 @@
   <button mat-icon-button (click)="openDialog()" class="material-icon-sharp">
     <mat-icon>search</mat-icon>
   </button>
-  <button mat-raised-button color="primary" routerLink="/prijava">Prijava</button>
+  <button *ngIf="!this.authService.isAuthentificated()" mat-raised-button color="primary" routerLink="/prijava">Prijava</button>
+  <button *ngIf="this.authService.isAuthentificated()" mat-raised-button (click)="this.authService.removeUser()">Odjava</button>
 </mat-toolbar>

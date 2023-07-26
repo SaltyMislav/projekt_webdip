@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
+import { AuthenticationService } from './auth/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,11 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
   ],
 })
 export class AppHeaderComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    protected authService: AuthenticationService
+  ) {
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SearchDialogComponent);

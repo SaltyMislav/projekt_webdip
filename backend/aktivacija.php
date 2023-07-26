@@ -2,25 +2,20 @@
 
 require 'connection.php';
 
-if (isset($_GET['token']) && isset($_GET['email'])) {
+if (isset($_GET['token']) && isset($_GET['username'])) {
     $token = $_GET['token'];
-    $email = $_GET['email'];
+    $username = $_GET['username'];
 
     if (!checkifhexadecimal($token)) {
         unset($token);
-        trigger_error("Token nije u hexadecimalnom formatu", E_USER_ERROR);
-    }
-
-    if (!validate_email_aktivacija($email)) {
-        unset($email);
-        trigger_error("Email nije ispravan", E_USER_ERROR);
+        trigger_error("Token nije validan", E_USER_ERROR);
     }
 
     //generate prepared statement
-    $sql = "SELECT ID, Token, Email, IstekTokena < NOW() AS Istekao FROM korisnik WHERE Email = ? AND Token = ? AND Active = 0";
+    $sql = "SELECT ID, Token, KorisnickoIme, IstekTokena < NOW() AS Istekao FROM korisnik WHERE KorisnickoIme = ? AND Token = ? AND Active = 0";
 
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'ss', $email, $token);
+    mysqli_stmt_bind_param($stmt, 'ss', $username, $token);
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
@@ -57,22 +52,6 @@ function checkifhexadecimal($token)
 {
     if (ctype_xdigit($token)) {
         return true;
-    } else {
-        return false;
-    }
-}
-
-function validate_email_aktivacija($email)
-{
-    if (isset($email) && !empty($email)) {
-        $email = trim($email);
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        if (!filter_var($email, 274)) //274 is FILTER_VALIDATE_EMAIL
-        {
-            return false;
-        } else {
-            return true;
-        }
     } else {
         return false;
     }

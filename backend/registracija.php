@@ -47,7 +47,7 @@ if (isset($postData) && !empty($postData)) {
 
     //insert data into database
     if (mysqli_stmt_affected_rows($stmt) > 0) {
-        slanjeMaila($email, $token);
+        slanjeMaila($userName, $email, $token);
         http_response_code(201);
     } else {
         http_response_code(422);
@@ -58,9 +58,9 @@ if (isset($postData) && !empty($postData)) {
 }
 
 
-function slanjeMaila($email, $token) {
+function slanjeMaila($userName, $email, $token) {
     $subject = "Registracija";
-    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost/aktivacija?email=$email&token=$token";
+    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost/aktivacija?userName=$userName&token=$token";
     $headers = array(
         'From' => 'mznidarec@foi.hr',
         'Content-Type' => 'text/plain; charset=UTF-8' . '\r\n',

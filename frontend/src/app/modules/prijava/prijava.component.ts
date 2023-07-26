@@ -4,6 +4,7 @@ import { PrijavaService } from '../services/prijava.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../auth/authentication.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-prijava',
@@ -40,13 +41,13 @@ export class PrijavaComponent implements OnInit {
         next: (result: any) => {
           if (this.prijavaForm.value.zapamtiMe) {
             this.authService.setRememberedUser(result);
-            location.href = '/';
+            location.href = environment.homePage;
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });
           } else {
             this.authService.setUser(result);
-            location.href = '/';
+            location.href = environment.homePage;
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });

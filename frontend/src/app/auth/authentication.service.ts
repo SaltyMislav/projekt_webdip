@@ -46,6 +46,7 @@ export class AuthenticationService {
   removeUser(): void {
     sessionStorage.removeItem('user');
     localStorage.removeItem('user');
+    location.href = '/';
   }
 
   isAuthentificated(): boolean {
