@@ -60,7 +60,13 @@ if (isset($postData) && !empty($postData)) {
 
 function slanjeMaila($userName, $email, $token) {
     $subject = "Registracija";
-    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost/aktivacija?userName=$userName&token=$token";
+
+    $query_string = http_build_query(array(
+        'userName' => $userName,
+        'token' => $token
+    ));
+
+    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost/aktivacija?$query_string";
     $headers = array(
         'From' => 'mznidarec@foi.hr',
         'Content-Type' => 'text/plain; charset=UTF-8' . '\r\n',
