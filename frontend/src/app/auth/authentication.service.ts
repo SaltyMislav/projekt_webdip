@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Buffer } from "buffer";
+import { environment } from 'src/environments/environment';
 
 window.Buffer = window.Buffer || require('buffer').Buffer;
 
@@ -46,7 +47,7 @@ export class AuthenticationService {
   removeUser(): void {
     sessionStorage.removeItem('user');
     localStorage.removeItem('user');
-    location.href = '/';
+    location.href = environment.homePage;
   }
 
   isAuthentificated(): boolean {
