@@ -18,6 +18,10 @@ if (isset($postData) && !empty($postData)) {
         trigger_error("Korisnik nije aktiviran, prijava nije moguća", E_USER_ERROR);
     }
 
+    if ($user['Blokiran'] == 1) {
+        trigger_error("Pogrešna lozinka, korisnik je blokiran, kontaktirajte administratora", E_USER_ERROR);
+    }
+
     if (password_verify($result->data->password, $user['Password'])) {
 
         //write login date and time to base
@@ -25,7 +29,7 @@ if (isset($postData) && !empty($postData)) {
 
         $pomak = date('Y-m-d H:i:s', strtotime($currentDateTime . VirtualnoVrijeme::procitajVrijeme($con) . 'hours'));
 
-        $sql = "UPDATE korisnik SET DatumZadnjePrijave = ? WHERE ID = ?";
+        $sql = "UPDATE korisnik SET DatumZadnjePrijave = ?, NeuspjesnePrijave = 0 WHERE ID = ?";
         $stmt = mysqli_prepare($con, $sql);
         mysqli_stmt_bind_param($stmt, "si", $pomak, $user['ID']);
         mysqli_stmt_execute($stmt);
@@ -39,14 +43,45 @@ if (isset($postData) && !empty($postData)) {
         
         echo json_encode(['data' => $_SESSION]);
     } else {
-        trigger_error("Pogrešna lozinka", E_USER_ERROR);
+
+        if ($user['UlogaKorisnikaID'] == 3) {
+            trigger_error("Pogrešna lozinka", E_USER_ERROR);
+        }
+
+        $userNeuspjesnePrijave = $user['NeuspjesnePrijave'] + 1;
+
+        if ($user['NeuspjesnePrijave'] == 2) {
+            $sql = "UPDATE korisnik SET Blokiran = 1 WHERE ID = ?";
+            $stmt = mysqli_prepare($con, $sql);
+            mysqli_stmt_bind_param($stmt, "i", $user['ID']);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            trigger_error("Korisnik je blokiran, kontaktirajte administratora", E_USER_ERROR);
+        }
+
+        $sql = "UPDATE korisnik SET NeuspjesnePrijave = ? WHERE ID = ?";
+        $stmt = mysqli_prepare($con, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $userNeuspjesnePrijave, $user['ID']);
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        $brojpreostalihPokusaja = 3 - $userNeuspjesnePrijave;
+
+        if ($brojpreostalihPokusaja != 0){
+            trigger_error("Pogrešna lozinka, imate pravo na još $brojpreostalihPokusaja pokušaja", E_USER_ERROR);
+        }
+
+        trigger_error("Pogrešna lozinka, korisnik je blokiran, kontaktirajte administratora", E_USER_ERROR);
     }
 
     mysqli_close($con);
 }
 
 function find_user_by_email($korisnickoIme, $con) {
-    $sql = "SELECT ID, KorisnickoIme, Password, Active, UlogaKorisnikaID FROM korisnik WHERE KorisnickoIme = ?";
+    $sql = "SELECT ID, KorisnickoIme, Password, Active, NeuspjesnePrijave, Blokiran, UlogaKorisnikaID FROM korisnik WHERE KorisnickoIme = ?";
 
     $korisnickoIme = trim($korisnickoIme);
     $korisnickoIme = strip_tags($korisnickoIme);
