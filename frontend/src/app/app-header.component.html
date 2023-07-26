@@ -12,5 +12,9 @@
     <mat-icon>search</mat-icon>
   </button>
   <button *ngIf="!this.authService.isAuthentificated()" mat-raised-button color="primary" routerLink="/prijava">Prijava</button>
-  <button *ngIf="this.authService.isAuthentificated()" mat-raised-button (click)="this.authService.removeUser()">Odjava</button>
+  <button *ngIf="this.authService.isAuthentificated()" mat-button [matMenuTriggerFor]="menu">{{ username }}</button>
+  <mat-menu #menu="matMenu" xposition="after">
+    <!-- <button mat-menu-item routerLink="/profil">Profil</button> -->
+    <button mat-menu-item (click)="this.authService.removeUser()">Odjava</button>
+  </mat-menu>
 </mat-toolbar>

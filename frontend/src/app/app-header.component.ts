@@ -19,10 +19,14 @@ import { AuthenticationService } from './auth/authentication.service';
   ],
 })
 export class AppHeaderComponent {
+
+  username!: string;
+
   constructor(
     public dialog: MatDialog,
     protected authService: AuthenticationService
   ) {
+    this.getUser();
   }
 
   openDialog(): void {
@@ -35,5 +39,13 @@ export class AppHeaderComponent {
 
   goToHomePage() {
     window.location.href = '/';
+  }
+
+  getUser() {
+    const user = this.authService.getUser();
+
+    if (user) {
+      this.username = user.user;
+    }
   }
 }

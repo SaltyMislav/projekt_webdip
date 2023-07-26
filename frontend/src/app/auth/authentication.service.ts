@@ -57,7 +57,7 @@ export class AuthenticationService {
   isModerator(): boolean {
     const user = this.getUser();
     if (user) {
-      return user.uloga === 2;
+      return user.uloga >= 2;
     }
     return false;
   }

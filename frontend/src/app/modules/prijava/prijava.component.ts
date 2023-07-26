@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PrijavaComponent implements OnInit {
 
+  hide = true;
   prijavaForm!: FormGroup;
 
   constructor(

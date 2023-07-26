@@ -3,7 +3,7 @@
 }
 
 .width_card {
-  max-width: 70% !important;
+  max-width: 50% !important;
 }
 
 .full-width {
@@ -11,6 +11,6 @@
 }
 
 .center {
-    margin: 0 auto;
+    margin: auto;
     display: flex;
 }

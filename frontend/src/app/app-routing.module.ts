@@ -9,6 +9,8 @@ import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { AppHomepageComponent } from './modules/app-homepage/app-homepage.component';
 import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
+import { adminGuard } from './guards/admin.guard';
+import { moderatorGuard } from './guards/moderator.guard';
 
 const routes: Routes = [
   {
@@ -18,9 +20,9 @@ const routes: Routes = [
   { path: 'registracija', component: RegistracijaComponent },
   { path: 'prijava', component: PrijavaComponent },
   { path: 'dolazak-na-posao', component: DolazakNaPosaoComponent },
-  { path: 'korisnici', component: KorisniciComponent },
-  { path: 'natjecaj', component: NatjecajComponent },
-  { path: 'poduzeca', component: PoduzecaComponent },
+  { path: 'korisnici', component: KorisniciComponent, canActivate: [adminGuard] },
+  { path: 'natjecaj', component: NatjecajComponent, canActivate: [adminGuard, moderatorGuard] },
+  { path: 'poduzeca', component: PoduzecaComponent, canActivate: [adminGuard] },
   { path: 'radni-zadatak', component: RadniZadatakComponent },
   { path: 'aktivacija', component: AktivacijaComponent },
   { path: '**', redirectTo: '' },

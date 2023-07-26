@@ -12,14 +12,32 @@
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Lozinka</mat-label>
-        <input matInput placeholder="Lozinka" formControlName="password" />
+        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Lozinka" formControlName="password" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
       </mat-form-field>
-        <p><mat-checkbox formControlName="zapamtiMe">Zapamti Me</mat-checkbox></p>
-      <button mat-button routerLink="/registracija">Registracija</button>
-      <span class="example-spacer"></span>
-      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">
-        Prijavi se
-      </button>
+      <p>
+        <mat-checkbox formControlName="zapamtiMe">Zapamti Me</mat-checkbox>
+      </p>
     </form>
   </mat-card-content>
+  <mat-card-actions>
+    <p>
+      Nemaš račun? <br>
+      <button mat-button color="accent" routerLink="/registracija">Registriraj se</button>
+    </p>
+    <span class="example-spacer"></span>
+    <button mat-button routerLink="/zaboravljena-lozinka">
+      Zaboravljena lozinka?
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onSubmit()"
+    >
+      Prijavi se
+    </button>
+  </mat-card-actions>
 </mat-card>
