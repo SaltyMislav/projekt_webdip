@@ -1,6 +1,7 @@
 <?php
 
 require 'connection.php';
+require 'virtualnoVrijemeClass.php';
 
 $postData = file_get_contents("php://input");
 
@@ -18,14 +19,30 @@ if (isset($postData) && !empty($postData)) {
     }
 
     if (password_verify($result->data->password, $user['Password'])) {
+
+        //write login date and time to base
+        $currentDateTime = date('Y-m-d H:i:s');
+
+        $pomak = date('Y-m-d H:i:s', strtotime($currentDateTime . VirtualnoVrijeme::procitajVrijeme($con) . 'hours'));
+
+        $sql = "UPDATE korisnik SET DatumZadnjePrijave = ? WHERE ID = ?";
+        $stmt = mysqli_prepare($con, $sql);
+        mysqli_stmt_bind_param($stmt, "si", $pomak, $user['ID']);
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+
         session_start();
         $_SESSION['user_ID'] = $user['ID'];
         $_SESSION['uloga'] = $user['UlogaKorisnikaID'];
         $_SESSION['user'] = $user['KorisnickoIme'];
+        
         echo json_encode(['data' => $_SESSION]);
     } else {
         trigger_error("Pogrešna lozinka", E_USER_ERROR);
     }
+
+    mysqli_close($con);
 }
 
 function find_user_by_email($korisnickoIme, $con) {

@@ -34,15 +34,18 @@ if (isset($postData) && !empty($postData)) {
 
     //token expiry time set to 10 hours
     $currentDateTime = date('Y-m-d H:i:s');
+
+    $pomak = date('Y-m-d H:i:s', strtotime($currentDateTime . VirtualnoVrijeme::procitajVrijeme($con) .'hours'));  
+
     // Add 10 hours to the current date and time
-    $istekAktivacije = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +10 hours'));
+    $istekAktivacije = date('Y-m-d H:i:s', strtotime($pomak . ' +10 hours'));
 
     $sql = "INSERT INTO korisnik (Ime, Prezime, KorisnickoIme, Email, Password, Lozinka_Upis, DatumRegistracije, Token, IstekTokena, UlogaKorisnikaID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     //generate prepared statement
     $stmt = mysqli_prepare($con, $sql);
     //bind parameters
     $ulogaKorisnikaID = 1;
-    mysqli_stmt_bind_param($stmt, "sssssssssi", $ime, $prezime, $userName, $email, $passwordHashed, $password, $currentDateTime, $token, $istekAktivacije, $ulogaKorisnikaID);
+    mysqli_stmt_bind_param($stmt, "sssssssssi", $ime, $prezime, $userName, $email, $passwordHashed, $password, $pomak, $token, $istekAktivacije, $ulogaKorisnikaID);
     mysqli_stmt_execute($stmt); //execute query
 
     //insert data into database
