@@ -18,7 +18,7 @@ export class AppFooterComponent implements OnInit {
     { value: 'EverythingCollection', viewValue: 'Sve' },
   ];
 
-  selected = '';
+  selected = 'noCollection';
 
   constructor(
     private cookieService: CookieService,
@@ -40,6 +40,8 @@ export class AppFooterComponent implements OnInit {
         default:
           break;
       }
+    } else {
+      this.cookieService.set('prikupljanjePodataka', 'noCollection', 2);
     }
   }
 

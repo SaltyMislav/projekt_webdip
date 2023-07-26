@@ -14,6 +14,22 @@ if (isset($postData) && !empty($postData)) {
     $password = $result->data->password;
     $confirmedPassword = $result->data->confirmedPassword;
 
+    $captcha = $result->data->captcha;
+
+    if (!$captcha) {
+        trigger_error("Captcha nije ispunjena", E_USER_ERROR);
+    }
+
+    $secretKey = '6Lc6JFknAAAAAEY00jpvfLEX5SuM3kd-ekLyJ7LW';
+    $url = "https://www.google.com/recaptcha/api/siteverify?secret=". urlencode($secretKey). "&response=" . urlencode($captcha);
+
+    $response = file_get_contents($url);
+    $responseKeys = json_decode($response, true);
+
+    if (!$responseKeys["success"]) {
+        trigger_error("Captcha nije dobra, probajte ponovo", E_USER_ERROR);
+    }
+
 
     //check if user already exists
     provjeraKorisnika($userName, $con);

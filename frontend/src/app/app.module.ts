@@ -49,6 +49,7 @@ import { PrijavaComponent } from './modules/prijava/prijava.component';
 import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.component';
 import { RegistracijaComponent } from './modules/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
     FormsModule,
     MatSnackBarModule,
     MatCheckboxModule,
+    RecaptchaModule
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
