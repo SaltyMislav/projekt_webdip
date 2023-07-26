@@ -1,1 +1,25 @@
-<p>prijava works!</p>
+<mat-card class="width_card center">
+  <mat-card-title>Prijava</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="prijavaForm">
+      <mat-form-field class="full-width">
+        <mat-label>Korisničko ime</mat-label>
+        <input
+          matInput
+          placeholder="Korisničko ime"
+          formControlName="korisnickoIme"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Lozinka</mat-label>
+        <input matInput placeholder="Lozinka" formControlName="password" />
+      </mat-form-field>
+        <p><mat-checkbox formControlName="zapamtiMe">Zapamti Me</mat-checkbox></p>
+      <button mat-button routerLink="/registracija">Registracija</button>
+      <span class="example-spacer"></span>
+      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">
+        Prijavi se
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -15,6 +15,7 @@ import { NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -23,7 +24,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
@@ -65,7 +69,7 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
     NatjecajComponent,
     KorisniciPublicComponent,
     AktivacijaComponent,
-    PoduzeceDialogComponent
+    PoduzeceDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,10 +95,18 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
     ReactiveFormsModule,
     FormsModule,
     MatSnackBarModule,
+    MatCheckboxModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 7000, horizontalPosition: 'end', verticalPosition: 'top' }},
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 7000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      },
+    },
     CookieService,
   ],
   bootstrap: [AppComponent],
