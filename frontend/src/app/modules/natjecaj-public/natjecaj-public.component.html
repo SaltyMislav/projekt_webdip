@@ -49,8 +49,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
+  <!-- add default page size, maknuti options i povuci komponentu iz konfiguracije -->
   <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
+    [pageSizeOptions]="[5, 10, 20]" 
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >
