@@ -2,9 +2,14 @@
 
 require 'connection.php';
 
-if (isset($_GET['token']) && isset($_GET['username'])) {
-    $token = $_GET['token'];
-    $username = $_GET['username'];
+
+$postData = file_get_contents("php://input");
+
+if (isset($postData) && !empty($postData)) {
+    $result = json_decode($postData);
+
+    $token = $result->token;
+    $username = $result->username;
 
     if (!checkifhexadecimal($token)) {
         unset($token);
@@ -35,13 +40,14 @@ if (isset($_GET['token']) && isset($_GET['username'])) {
             mysqli_stmt_execute($stmt);
 
             if (mysqli_stmt_affected_rows($stmt) > 0) {
+                echo json_encode(['success' => 'true']);
                 http_response_code(201);
             } else {
                 trigger_error("Došlo je do pogreške, molim pokušajte ponovo", E_USER_ERROR);
             }
         }
     } else {
-        trigger_error("Došlo je do pogreške, molim pokušajte ponovo", E_USER_ERROR);
+        trigger_error("Došlo je do pogreške ili je korisnik vec aktiviran", E_USER_ERROR);
     }
 
     mysqli_stmt_close($stmt);

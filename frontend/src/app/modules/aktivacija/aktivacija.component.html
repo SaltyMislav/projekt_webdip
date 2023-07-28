@@ -1,1 +1,16 @@
-<p>aktivacija works!</p>
+<mat-card *ngIf="showSuccessMessage" class="width_card center">
+  <mat-card-content>
+    <h4>Uspješno ste potvrdili registraciju računa.</h4>
+    <h5>
+      Možete se prijaviti u sustav na:
+      <a [routerLink]="['/prijava']">Prijava</a>
+    </h5>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="showErrorMessage" class="width_card center">
+  <mat-card-content>
+    <h4>Došlo je do pogreške prilikom potvrde registracije računa.</h4>
+    <h5>Molimo Vas da pokušate ponovno ili kontaktirajte administratora.</h5>
+  </mat-card-content>
+</mat-card>
