@@ -1,6 +1,7 @@
 <?php
 
 require 'connection.php';
+require 'virtualnoVrijemeClass.php';
 
 $postData = file_get_contents("php://input");
 
@@ -93,11 +94,11 @@ function slanjeMaila($userName, $email, $token) {
     //send email
     if (mail($email, $subject, $message, $headers))
     {
-        echo "Uspješno ste se registrirali na stranicu!";
+        echo json_encode(['data' => "Uspješno ste se registrirali na stranicu!"]);
     }
     else
     {
-        echo "Email nije poslan";
+        trigger_error("Greška kod slanja maila, molimo javite se administratoru radi aktivacije", E_USER_ERROR);
     };
 }
 

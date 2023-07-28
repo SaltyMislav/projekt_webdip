@@ -50,6 +50,7 @@ import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.com
 import { RegistracijaComponent } from './modules/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
 import { RecaptchaModule } from 'ng-recaptcha';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { RecaptchaModule } from 'ng-recaptcha';
     FormsModule,
     MatSnackBarModule,
     MatCheckboxModule,
-    RecaptchaModule
+    RecaptchaModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },

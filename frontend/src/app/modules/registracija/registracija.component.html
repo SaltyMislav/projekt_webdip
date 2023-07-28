@@ -5,10 +5,14 @@
       <mat-form-field class="full-width">
         <mat-label>Ime</mat-label>
         <input matInput placeholder="Ime" formControlName="ime" />
+        <mat-error *ngIf="registracijaForm.controls['ime'].invalid">{{ getImeError() }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Prezime</mat-label>
         <input matInput placeholder="Prezime" formControlName="prezime" />
+        <mat-error *ngIf="registracijaForm.controls['prezime'].invalid">{{ getPrezimeError() }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Korisničko ime</mat-label>
@@ -17,8 +21,7 @@
           placeholder="Korisničko ime"
           formControlName="userName"
         />
-        <mat-error *ngIf="registracijaForm.controls['userName'].errors?.['usernameExists'] && registracijaForm.controls['userName'].touched">
-            Korisničko ime <strong>postoji</strong>
+        <mat-error *ngIf="registracijaForm.controls['userName'].invalid">{{ getUsernameError() }}
         </mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
@@ -42,24 +45,28 @@
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
+        <mat-error *ngIf="registracijaForm.controls['password'].invalid">{{ getPasswordError() }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Ponovi lozinku</mat-label>
         <input
           matInput
-          [type]="hide ? 'password' : 'text'"
+          [type]="hide2 ? 'password' : 'text'"
           placeholder="Ponovi lozinku"
           formControlName="confirmedPassword"
         />
         <button
           mat-icon-button
           matSuffix
-          (click)="hide = !hide"
-          [attr.aria-label]="'Hide password'"
+          (click)="hide2 = !hide2"
+          [attr.aria-label]="'hide password'"
           [attr.aria-pressed]="hide"
         >
-          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          <mat-icon>{{ hide2 ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
+        <mat-error *ngIf="registracijaForm.controls['confirmedPassword'].invalid">{{ getConfirmedPasswordError() }}
+        </mat-error>
       </mat-form-field>
       <re-captcha
         (resolved)="resolved($event)"

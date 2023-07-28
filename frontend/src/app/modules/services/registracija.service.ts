@@ -10,12 +10,18 @@ export class RegistracijaService {
   constructor(private http: HttpClient) {}
 
   checkUsername(username: string) {
-    const params = new HttpParams().set('username', username.toString());
+    const params = new HttpParams().set('username', username);
 
     return this.http
-      .post<{ exists: boolean }>(environment.apiUrl + '/provjeraKorisnika', {
+      .post(environment.apiUrl + '/provjeraKorisnika', {
         params: params,
       })
-      .pipe(map((res) => res.exists));
+      .pipe(map((res: any) => res['exists']));
+  }
+
+  submitRegistration(data: any) {
+    return this.http
+      .post(environment.apiUrl + '/registracija', { data: data })
+      .pipe(map((res: any) => res['data']));
   }
 }
