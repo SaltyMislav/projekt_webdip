@@ -1,8 +1,10 @@
+<Directory ~ "/WebDiP/2022_projekti/WebDiP2022x057/blokirano"
 #Authentication
-AuthType Basic
-AuthName "Ulazak u projekt"
-AuthUserFile /var/www/WebDiP/2022_projekti/WebDiP2022x057/.htpasswd
-Require valid-user
+  AuthType Basic
+  AuthName "Ulazak u projekt"
+  AuthUserFile /var/www/WebDiP/2022_projekti/WebDiP2022x057/.htpasswd
+  Require valid-user
+</Directory>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On

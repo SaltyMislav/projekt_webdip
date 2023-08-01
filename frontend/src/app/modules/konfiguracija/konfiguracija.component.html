@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-title> Konfiguracija </mat-card-title>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="Pomak">
+        <th mat-header-cell *matHeaderCellDef>Pomak</th>
+        <td mat-cell *matCellDef="let konfiguracija">
+          {{ konfiguracija.Pomak }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="Stranicenje">
+        <th mat-header-cell *matHeaderCellDef>Straničenje</th>
+        <td mat-cell *matCellDef="let konfiguracija">
+          {{ konfiguracija.Stranicenje }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

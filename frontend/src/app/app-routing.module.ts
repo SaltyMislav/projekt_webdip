@@ -12,6 +12,7 @@ import { AktivacijaComponent } from './modules/aktivacija/aktivacija.component';
 import { adminGuard } from './guards/admin.guard';
 import { moderatorGuard } from './guards/moderator.guard';
 import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zaboravljena-lozinka.component';
+import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'radni-zadatak', component: RadniZadatakComponent },
   { path: 'aktivacija', component: AktivacijaComponent },
   { path: 'zaboravljena-lozinka', component: ZaboravljenaLozinkaComponent },
+  { path: 'konfiguracija', component: KonfiguracijaComponent, canActivate: [adminGuard] },
   { path: '**', redirectTo: '' },
 ];
 

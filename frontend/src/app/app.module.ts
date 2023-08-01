@@ -52,6 +52,7 @@ import { SearchDialogComponent } from './modules/search-dialog/search-dialog.com
 import { RecaptchaModule } from 'ng-recaptcha';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zaboravljena-lozinka.component';
+import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zab
     AktivacijaComponent,
     PoduzeceDialogComponent,
     ZaboravljenaLozinkaComponent,
+    KonfiguracijaComponent,
   ],
   imports: [
     BrowserModule,
