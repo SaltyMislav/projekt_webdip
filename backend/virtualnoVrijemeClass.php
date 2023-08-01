@@ -34,7 +34,6 @@ class VirtualnoVrijeme
 
         $stmt = mysqli_prepare($con, $sql);
         mysqli_stmt_bind_param($stmt, "i", $pomak);
-        mysqli_stmt_execute($stmt);
 
         $success = mysqli_stmt_execute($stmt);
 

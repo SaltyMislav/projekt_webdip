@@ -14,4 +14,9 @@ export class PrijavaService {
     return this.http.post(environment.apiUrl + '/prijava', {data: data})
     .pipe(map((res: any) => res['data']));
   }
+
+  zaboravljenaLozinka(data: any) {
+    return this.http.post(environment.apiUrl + '/zaboravljenaLozinka', {data: data})
+    .pipe(map((res: any) => res['data']));
+  }
 }

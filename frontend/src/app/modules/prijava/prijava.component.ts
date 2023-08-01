@@ -42,16 +42,20 @@ export class PrijavaComponent implements OnInit {
         next: (result: any) => {
           if (this.prijavaForm.value.zapamtiMe) {
             this.authService.setRememberedUser(result);
-            location.href = environment.homePage;
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });
+            setTimeout(() => {
+              location.href = environment.homePage;
+            }, 2000);
           } else {
             this.authService.setUser(result);
-            location.href = environment.homePage;
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });
+            setTimeout(() => {
+              location.href = environment.homePage;
+            }, 2000);
           }
         },
         error: (error) => {

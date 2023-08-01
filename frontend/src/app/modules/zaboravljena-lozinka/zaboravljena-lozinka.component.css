@@ -1,0 +1,12 @@
+.width_card {
+  max-width: 50% !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.center {
+  margin: auto;
+  display: flex;
+}

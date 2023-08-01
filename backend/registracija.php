@@ -41,7 +41,7 @@ if (isset($postData) && !empty($postData)) {
     }
 
     //validate password with regex
-    if (!preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/", $password)) {
+    if (!preg_match("/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})$/", $password)) {
         trigger_error("Lozinka mora imati najmanje 8 znakova, jedno veliko slovo, jedan broj i jedan specijalni znak", E_USER_ERROR);
     } else {
         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
