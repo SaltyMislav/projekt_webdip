@@ -2,42 +2,41 @@
   <mat-card-title>
     Popis poduzeća
     <button mat-fab extended color="primary" (click)="onDodaj()">
-        <mat-icon>add</mat-icon>
-        Dodaj
+      <mat-icon>add</mat-icon>
+      Dodaj
     </button>
-</mat-card-title>
+  </mat-card-title>
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  
       <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef>ID</th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.ID }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="Naziv">
         <th mat-header-cell *matHeaderCellDef>Naziv</th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.Naziv }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="RadnoVrijemeOd">
         <th mat-header-cell *matHeaderCellDef>Početak</th>
         <td mat-cell *matCellDef="let poduzece">
           {{ poduzece.RadnoVrijemeOd }}
         </td>
       </ng-container>
-  
+
       <ng-container matColumnDef="RadnoVrijemeDo">
         <th mat-header-cell *matHeaderCellDef>Kraj</th>
         <td mat-cell *matCellDef="let poduzece">
           {{ poduzece.RadnoVrijemeDo }}
         </td>
       </ng-container>
-  
+
       <ng-container matColumnDef="Opis">
         <th mat-header-cell *matHeaderCellDef>Opis</th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.Opis }}</td>
       </ng-container>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
         mat-row
@@ -45,9 +44,10 @@
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
     </table>
-  
+
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
+      [length]="this.counter"
+      [pageSize]="this.stranicenje"
       showFirstLastButtons
       aria-label="Select page of periodic elements"
     >

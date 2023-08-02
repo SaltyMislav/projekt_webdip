@@ -38,7 +38,7 @@ class VirtualnoVrijeme
         $success = mysqli_stmt_execute($stmt);
 
         if ($success) {
-            echo json_encode(['data' => 'Success']);
+            echo json_encode(['data' => $pomak]);
         } else {
             trigger_error("Nije moguće postaviti virtualno vrijeme u bazu", E_USER_ERROR);
         }

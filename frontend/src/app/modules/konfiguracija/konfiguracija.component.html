@@ -1,25 +1,37 @@
-<mat-card>
+<mat-card class="center width_card">
   <mat-card-title> Konfiguracija </mat-card-title>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-      <!-- Position Column -->
-      <ng-container matColumnDef="Pomak">
-        <th mat-header-cell *matHeaderCellDef>Pomak</th>
-        <td mat-cell *matCellDef="let konfiguracija">
-          {{ konfiguracija.Pomak }}
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="Stranicenje">
-        <th mat-header-cell *matHeaderCellDef>Straničenje</th>
-        <td mat-cell *matCellDef="let konfiguracija">
-          {{ konfiguracija.Stranicenje }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    <form [formGroup]="form">
+      <mat-form-field class="full-width">
+        <mat-label>Pomak vremena</mat-label>
+        <input matInput placeholder="Pomak" formControlName="pomak" />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Straničenje</mat-label>
+        <input
+          matInput
+          placeholder="Straničenje"
+          formControlName="stranicenje"
+        />
+      </mat-form-field>
+    </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="dohvatPomaka()"
+    >
+      Dohvati pomak
+    </button>
+    <span class="example-spacer"></span>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onSubmit()"
+    >
+      Spremi
+    </button>
+  </mat-card-actions>
 </mat-card>
