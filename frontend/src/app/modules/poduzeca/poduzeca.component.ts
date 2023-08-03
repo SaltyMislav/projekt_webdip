@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -14,6 +15,7 @@ import { Poduzece } from '../../interfaces/interfaces';
 import { PoduzeceDialogComponent } from '../poduzece-dialog/poduzece-dialog.component';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { PoduzeceService } from '../services/poduzece.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-poduzeca',
@@ -21,7 +23,7 @@ import { PoduzeceService } from '../services/poduzece.service';
   styleUrls: ['./poduzeca.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PoduzecaComponent implements OnInit, OnDestroy {
+export class PoduzecaComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource!: MatTableDataSource<Poduzece>;
   poduzece: Poduzece[] = [];
 
@@ -34,6 +36,7 @@ export class PoduzecaComponent implements OnInit, OnDestroy {
   ];
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pomak!: number;
   stranicenje!: number;
@@ -60,7 +63,6 @@ export class PoduzecaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getPoduzece();
     this.konfiguracijaClass.getData();
   }
 
@@ -72,11 +74,17 @@ export class PoduzecaComponent implements OnInit, OnDestroy {
         });
         this.poduzece = data;
         this.dataSource = new MatTableDataSource(this.poduzece);
-        this.dataSource.sort = this.sort;
         this.cdref.detectChanges();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       },
       error: (error) => console.log(error),
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.getPoduzece();
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
 
   onDodaj(row?: any): void {

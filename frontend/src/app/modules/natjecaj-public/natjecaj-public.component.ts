@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,7 @@ import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service
   templateUrl: './natjecaj-public.component.html',
   styleUrls: ['./natjecaj-public.component.css'],
 })
-export class NatjecajPublicComponent implements OnInit, OnDestroy {
+export class NatjecajPublicComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource!: MatTableDataSource<Natjecaj>;
   natjecaji: Natjecaj[] = [];
   displayedColumns: string[] = [
@@ -26,6 +26,7 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy {
   ];
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pomak!: number;
   stranicenje!: number;
@@ -41,9 +42,7 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit(): void {
-    this.getNatjecaj();
-    
+  ngOnInit(): void {    
     this.subscription = this.konfiguracijaClass.konfiguracijaDataSubject
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
@@ -54,6 +53,10 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.getNatjecaj();
+  }
+
   getNatjecaj(): void {
     this.natjecajService.getAllNatjecaj().subscribe({
       next: (data: Natjecaj[]) => {
@@ -62,8 +65,9 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy {
         });
         this.natjecaji = data;
         this.dataSource = new MatTableDataSource(this.natjecaji);
-        this.dataSource.sort = this.sort;
         this.cdref.detectChanges();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       },
       error: (error) => console.log(error),
     });

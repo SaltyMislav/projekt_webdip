@@ -31,8 +31,12 @@ export interface Korisnik {
   ID: number;
   Ime: string;
   Prezime: string;
+  KorisnickoIme: string;
   Email: string;
-  Lozinka: string;
+  UlogaKorisnikaID: number;
+  UlogaKorisnikaNaziv: string;
+  Active: boolean;
+  Blokiran: boolean;
 }
 
 export interface Poduzece {

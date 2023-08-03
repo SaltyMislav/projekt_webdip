@@ -53,6 +53,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zaboravljena-lozinka.component';
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
+import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/korisnici-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.co
     PoduzeceDialogComponent,
     ZaboravljenaLozinkaComponent,
     KonfiguracijaComponent,
+    KorisniciDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,7 +112,7 @@ import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.co
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {
-        duration: 7000,
+        duration: 2000,
         horizontalPosition: 'end',
         verticalPosition: 'top',
       },
