@@ -61,6 +61,7 @@ export class PoduzecaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getPoduzece();
+    this.konfiguracijaClass.getData();
   }
 
   getPoduzece(): void {

@@ -26,12 +26,9 @@ export class KonfiguracijaComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private snackBar: MatSnackBar
   ) {
-    console.log('called');
-    
     this.konfiguracijaDataSubscription = this.konfiguracijaClass.konfiguracijaDataSubject
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
-        console.log('called');
         this.pomak = data.pomak;
         this.stranicenje = data.stranicenje;
 
@@ -45,6 +42,7 @@ export class KonfiguracijaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.konfiguracijaClass.getData();
     this.form = this.fb.group({
       pomak: [{value: this.pomak, disabled: true}],
       stranicenje: [this.stranicenje, Validators.min(1)],

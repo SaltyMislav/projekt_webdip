@@ -38,8 +38,6 @@ export class KonfiguracijaClass {
           this.pomak = response[0].Pomak ?? this._pomak;
           this.stranicenje = response[0].Stranicenje ?? this._stranicenje;
 
-          console.log(this._pomak, this._stranicenje);
-
           this.konfiguracijaDataSubject.next({
             pomak: this._pomak,
             stranicenje: this._stranicenje,
