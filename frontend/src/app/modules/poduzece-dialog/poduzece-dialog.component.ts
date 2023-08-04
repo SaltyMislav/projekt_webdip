@@ -1,8 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PoduzeceService } from '../services/poduzece.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-poduzece-dialog',
@@ -11,6 +14,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PoduzeceDialogComponent implements OnInit {
   formGroup!: FormGroup;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  korisnici!: Observable<string[]>;
+  moderatori: string[] = [];
+
+  @ViewChild('moderatorInput') moderatorInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +35,39 @@ export class PoduzeceDialogComponent implements OnInit {
       Opis: [this.data?.Opis, Validators.required],
       RadnoVrijemeOd: [this.data?.RadnoVrijemeOd, Validators.required],
       RadnoVrijemeDo: [this.data?.RadnoVrijemeDo, Validators.required],
+      moderatorCtrl: [this.data?.Moderatori],
     });
+
+    console.log(this.formGroup.controls['moderatorCtrl'].value);
+
+    this.data?.Moderatori.forEach((element: { KorisnickoIme: string; }) => {
+      this.moderatori.push(element.KorisnickoIme);
+    });
+  }
+
+  add(event: MatChipInputEvent) {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.moderatori.push(value);
+    }
+
+    event.chipInput!.clear(); // Clear input
+    this.formGroup.controls['moderatorCtrl'].setValue(null); // Clear input
+  }
+
+  remove(moderator: string) {
+    const index = this.moderatori.indexOf(moderator);
+
+    if (index >= 0) {
+      this.moderatori.splice(index, 1);
+    }
+  }
+
+  selected(event: any) {
+    this.moderatori.push(event.option.viewValue);
+    this.moderatorInput.nativeElement.value = '';
+    this.formGroup.controls['moderatorCtrl'].setValue(null);
   }
 
   onSave(): void {

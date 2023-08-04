@@ -55,6 +55,8 @@ import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zab
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/korisnici-dialog.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     RecaptchaModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },

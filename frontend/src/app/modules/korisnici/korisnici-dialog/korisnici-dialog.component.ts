@@ -14,6 +14,7 @@ export class KorisniciDialogComponent implements OnInit {
   form!: FormGroup;
   uloge: UlogaKorisnika[] = [
     { ID: '1', Naziv: 'Korisnik' },
+    { ID: '2', Naziv: 'Moderator'},
     { ID: '3', Naziv: 'Administrator' },
   ];
 

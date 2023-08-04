@@ -1,27 +1,83 @@
 <h2 mat-dialog-title>Poduzeće</h2>
 <mat-dialog-content>
-    <form class="full-width" [formGroup]="formGroup">
-        <mat-form-field class="full-width">
-            <mat-label>Naziv</mat-label>
-            <input matInput formControlName="Naziv" name="Naziv">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-            <mat-label>RadnoVrijemeOd</mat-label>
-            <input type="time" matInput formControlName="RadnoVrijemeOd" name="RadnoVrijemeOd">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-            <mat-label>RadnoVrijemeDo</mat-label>
-            <input type="time" matInput formControlName="RadnoVrijemeDo" name="RadnoVrijemeDo">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-            <mat-label>Opis</mat-label>
-            <textarea matInput formControlName="Opis" name="Opis"></textarea>
-        </mat-form-field>
-    </form>
+  <form class="full-width" [formGroup]="formGroup">
+    <mat-form-field class="full-width">
+      <mat-label>Naziv</mat-label>
+      <input matInput formControlName="Naziv" name="Naziv" />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>RadnoVrijemeOd</mat-label>
+      <input
+        type="time"
+        matInput
+        formControlName="RadnoVrijemeOd"
+        name="RadnoVrijemeOd"
+      />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>RadnoVrijemeDo</mat-label>
+      <input
+        type="time"
+        matInput
+        formControlName="RadnoVrijemeDo"
+        name="RadnoVrijemeDo"
+      />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Opis</mat-label>
+      <textarea matInput formControlName="Opis" name="Opis"></textarea>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label> Moderatori </mat-label>
+      <mat-chip-grid #chipGrid aria-label="Moderatori">
+        <mat-chip-row *ngFor="let mod of moderatori" (removed)="remove(mod)">
+          {{ mod }}
+          <button matChipRemove [attr.aria-label]="'remove' + mod">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input
+        placeholder="Odaberi moderatore"
+        #moderatorInput
+        formControlName="moderatorCtrl"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+        <mat-option
+          *ngFor="let korisnik of korisnici | async"
+          [value]="korisnik"
+        >
+          {{ korisnik }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button (click)="onOdustani()">Odustani</button>
   <span class="example-spacer"></span>
-  <button mat-raised-button [disabled]="this.data?.ID ? 'false' : 'true' " color="warn" (click)="onDelete()">Obriši</button>
-  <button mat-raised-button [disabled]="this.formGroup.pristine ? 'true' : 'false'" color="primary" (click)="onSave()" cdkFocusInitial>Spremi</button>
+  <button
+    mat-raised-button
+    [disabled]="this.data?.ID ? 'false' : 'true'"
+    color="warn"
+    (click)="onDelete()"
+  >
+    Obriši
+  </button>
+  <button
+    mat-raised-button
+    [disabled]="this.formGroup.pristine ? 'true' : 'false'"
+    color="primary"
+    (click)="onSave()"
+    cdkFocusInitial
+  >
+    Spremi
+  </button>
 </mat-dialog-actions>
