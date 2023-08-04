@@ -91,6 +91,7 @@ export class KorisniciComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onDetail(row: any): void {
+    console.log(row);
     const dialogRef = this.dialog.open(KorisniciDialogComponent, {
       width: '400px',
       data: row,

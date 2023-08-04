@@ -1,1 +1,46 @@
-<p>korisnici-dialog works!</p>
+<h2 mat-dialog-title>Detalji korisnika</h2>
+<mat-dialog-content>
+    <form class="full-width" [formGroup]="form">
+        <mat-form-field class="full-width">
+            <mat-label>Ime</mat-label>
+            <input matInput placeholder="Ime" formControlName="Ime" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Prezime</mat-label>
+            <input matInput placeholder="Prezime" formControlName="Prezime" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="Email" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>
+                Korisničko ime
+            </mat-label>
+            <input matInput placeholder="Korisničko ime" formControlName="KorisnickoIme" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Uloga korisnika</mat-label>
+            <mat-select formControlName="UlogaKorisnikaID" [(value)]="selected">
+                <mat-option *ngFor="let uloga of uloge" [value]="uloga.ID">
+                    {{ uloga.Naziv }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Neuspješne prijave</mat-label>
+            <input matInput placeholder="Neuspješne prijave" formControlName="NeuspjesnePrijave" />
+        </mat-form-field>
+        <mat-slide-toggle formControlName="Blokiran" style="margin-right: 10px;" color="warn">
+            Blokiran
+        </mat-slide-toggle>
+        <mat-slide-toggle formControlName="Active" color="primary">
+            Active
+        </mat-slide-toggle>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button (click)="onCancel()">Odustani</button>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="onSave()">Spremi</button>
+</mat-dialog-actions>

@@ -46,3 +46,8 @@ export interface Poduzece {
   RadnoVrijemeOd: string;
   RadnoVrijemeDo: string;
 }
+
+export interface UlogaKorisnika {
+  ID: string;
+  Naziv: string;
+}

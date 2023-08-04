@@ -54,6 +54,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zaboravljena-lozinka.component';
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/korisnici-dialog.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/k
     MatSnackBarModule,
     MatCheckboxModule,
     RecaptchaModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
