@@ -171,8 +171,10 @@ export class RegistracijaComponent implements OnInit {
     }
 
     if (this.registracijaForm.valid && this.recaptchaResponse != '') {
+
       const formValues = this.registracijaForm.value;
       formValues.captcha = this.recaptchaResponse;
+      
       this.registracijaService.submitRegistration(formValues).subscribe({
         next: (result: any) => {
           location.href = environment.homePage;

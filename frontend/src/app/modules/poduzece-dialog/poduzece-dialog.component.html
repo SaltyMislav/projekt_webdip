@@ -49,12 +49,13 @@
       <mat-autocomplete
         #auto="matAutocomplete"
         (optionSelected)="selected($event)"
+        [displayWith]="displayFn"
       >
         <mat-option
-          *ngFor="let korisnik of korisnici | async"
+          *ngFor="let korisnik of filteredKorisnici | async"
           [value]="korisnik"
         >
-          {{ korisnik }}
+          {{ korisnik.KorisnickoIme }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

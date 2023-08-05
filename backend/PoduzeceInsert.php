@@ -33,10 +33,8 @@ if (isset($postData) && !empty($postData)) {
         $sql = "UPDATE poduzece SET Naziv = ?, Opis = ?, RadnoVrijemeOd = ?, RadnoVrijemeDo = ? WHERE ID = ?";
         $stmt = mysqli_prepare($con, $sql); //prepare statement
         mysqli_stmt_bind_param($stmt, "ssssi", $naziv, $opis, $vrijemePocetka, $vrijemeKraja, $id); //bind parameters
-        mysqli_stmt_execute($stmt); //execute query
-        $affected_rows = mysqli_stmt_affected_rows($stmt); //get the number of affected rows
 
-        if ($affected_rows == 1) {
+        if (mysqli_stmt_execute($stmt)) {
             echo json_encode(['data' => 'Success']);
         } else {
             trigger_error("Došlo je do pogreške prilikom ažuriranja poduzeća", E_USER_ERROR);

@@ -51,3 +51,8 @@ export interface UlogaKorisnika {
   ID: string;
   Naziv: string;
 }
+
+export interface KorisniciModeratori {
+  ID: string;
+  KorisnickoIme: string;
+}
