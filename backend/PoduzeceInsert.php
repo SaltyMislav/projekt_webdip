@@ -1,5 +1,7 @@
 <?php
 
+//TODO - dodati moderatore na poduzece i automatska promjena statusa korisnika na 2
+
 require 'connection.php';
 
 $postData = file_get_contents("php://input");
@@ -35,12 +37,13 @@ if (isset($postData) && !empty($postData)) {
         mysqli_stmt_bind_param($stmt, "ssssi", $naziv, $opis, $vrijemePocetka, $vrijemeKraja, $id); //bind parameters
 
         if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt); //close statement
+            //TODO dodati moderatore na poduzece
+            //TODO promijeniti UloguKorisnika na 2
             echo json_encode(['data' => 'Success']);
         } else {
             trigger_error("Došlo je do pogreške prilikom ažuriranja poduzeća", E_USER_ERROR);
         }
-
-        mysqli_stmt_close($stmt); //close statement
     } else {
         $naziv = htmlspecialchars($result->data->Naziv);
         $opis = htmlspecialchars($result->data->Opis);
