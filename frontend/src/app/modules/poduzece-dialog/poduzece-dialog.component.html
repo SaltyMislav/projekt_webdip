@@ -27,7 +27,7 @@
       <mat-label>Opis</mat-label>
       <textarea matInput formControlName="Opis" name="Opis"></textarea>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field class="full-width" *ngIf="this.data">
       <mat-label> Moderatori </mat-label>
       <mat-chip-grid #chipGrid aria-label="Moderatori">
         <mat-chip-row *ngFor="let mod of moderatori" (removed)="remove(mod)">
@@ -74,7 +74,6 @@
   </button>
   <button
     mat-raised-button
-    [disabled]="this.formGroup.pristine ? 'true' : 'false'"
     color="primary"
     (click)="onSave()"
     cdkFocusInitial
