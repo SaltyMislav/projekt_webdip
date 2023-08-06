@@ -26,9 +26,10 @@ if (isset($postData) && !empty($postData)) {
     }
 
     echo json_encode(['data' => $dolasciNaPosao]);
+
+    mysqli_stmt_close($stmt);
 } else {
     trigger_error("Greška kod dohvaćanja dolazaka na posao!", E_USER_ERROR);
 }
 
-mysqli_stmt_close($stmt);
 mysqli_close($con);
