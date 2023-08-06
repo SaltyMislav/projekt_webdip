@@ -26,7 +26,6 @@ import { KorisniciModeratori } from 'src/app/interfaces/interfaces';
   styleUrls: ['./poduzece-dialog.component.css'],
 })
 export class PoduzeceDialogComponent implements OnInit {
-  moderatorCtrl = new FormControl();
   formGroup!: FormGroup;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredKorisnici!: Observable<KorisniciModeratori[]>;
@@ -67,7 +66,7 @@ export class PoduzeceDialogComponent implements OnInit {
       });
     });
 
-    this.filteredKorisnici = this.moderatorCtrl.valueChanges.pipe(
+    this.filteredKorisnici = this.formGroup.controls['moderatorCtrl'].valueChanges.pipe(
       startWith(null),
       debounceTime(100),
       map((value) =>
@@ -85,7 +84,7 @@ export class PoduzeceDialogComponent implements OnInit {
     }
 
     event.chipInput!.clear(); // Clear input
-    this.moderatorCtrl.setValue(null); // Clear input
+    this.formGroup.controls['moderatorCtrl'].setValue(null); // Clear input
   }
 
   remove(moderator: string) {
@@ -105,7 +104,7 @@ export class PoduzeceDialogComponent implements OnInit {
     this.moderatori.push(event.option.viewValue);
     this.moderatoriArray.push(event.option.value);
     this.moderatorInput.nativeElement.value = '';
-    this.moderatorCtrl.setValue(null);
+    this.formGroup.controls['moderatorCtrl'].setValue(null);
   }
 
   private _filter(value: string): KorisniciModeratori[] {

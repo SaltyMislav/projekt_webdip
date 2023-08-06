@@ -18,6 +18,14 @@ export class PoduzeceService {
     );
   }
 
+  getPoduzeceWithoutModerator() {
+    return this.http.get(environment.apiUrl + '/poduzecebezmoderatora').pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
   insertUpdatePoduzeca(data: Poduzece) {
     return this.http
       .post(environment.apiUrl + '/poduzeceinsert', { data: data })

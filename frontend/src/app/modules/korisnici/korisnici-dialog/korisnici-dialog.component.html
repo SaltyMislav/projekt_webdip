@@ -21,12 +21,45 @@
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Uloga korisnika</mat-label>
-            <mat-select formControlName="UlogaKorisnikaID" [(value)]="selected">
+            <mat-select formControlName="UlogaKorisnikaID" [(value)]="selectedUloga">
                 <mat-option *ngFor="let uloga of uloge" [value]="uloga.ID">
                     {{ uloga.Naziv }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        
+    <mat-form-field class="full-width" *ngIf="this.form.controls['UlogaKorisnikaID'].value == 2">
+        <mat-label> Poduzeća </mat-label>
+        <mat-chip-grid #chipGrid aria-label="Poduzeća">
+          <mat-chip-row *ngFor="let pod of poduzeca" (removed)="remove(pod)">
+            {{ pod }}
+            <button matChipRemove [attr.aria-label]="'remove' + pod">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+        <input
+          placeholder="Odaberi poduzeća"
+          #poduzecaInput
+          formControlName="poduzeceCtrl"
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+          [displayWith]="displayFn"
+        >
+          <mat-option
+            *ngFor="let poduzece of filteredPoduzeca | async"
+            [value]="poduzece"
+          >
+            {{ poduzece.Naziv }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Neuspješne prijave</mat-label>
             <input matInput placeholder="Neuspješne prijave" formControlName="NeuspjesnePrijave" />

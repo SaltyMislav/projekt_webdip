@@ -37,7 +37,9 @@ if (isset($postData) && !empty($postData)) {
         if (mysqli_stmt_execute($stmt)) {
             $moderatori = $result->data->moderatorCtrl;
             if (isset($moderatori) && !empty($moderatori)) {
-                unesi_moderatore($moderatori, $id, $con);
+                unesi_moderatore($moderatori, $id, $con, false);
+            } else {
+                unesi_moderatore($moderatori, $id, $con, true);
             }
             echo json_encode(['data' => 'Success']);
         } else {
@@ -84,8 +86,26 @@ if (isset($postData) && !empty($postData)) {
 }
 
 
-function unesi_moderatore($moderatori, $poduzeceID, $con)
+function unesi_moderatore($moderatori, $poduzeceID, $con, $empty)
 {
+
+    $sql = "SELECT KorisnikID FROM moderatorpoduzeca WHERE PoduzeceID = ?"; //get all moderators from poduzece
+    $stmt = mysqli_prepare($con, $sql); //prepare statement
+    mysqli_stmt_bind_param($stmt, "i", $poduzeceID); //bind parameters
+    mysqli_stmt_execute($stmt); //execute query
+
+    $result = mysqli_stmt_get_result($stmt); //get the result
+
+    if(!empty($result) && $result->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sql1 = "UPDATE korisnik SET UlogaKorisnikaID = 1 WHERE ID = ?"; //update korisnik UlogaKorisnikaID to 1
+            $stmt1 = mysqli_prepare($con, $sql1); //prepare statement
+            mysqli_stmt_bind_param($stmt1, "i", $row['KorisnikID']); //bind parameters
+            mysqli_stmt_execute($stmt1); //execute query
+
+            mysqli_stmt_close($stmt1); //close statement
+        }
+    }
 
     $sql = "DELETE FROM moderatorpoduzeca WHERE PoduzeceID = ?"; //delete all moderators from poduzece
     $stmt = mysqli_prepare($con, $sql); //prepare statement
@@ -94,24 +114,12 @@ function unesi_moderatore($moderatori, $poduzeceID, $con)
 
     mysqli_stmt_close($stmt); //close statement
 
+    if ($empty) {
+        return;
+    }
+
     foreach ($moderatori as $moderator) {
-        //check if data is valid
-        //check if data already exists inside table moderatoripoduzeca
         $moderatorID = filter_var($moderator->ID, FILTER_SANITIZE_NUMBER_INT);
-        $sql = "SELECT * FROM moderatorpoduzeca WHERE KorisnikID = ? AND PoduzeceID = ?";
-        $stmt = mysqli_prepare($con, $sql); //prepare statement
-        mysqli_stmt_bind_param($stmt, "ii", $moderatorID, $poduzeceID); //bind parameters
-        mysqli_stmt_execute($stmt); //execute query
-
-        $result = mysqli_stmt_get_result($stmt); //get the result
-
-        //if data exists, skip
-        if (mysqli_num_rows($result) > 0) {
-            continue;
-        }
-
-        mysqli_stmt_close($stmt); //close statement
-
         //insert data into table moderatoripoduzeca
         $sql = "INSERT INTO moderatorpoduzeca (KorisnikID, PoduzeceID) VALUES (?, ?)";
         $stmt = mysqli_prepare($con, $sql); //prepare statement
