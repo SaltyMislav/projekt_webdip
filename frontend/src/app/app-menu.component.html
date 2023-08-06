@@ -9,8 +9,8 @@
       <li class="elementi" *ngIf="this.authService.isAdmin()">
         <a routerLink="/korisnici">Korisnici</a>
       </li>
-      <li class="elementi">
-        <a>Popis</a>
+      <li class="elementi" *ngIf="this.authService.isAuthentificated()">
+        <a routerLink="/dolazak-na-posao">Dolazak na posao</a>
       </li>
       <li class="elementi">
         <a>ERA model</a>

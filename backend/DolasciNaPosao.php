@@ -3,26 +3,20 @@
 require 'connection.php';
 
 $dolasciNaPosao = [];
-$sql = "SELECT dnp.ID, dnp.Detail, dnp.DatumPromjene, dnp.KorisnikID, k.Ime, k.Prezime FROM dolascinaposao dnp LEFT JOIN korisnik k ON dnp.VrstaPromjeneID = k.ID";
+$sql = "SELECT dnp.ID, dnp.DatumVrijemeDolaska, dnp.KorisnikID, k.KorisnickoIme FROM dolascinaposao dnp LEFT JOIN korisnik k ON dnp.KorisnikID= k.ID";
 
-if($result = mysqli_query($con, $sql))
-{
-    $cr = 0;
-    while ($row = mysqli_fetch_assoc($result))
-    {
-        $dolasciNaPosao[$cr]['ID'] = $row['ID'];
-        $dolasciNaPosao[$cr]['Detail'] = $row['Detail'];
-        $dolasciNaPosao[$cr]['DatumPromjene'] = $row['DatumPromjene'];
-        $dolasciNaPosao[$cr]['KorisnikID'] = $row['KorisnikID'];
-        $dolasciNaPosao[$cr]['Ime'] = $row['Ime'];
-        $dolasciNaPosao[$cr]['Prezime'] = $row['Prezime'];
-        $cr++;
+if ($result = mysqli_query($con, $sql)) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $dolasciNaPosao[] = [
+            'ID' => $row['ID'],
+            'DatumVrijemeDolaska' => $row['DatumVrijemeDolaska'],
+            'KorisnikID' => $row['KorisnikID'],
+            'KorisnickoIme' => $row['KorisnickoIme']
+        ];
     }
 
     echo json_encode(['data' => $dolasciNaPosao]);
-}
-else
-{
+} else {
     http_response_code(404);
 }
 

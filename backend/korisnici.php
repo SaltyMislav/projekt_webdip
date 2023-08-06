@@ -3,7 +3,7 @@
 require 'connection.php';
 
 $korisnici = [];
-$sql = "SELECT k.ID, k.Ime, k.Prezime, k.KorisnickoIme, k.Email, k.NeuspjesnePrijave, k.Active, k.Blokiran, k.UlogaKorisnikaID, u.Naziv AS UlogaKorisnikaNaziv,
+$sql = "SELECT k.ID, k.Ime, k.Prezime, k.KorisnickoIme, k.Email, k.NeuspjesnePrijave, k.Active, k.Blokiran, k.BrojDolazakaNaPosao, k.UlogaKorisnikaID, u.Naziv AS UlogaKorisnikaNaziv,
         p.ID AS PoduzeceID, p.Naziv AS PoduzeceNaziv
         FROM korisnik k 
         LEFT JOIN ulogakorisnika u ON k.UlogaKorisnikaID = u.ID
@@ -22,6 +22,7 @@ if($result = mysqli_query($con, $sql)) {
                 'NeuspjesnePrijave' => $row['NeuspjesnePrijave'],
                 'Active' => $row['Active'],
                 'Blokiran' => $row['Blokiran'],
+                'BrojDolazakaNaPosao' => $row['BrojDolazakaNaPosao'],
                 'UlogaKorisnikaID' => $row['UlogaKorisnikaID'],
                 'UlogaKorisnikaNaziv' => $row['UlogaKorisnikaNaziv'],
                 'Poduzece' => []

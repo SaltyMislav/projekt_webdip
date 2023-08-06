@@ -27,8 +27,13 @@
         <td mat-cell *matCellDef="let korisnik">{{ korisnik.UlogaKorisnikaNaziv }}</td>
       </ng-container>
       
+      <ng-container matColumnDef="BrojDolazakaNaPosao">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Broj dolazaka na posao</th>
+        <td mat-cell *matCellDef="let korisnik">{{ korisnik.BrojDolazakaNaPosao }}</td>
+      </ng-container>
+      
       <ng-container matColumnDef="Active">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Active</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Aktivan</th>
         <td mat-cell *matCellDef="let korisnik">{{ korisnik.Active == 1 ? 'Aktivan' : 'Nije aktivan' }}</td>
       </ng-container>
       
