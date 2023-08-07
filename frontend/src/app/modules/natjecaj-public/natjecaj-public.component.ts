@@ -3,15 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit,
-  ViewChild,
+  OnInit
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Natjecaj } from 'src/app/interfaces/interfaces';
-import { NatjecajService } from '../services/natjecaj.service';
 import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Natjecaj } from 'src/app/interfaces/interfaces';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
+import { NatjecajService } from '../services/natjecaj.service';
 
 @Component({
   selector: 'app-natjecaj-public',
@@ -169,7 +166,7 @@ export class NatjecajPublicComponent
       this.dataSource = this.dataSource.slice(startIndex, endIndex);
       return;
     }
-    
+
     this.dataSource = this.natjecaji.slice(startIndex, endIndex);
   }
 
