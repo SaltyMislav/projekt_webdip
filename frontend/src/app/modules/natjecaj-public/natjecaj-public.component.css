@@ -1,3 +1,25 @@
 .razmak {
   margin: 10px;
 }
+
+mat-card-actions > span {
+  margin: 0 5px;
+}
+
+.mat-mdc-header-row .mat-mdc-header-cell {
+  border-top: 0.5px solid #919191;
+  border-left: 0.5px solid #919191;
+  border-right: 0.5px solid #919191;
+  background: rgb(85, 100, 105, 0.2);
+  cursor: pointer;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-top: 0.5px solid #e0e0e0;
+  border-bottom: 0.5px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: rgba(16, 149, 193, 0.2);
+}

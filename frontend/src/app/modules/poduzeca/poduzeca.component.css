@@ -14,6 +14,7 @@ mat-card-title {
   border-left: 0.5px solid #919191;
   border-right: 0.5px solid #919191;
   background: rgb(85, 100, 105, 0.2);
+  cursor: pointer;
 }
 
 .mat-mdc-row .mat-mdc-cell {
@@ -23,7 +24,9 @@ mat-card-title {
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {
-  border-color: currentColor;
-  border: 1px solid currentColor;
   background-color: rgba(16, 149, 193, 0.2);
+}
+
+mat-card-actions > span {
+  margin: 0 5px;
 }
