@@ -9,15 +9,12 @@ if (isset($postData) && !empty($postData)) {
 
     $request = json_decode($postData);
 
-    $danasnjiDatum = date('Y-m-d');
-    $danasnjiDatum = date('Y-m-d', strtotime($danasnjiDatum . VirtualnoVrijeme::procitajVrijeme($con) . 'hours'));
-
-    $datumDolaska = date('Y-m-d', strtotime($request->data->DatumVrijemeDolaska . VirtualnoVrijeme::procitajVrijeme($con) . 'hours'));
     $korisnikID = filter_var($request->data->KorisnikID, FILTER_SANITIZE_NUMBER_INT);
-    $datumVrijemeDolaska = date('Y-m-d H:i:s', strtotime($request->data->DatumVrijemeDolaska . VirtualnoVrijeme::procitajVrijeme($con) . 'hours'));
+    $datumVrijemeDolaska = date('Y-m-d H:i:s', strtotime($request->data->DatumVrijemeDolaska));
+    $datumDolaska = date('Y-m-d', strtotime($request->data->DatumVrijemeDolaska));
 
-    if ($datumDolaska < $danasnjiDatum) {
-        trigger_error("Ne možete evidentirati dolazak na posao za datum u prošlosti", E_USER_ERROR);
+    if ($korisnikID != 1){
+        trigger_error("Samo korisnici smiju evidentirati dolazak na posao!", E_USER_ERROR);
     }
 
     $sql = "SELECT * FROM dolascinaposao WHERE KorisnikID = ? AND DatumVrijemeDolaska LIKE CONCAT(? ,'%')";

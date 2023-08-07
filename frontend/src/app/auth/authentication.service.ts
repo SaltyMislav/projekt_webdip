@@ -54,6 +54,14 @@ export class AuthenticationService {
     return this.getUser() !== null;
   }
 
+  isUser(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.uloga === 1;
+    }
+    return false;
+  }
+
   isModerator(): boolean {
     const user = this.getUser();
     if (user) {

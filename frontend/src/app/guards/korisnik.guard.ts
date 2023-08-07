@@ -7,7 +7,7 @@ export const korisnikGuard: CanActivateFn = (route, state) => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
 
-  if (authenticationService.isAuthentificated()) {
+  if (authenticationService.isUser()) {
     return true;
   }
 

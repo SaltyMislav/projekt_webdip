@@ -13,6 +13,7 @@ import { adminGuard } from './guards/admin.guard';
 import { moderatorGuard } from './guards/moderator.guard';
 import { ZaboravljenaLozinkaComponent } from './modules/zaboravljena-lozinka/zaboravljena-lozinka.component';
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
+import { korisnikGuard } from './guards/korisnik.guard';
 
 const routes: Routes = [
   {
@@ -21,9 +22,9 @@ const routes: Routes = [
   },
   { path: 'registracija', component: RegistracijaComponent },
   { path: 'prijava', component: PrijavaComponent },
-  { path: 'dolazak-na-posao', component: DolazakNaPosaoComponent },
+  { path: 'dolazak-na-posao', component: DolazakNaPosaoComponent, canActivate: [korisnikGuard]},
   { path: 'korisnici', component: KorisniciComponent, canActivate: [adminGuard] },
-  { path: 'natjecaj', component: NatjecajComponent, canActivate: [adminGuard, moderatorGuard] },
+  { path: 'natjecaj', component: NatjecajComponent, canActivate: [moderatorGuard] },
   { path: 'poduzeca', component: PoduzecaComponent, canActivate: [adminGuard] },
   { path: 'radni-zadatak', component: RadniZadatakComponent },
   { path: 'aktivacija', component: AktivacijaComponent },

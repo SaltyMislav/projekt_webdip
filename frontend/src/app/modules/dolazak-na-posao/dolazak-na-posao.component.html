@@ -1,1 +1,13 @@
-<p>dolazak-na-posao works!</p>
+<mat-card>
+  <mat-card-title> Dolazak na posao </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <input type="datetime-local" formControlName="DatumVrijemeDolaska" />
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary" (click)="dolazakNaPosao()">
+      Dolazak na posao
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -28,7 +28,7 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy, AfterViewInit
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  pomak!: number;
+  //TODO - promijeniti nacin filtriranja i sortiranja te paginacije (primjer je na chatgpt-u) i tako na svakoj tablici
   stranicenje!: number;
   ukupnoNatjecaja = 0;
 
@@ -46,7 +46,6 @@ export class NatjecajPublicComponent implements OnInit, OnDestroy, AfterViewInit
     this.subscription = this.konfiguracijaClass.konfiguracijaDataSubject
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
-        this.pomak = data.pomak;
         this.stranicenje = data.stranicenje;
 
         this.cdref.detectChanges();
