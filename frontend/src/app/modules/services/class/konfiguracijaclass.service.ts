@@ -29,6 +29,8 @@ export class KonfiguracijaClass {
     this._pomak = value;
   }
 
+
+  //TODO - netreba behaviour subject, service injectan u rutu i nije potrebno ga onda korisntiti (promijniti doma)
   public getData() {
     if (this.konfiguracijaDataSubject.value != null)
       return this.konfiguracijaDataSubject.value;
