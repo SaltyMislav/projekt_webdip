@@ -1,7 +1,20 @@
 <mat-card class="razmak">
   <mat-card-title class="razmak">Popis natječaja</mat-card-title>
   <mat-card-content>
-    <div></div>
+    <div class="roditelj">
+      <div class="dijete">
+        <label for="datumOd">Datum Početka: </label>
+        <input type="date" [(ngModel)]="datumOd" placeholder="Datum od"/>
+      </div>
+      <div class="dijete">
+        <label for="datumDo">Datum Kraja: </label>
+        <input type="date" [(ngModel)]="datumDo" placeholder="Datum do"/>
+      </div>
+      <div class="dijete">
+        <button mat-raised-button color="primary" (click)="applyFilter()">Filtriraj</button>
+        <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+      </div>
+    </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef (click)="sortData('ID')">

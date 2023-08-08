@@ -129,18 +129,30 @@ export class NatjecajPublicComponent implements OnInit {
     const fromDate = this.datumOd ? new Date(this.datumOd) : null;
     const toDate = this.datumDo ? new Date(this.datumDo) : null;
 
-    this.dataSource = this.dataSource.filter((row) => {
+    toDate?.setHours(25);
+    toDate?.setMinutes(59);
+    toDate?.setSeconds(59);
+
+    this.dataSource = this.natjecaji.filter((row) => {
       return (
         (!fromDate || new Date(row.VrijemePocetka) >= fromDate) &&
         (!toDate || new Date(row.VrijemeKraja) <= toDate)
       );
     });
 
+    console.log(this.dataSource);
+
+    this.IndexStranice = 0;
+    this.updatePageData(false, true);
+  }
+
+  clearFilter(): void {
+    this.dataSource = this.natjecaji;
     this.IndexStranice = 0;
     this.updatePageData();
   }
 
-  updatePageData(sorting = false): void {
+  updatePageData(sorting = false, filtering = false): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
 
@@ -148,6 +160,11 @@ export class NatjecajPublicComponent implements OnInit {
       if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
         endIndex = this.ukupnoNatjecaja;
 
+      this.dataSource = this.dataSource.slice(startIndex, endIndex);
+      return;
+    }
+
+    if(filtering) {
       this.dataSource = this.dataSource.slice(startIndex, endIndex);
       return;
     }
