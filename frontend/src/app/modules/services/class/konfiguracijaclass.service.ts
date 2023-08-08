@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, catchError, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, of, take, tap } from 'rxjs';
 import { KonfiguracijaService } from '../konfiguracija.service';
 
 @Injectable({
@@ -9,7 +9,7 @@ export class KonfiguracijaClass {
   private _stranicenje = 0;
   private _pomak = 0;
 
-  public konfiguracijaDataSubject = new Subject<any>();
+  public konfiguracijaDataSubject = new BehaviorSubject<any>(null);
 
   constructor(private konfiguracijaService: KonfiguracijaService) {}
 
@@ -30,6 +30,8 @@ export class KonfiguracijaClass {
   }
 
   public getData() {
+    if (this.konfiguracijaDataSubject.value != null)
+      return this.konfiguracijaDataSubject.value;
     this.konfiguracijaService
       .getdata()
       .pipe(
