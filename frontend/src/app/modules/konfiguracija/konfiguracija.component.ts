@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { KonfiguracijaService } from '../services/konfiguracija.service';
 
@@ -10,12 +9,9 @@ import { KonfiguracijaService } from '../services/konfiguracija.service';
   templateUrl: './konfiguracija.component.html',
   styleUrls: ['./konfiguracija.component.css'],
 })
-export class KonfiguracijaComponent implements OnInit, OnDestroy {
+export class KonfiguracijaComponent implements OnInit {
   pomak!: number;
   stranicenje!: number;
-
-  private konfiguracijaDataSubscription!: Subscription;
-  notifier = new Subject<any>();
 
   form!: FormGroup;
 
@@ -26,23 +22,11 @@ export class KonfiguracijaComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private snackBar: MatSnackBar
   ) {
-    this.konfiguracijaDataSubscription = this.konfiguracijaClass.konfiguracijaDataSubject
-      .pipe(takeUntil(this.notifier))
-      .subscribe((data) => {
-        this.pomak = data.pomak;
-        this.stranicenje = data.stranicenje;
-
-        this.form.patchValue({
-          pomak: this.pomak,
-          stranicenje: this.stranicenje,
-        });
-
-        this.cdref.detectChanges();
-      });
+    this.pomak = this.konfiguracijaClass.pomak;
+    this.stranicenje = this.konfiguracijaClass.stranicenje;
   }
 
   ngOnInit(): void {
-    this.konfiguracijaClass.getData();
     this.form = this.fb.group({
       pomak: [{value: this.pomak, disabled: true}],
       stranicenje: [this.stranicenje, Validators.min(1)],
@@ -91,11 +75,5 @@ export class KonfiguracijaComponent implements OnInit, OnDestroy {
         });
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next(null);
-    this.notifier.complete();
-    this.konfiguracijaDataSubscription.unsubscribe();
   }
 }

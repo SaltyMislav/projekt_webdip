@@ -24,8 +24,6 @@ export class DolazakNaPosaoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.konfiguracijaService.getData();
-
     const user = this.authService.getUser();
 
     this.form = this.fb.group({

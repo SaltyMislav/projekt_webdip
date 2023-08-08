@@ -2,26 +2,24 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Korisnik } from 'src/app/interfaces/interfaces';
-import { KorisniciService } from '../services/korisnici.service';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { MatDialog } from '@angular/material/dialog';
+import { KorisniciService } from '../services/korisnici.service';
 import { KorisniciDialogComponent } from './korisnici-dialog/korisnici-dialog.component';
-import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-korisnici',
   templateUrl: './korisnici.component.html',
   styleUrls: ['./korisnici.component.css'],
 })
-export class KorisniciComponent implements OnInit, OnDestroy, AfterViewInit {
+export class KorisniciComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<Korisnik>;
 
   korisnik: Korisnik[] = [];
@@ -40,11 +38,8 @@ export class KorisniciComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  pomak!: number;
   stranicenje!: number;
 
-  konfiguracijaDataSubscription!: Subscription;
-  notifier = new Subject<any>();
   counter = 0;
 
   constructor(
@@ -53,19 +48,10 @@ export class KorisniciComponent implements OnInit, OnDestroy, AfterViewInit {
     private konfiguracijaClass: KonfiguracijaClass,
     public dialog: MatDialog
   ) {
-    this.konfiguracijaDataSubscription =
-      this.konfiguracijaClass.konfiguracijaDataSubject
-        .pipe(takeUntil(this.notifier))
-        .subscribe((data) => {
-          this.pomak = data.pomak;
-          this.stranicenje = data.stranicenje;
-
-          this.cdref.detectChanges();
-        });
+    this.stranicenje = this.konfiguracijaClass.stranicenje;
   }
 
   ngOnInit(): void {
-    this.konfiguracijaClass.getData();
   }
 
   ngAfterViewInit(): void {
@@ -100,11 +86,5 @@ export class KorisniciComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.getKorisnici();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next(null);
-    this.notifier.complete();
-    this.konfiguracijaDataSubscription.unsubscribe();
   }
 }

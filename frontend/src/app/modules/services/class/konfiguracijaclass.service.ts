@@ -9,8 +9,6 @@ export class KonfiguracijaClass {
   private _stranicenje = 0;
   private _pomak = 0;
 
-  public konfiguracijaDataSubject = new BehaviorSubject<any>(null);
-
   constructor(private konfiguracijaService: KonfiguracijaService) {}
 
   public get stranicenje(): number {
@@ -32,8 +30,6 @@ export class KonfiguracijaClass {
 
   //TODO - netreba behaviour subject, service injectan u rutu i nije potrebno ga onda korisntiti (promijniti doma)
   public getData() {
-    if (this.konfiguracijaDataSubject.value != null)
-      return this.konfiguracijaDataSubject.value;
     this.konfiguracijaService
       .getdata()
       .pipe(
@@ -41,12 +37,6 @@ export class KonfiguracijaClass {
         tap((response) => {
           this.pomak = response[0].Pomak ?? this._pomak;
           this.stranicenje = response[0].Stranicenje ?? this._stranicenje;
-
-          this.konfiguracijaDataSubject.next({
-            pomak: this._pomak,
-            stranicenje: this._stranicenje,
-          });
-
         }),
         catchError((err) => {
           return of(err);

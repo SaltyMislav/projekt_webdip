@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   MatBottomSheet,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { CookieService } from 'ngx-cookie-service';
 import { KonfiguracijaClass } from './modules/services/class/konfiguracijaclass.service';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,25 +14,20 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'zaposljavanje';
 
-  pomak!: number;
-  stranicenje!: number;
-
-  konfiguracijaDataSubscription!: Subscription;
-  notifier = new Subject<any>();
-
   constructor(
     private cookieService: CookieService,
     private bottomSheet: MatBottomSheet,
     private konfiguracijaClass: KonfiguracijaClass,
     private cdref: ChangeDetectorRef
-  ) {}
+  ) {
+    this.konfiguracijaClass.reset();
+    this.konfiguracijaClass.getData();
+  }
 
   ngOnInit(): void {
     if (!this.cookieService.check('prihvaceniKolacici')) {
       this.bottomSheet.open(CookieSheet);
     }
-    this.konfiguracijaClass.reset();
-    this.konfiguracijaClass.getData();
   }
 }
 

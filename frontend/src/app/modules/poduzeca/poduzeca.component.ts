@@ -8,14 +8,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Poduzece } from '../../interfaces/interfaces';
 import { PoduzeceDialogComponent } from '../poduzece-dialog/poduzece-dialog.component';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { PoduzeceService } from '../services/poduzece.service';
-import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-poduzeca',
@@ -23,7 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./poduzeca.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PoduzecaComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PoduzecaComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<Poduzece>;
   poduzece: Poduzece[] = [];
 
@@ -38,11 +37,8 @@ export class PoduzecaComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  pomak!: number;
   stranicenje!: number;
 
-  konfiguracijaDataSubscription!: Subscription;
-  notifier = new Subject<any>();
   counter = 0;
 
   constructor(
@@ -51,19 +47,11 @@ export class PoduzecaComponent implements OnInit, OnDestroy, AfterViewInit {
     private konfiguracijaClass: KonfiguracijaClass,
     public dialog: MatDialog
   ) {
-    this.konfiguracijaDataSubscription =
-      this.konfiguracijaClass.konfiguracijaDataSubject
-        .pipe(takeUntil(this.notifier))
-        .subscribe((data) => {
-          this.pomak = data.pomak;
-          this.stranicenje = data.stranicenje;
-
-          this.cdref.detectChanges();
-        });
+    this.stranicenje = this.konfiguracijaClass.stranicenje;
+    console.log(this.stranicenje);
   }
 
   ngOnInit(): void {
-    this.konfiguracijaClass.getData();
   }
 
   getPoduzece(): void {
@@ -96,11 +84,5 @@ export class PoduzecaComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.afterClosed().subscribe(() => {
       this.getPoduzece();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next(null);
-    this.notifier.complete();
-    this.konfiguracijaDataSubscription.unsubscribe();
   }
 }

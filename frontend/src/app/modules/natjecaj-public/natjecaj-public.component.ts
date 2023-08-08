@@ -2,10 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Natjecaj } from 'src/app/interfaces/interfaces';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { NatjecajService } from '../services/natjecaj.service';
@@ -15,9 +13,7 @@ import { NatjecajService } from '../services/natjecaj.service';
   templateUrl: './natjecaj-public.component.html',
   styleUrls: ['./natjecaj-public.component.css'],
 })
-export class NatjecajPublicComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class NatjecajPublicComponent implements OnInit {
   dataSource: Natjecaj[] = [];
   natjecaji: Natjecaj[] = [];
   currentPage: Natjecaj[] = [];
@@ -39,26 +35,14 @@ export class NatjecajPublicComponent
   sortColumn = '';
   sortOrder: 'asc' | 'desc' | '' = '';
 
-  subscription!: Subscription;
-  notifier = new Subject<any>();
-
   constructor(
     private natjecajService: NatjecajService,
     private cdref: ChangeDetectorRef,
     private konfiguracijaClass: KonfiguracijaClass
-  ) {}
-
-  ngOnInit(): void {
-    this.subscription = this.konfiguracijaClass.konfiguracijaDataSubject
-      .pipe(takeUntil(this.notifier))
-      .subscribe((data) => {
-        this.stranicenje = +data.stranicenje;
-        this.updatePageData();
-        this.cdref.detectChanges();
-      });
+  ) {
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.getNatjecaj();
   }
 
@@ -67,6 +51,7 @@ export class NatjecajPublicComponent
       next: (data: Natjecaj[]) => {
         this.dataSource = this.natjecaji = data;
         this.ukupnoNatjecaja = data.length;
+        this.stranicenje = this.konfiguracijaClass.stranicenje;
         this.updatePageData();
         this.cdref.detectChanges();
       },
@@ -182,11 +167,5 @@ export class NatjecajPublicComponent
       this.IndexStranice--;
       this.updatePageData();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next(null);
-    this.notifier.complete();
-    this.subscription?.unsubscribe();
   }
 }
