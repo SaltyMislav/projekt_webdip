@@ -10,13 +10,13 @@ if($result = mysqli_query($con, $sql))
     $cr = 0;
     while($row = mysqli_fetch_assoc($result))
     {
-        $radniZadaci[$cr]['ID'] = $row['ID'];
+        $radniZadaci[$cr]['ID'] = (int)$row['ID'];
         $radniZadaci[$cr]['Naziv'] = $row['Naziv'];
         $radniZadaci[$cr]['Opis'] = $row['Opis'];
         $radniZadaci[$cr]['Datum'] = $row['Datum'];
-        $radniZadaci[$cr]['Odradeno'] = $row['Odradeno'];
-        $radniZadaci[$cr]['KorisnikID'] = $row['KorisnikID'];
-        $radniZadaci[$cr]['OcijenaZaposlenikaID'] = $row['OcijenaZaposlenikaID'];
+        $radniZadaci[$cr]['Odradeno'] = (bool)$row['Odradeno'];
+        $radniZadaci[$cr]['KorisnikID'] = (int)$row['KorisnikID'];
+        $radniZadaci[$cr]['OcijenaZaposlenikaID'] = (int)$row['OcijenaZaposlenikaID'];
         $radniZadaci[$cr]['Ocijena'] = $row['Ocijena'];
         $radniZadaci[$cr]['Ime'] = $row['Ime'];
         $radniZadaci[$cr]['Prezime'] = $row['Prezime'];

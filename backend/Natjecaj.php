@@ -9,14 +9,14 @@ $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, n.VrijemeKraja AS VrijemeKraja, n.V
 if ($result = mysqli_query($con, $sql)) {
     $cr = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-        $natjecaj[$cr]['ID'] = $row['ID'];
+        $natjecaj[$cr]['ID'] = (int)$row['ID'];
         $natjecaj[$cr]['Naziv'] = $row['Naziv'];
         $natjecaj[$cr]['VrijemeKraja'] = $row['VrijemeKraja'];
         $natjecaj[$cr]['VrijemePocetka'] = $row['VrijemePocetka'];
         $natjecaj[$cr]['Opis'] = $row['Opis'];
-        $natjecaj[$cr]['StatusNatjecajaID'] = $row['StatusNatjecajaID'];
+        $natjecaj[$cr]['StatusNatjecajaID'] = (int)$row['StatusNatjecajaID'];
         $natjecaj[$cr]['StatusNatjecajaNaziv'] = $row['VrstaStatusa'];
-        $natjecaj[$cr]['PoduzeceID'] = $row['PoduzeceID'];
+        $natjecaj[$cr]['PoduzeceID'] = (int)$row['PoduzeceID'];
         $natjecaj[$cr]['PoduzeceNaziv'] = $row['NazivPoduzeca'];
         $cr++;
     }

@@ -66,14 +66,6 @@
   <span class="example-spacer"></span>
   <button
     mat-raised-button
-    [disabled]="this.data?.ID ? 'false' : 'true'"
-    color="warn"
-    (click)="onDelete()"
-  >
-    Obriši
-  </button>
-  <button
-    mat-raised-button
     color="primary"
     (click)="onSave()"
     cdkFocusInitial

@@ -14,16 +14,16 @@ if($result = mysqli_query($con, $sql)) {
     while($row = mysqli_fetch_assoc($result)){
         if(!isset($korisnici[$row['ID']])){
             $korisnici[$row['ID']] = [
-                'ID' => $row['ID'],
+                'ID' => (int)$row['ID'],
                 'Ime' => $row['Ime'],
                 'Prezime' => $row['Prezime'],
                 'KorisnickoIme' => $row['KorisnickoIme'],
                 'Email' => $row['Email'],
-                'NeuspjesnePrijave' => $row['NeuspjesnePrijave'],
-                'Active' => $row['Active'],
-                'Blokiran' => $row['Blokiran'],
-                'BrojDolazakaNaPosao' => $row['BrojDolazakaNaPosao'],
-                'UlogaKorisnikaID' => $row['UlogaKorisnikaID'],
+                'NeuspjesnePrijave' => (int)$row['NeuspjesnePrijave'],
+                'Active' => (bool)$row['Active'],
+                'Blokiran' => (bool)$row['Blokiran'],
+                'BrojDolazakaNaPosao' => (int)$row['BrojDolazakaNaPosao'],
+                'UlogaKorisnikaID' => (int)$row['UlogaKorisnikaID'],
                 'UlogaKorisnikaNaziv' => $row['UlogaKorisnikaNaziv'],
                 'Poduzece' => []
             ];
@@ -31,7 +31,7 @@ if($result = mysqli_query($con, $sql)) {
 
         if($row['PoduzeceID'] != null && $row['PoduzeceNaziv'] != null) {
             $korisnici[$row['ID']]['Poduzece'][] = [
-                'ID' => $row['PoduzeceID'],
+                'ID' => (int)$row['PoduzeceID'],
                 'Naziv' => $row['PoduzeceNaziv']
             ];
         }

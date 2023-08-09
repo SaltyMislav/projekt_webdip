@@ -31,14 +31,4 @@ export class PoduzeceService {
       .post(environment.apiUrl + '/poduzeceinsert', { data: data })
       .pipe(map((res: any) => res['data']));
   }
-
-  deletePoduzece(id: number) {
-
-    const params = new HttpParams()
-        .set('id', id.toString());
-
-    return this.http
-      .delete(environment.apiUrl + '/poduzecedelete', { params: params })
-      .pipe(map((res: any) => res['data']));
-  }
 }

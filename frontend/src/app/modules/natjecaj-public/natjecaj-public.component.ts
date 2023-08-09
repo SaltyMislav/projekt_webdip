@@ -16,7 +16,8 @@ import { NatjecajService } from '../services/natjecaj.service';
 export class NatjecajPublicComponent implements OnInit {
   dataSource: Natjecaj[] = [];
   natjecaji: Natjecaj[] = [];
-  currentPage: Natjecaj[] = [];
+  sortiraniNatjecaji: Natjecaj[] = [];
+  applyFilterNatjecaji: Natjecaj[] = [];
   displayedColumns: string[] = [
     'ID',
     'Naziv',
@@ -76,12 +77,15 @@ export class NatjecajPublicComponent implements OnInit {
       this.sortOrder = 'asc';
     }
 
-    if (this.sortOrder === '') {
+    if (this.sortOrder === '' && this.applyFilterNatjecaji.length === 0) {
       this.updatePageData();
+      return;
+    } else if (this.sortOrder === '' && this.applyFilterNatjecaji.length > 0) {
+      this.updatePageData(false, false, true);
       return;
     }
 
-    const sortedData = this.natjecaji.slice();
+    const sortedData = this.applyFilterNatjecaji.length > 0 ? this.applyFilterNatjecaji.slice() : this.natjecaji.slice();
 
     sortedData.sort((a, b) => {
       const isAsc = this.sortOrder === 'asc';
@@ -110,7 +114,7 @@ export class NatjecajPublicComponent implements OnInit {
           return 0;
       }
     });
-    this.dataSource = sortedData;
+    this.dataSource = this.sortiraniNatjecaji = sortedData;
     this.updatePageData(true);
   }
 
@@ -133,30 +137,39 @@ export class NatjecajPublicComponent implements OnInit {
     toDate?.setMinutes(59);
     toDate?.setSeconds(59);
 
-    this.dataSource = this.natjecaji.filter((row) => {
+    this.applyFilterNatjecaji = this.natjecaji.filter((row) => {
       return (
         (!fromDate || new Date(row.VrijemePocetka) >= fromDate) &&
         (!toDate || new Date(row.VrijemeKraja) <= toDate)
       );
     });
 
-    console.log(this.dataSource);
-
     this.IndexStranice = 0;
-    this.updatePageData(false, true);
+    this.ukupnoNatjecaja = this.applyFilterNatjecaji.length;
+    this.updatePageData(false, false, true);
   }
 
   clearFilter(): void {
+    this.datumOd = '';
+    this.datumDo = '';
     this.dataSource = this.natjecaji;
+    this.ukupnoNatjecaja = this.dataSource.length;
     this.IndexStranice = 0;
     this.updatePageData();
   }
 
-  updatePageData(sorting = false, filtering = false): void {
+  updatePageData(sort = false, sortiraniNatjecaji = false, applyFilter = false): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
 
-    if (sorting) {
+    if (applyFilter) {
+      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
+        endIndex = this.ukupnoNatjecaja;
+      this.dataSource = this.applyFilterNatjecaji.slice(startIndex, endIndex);
+      return;
+    }
+
+    if (sort) {
       if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
         endIndex = this.ukupnoNatjecaja;
 
@@ -164,8 +177,10 @@ export class NatjecajPublicComponent implements OnInit {
       return;
     }
 
-    if(filtering) {
-      this.dataSource = this.dataSource.slice(startIndex, endIndex);
+    if(sortiraniNatjecaji) {
+      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
+        endIndex = this.ukupnoNatjecaja;
+      this.dataSource = this.sortiraniNatjecaji.slice(startIndex, endIndex);
       return;
     }
 
@@ -175,14 +190,18 @@ export class NatjecajPublicComponent implements OnInit {
   nextPage(): void {
     if (this.IndexStranice < this.ukupnoNatjecaja / this.stranicenje - 1) {
       this.IndexStranice++;
-      this.updatePageData();
+      const sortiraniNatjecaji = this.sortColumn !== '' && this.sortOrder !== '';
+      const applyFilter = this.datumOd !== '' && this.datumDo !== '';
+      this.updatePageData(false, sortiraniNatjecaji, applyFilter);
     }
   }
 
   previousPage(): void {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
-      this.updatePageData();
+      const sortiraniNatjecaji = this.sortColumn !== '' && this.sortOrder !== '';
+      const applyFilter = this.datumOd !== '' && this.datumDo !== '';
+      this.updatePageData(false, sortiraniNatjecaji, applyFilter);
     }
   }
 }

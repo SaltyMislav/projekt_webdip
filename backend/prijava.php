@@ -37,8 +37,8 @@ if (isset($postData) && !empty($postData)) {
         mysqli_stmt_close($stmt);
 
         session_start();
-        $_SESSION['user_ID'] = $user['ID'];
-        $_SESSION['uloga'] = $user['UlogaKorisnikaID'];
+        $_SESSION['user_ID'] = (int)$user['ID'];
+        $_SESSION['uloga'] = (int)$user['UlogaKorisnikaID'];
         $_SESSION['user'] = $user['KorisnickoIme'];
         
         echo json_encode(['data' => $_SESSION]);

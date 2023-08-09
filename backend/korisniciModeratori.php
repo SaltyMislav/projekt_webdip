@@ -10,7 +10,7 @@ if ($result = mysqli_query($con, $sql)) {
     $cr = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $korisnici[$cr]['ID'] = $row['ID'];
+        $korisnici[$cr]['ID'] = (int)$row['ID'];
         $korisnici[$cr]['KorisnickoIme'] = $row['KorisnickoIme'];
         $cr++;
     }

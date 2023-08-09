@@ -137,22 +137,6 @@ export class PoduzeceDialogComponent implements OnInit {
     }
   }
 
-  onDelete(): void {
-    this.poduzeceService.deletePoduzece(this.formGroup.value.ID).subscribe({
-      next: (data: any) => {
-        this.snackBar.open('Poduzeće uspješno obrisano', 'U redu', {
-          panelClass: 'green-snackbar',
-        });
-        this.dialogRef.close();
-      },
-      error: (error) => {
-        this.snackBar.open(error.error.error.errstr, 'U redu', {
-          panelClass: 'red-snackbar',
-        });
-      },
-    });
-  }
-
   onOdustani(): void {
     this.dialogRef.close();
   }

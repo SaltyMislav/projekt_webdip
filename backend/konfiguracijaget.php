@@ -8,9 +8,9 @@ $sql = "SELECT ID, Pomak, Stranicenje FROM konfiguracija";
 if ($result = mysqli_query($con, $sql)) {
     $cr = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-        $konfiguracija[$cr]['ID'] = $row['ID'];
-        $konfiguracija[$cr]['Pomak'] = $row['Pomak'];
-        $konfiguracija[$cr]['Stranicenje'] = $row['Stranicenje'];
+        $konfiguracija[$cr]['ID'] = (int)$row['ID'];
+        $konfiguracija[$cr]['Pomak'] = (int)$row['Pomak'];
+        $konfiguracija[$cr]['Stranicenje'] = (int)$row['Stranicenje'];
         $cr++;
     }
 

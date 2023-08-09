@@ -10,10 +10,10 @@ if ($result = mysqli_query($con, $sql))
     $cr = 0;
     while ($row = mysqli_fetch_assoc($result))
     {
-        $dnevnikrada[$cr]['ID'] = $row['ID'];
+        $dnevnikrada[$cr]['ID'] = (int)$row['ID'];
         $dnevnikrada[$cr]['Detail'] = $row['Detail'];
         $dnevnikrada[$cr]['DatumPromjene'] = $row['DatumPromjene'];
-        $dnevnikrada[$cr]['VrstaPromjeneID'] = $row['VrstaPromjeneID'];
+        $dnevnikrada[$cr]['VrstaPromjeneID'] = (int)$row['VrstaPromjeneID'];
         $dnevnikrada[$cr]['Naziv'] = $row['Naziv'];
         $cr++;
     }

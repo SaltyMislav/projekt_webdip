@@ -23,9 +23,9 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class KorisniciDialogComponent implements OnInit {
   form!: FormGroup;
   uloge: UlogaKorisnika[] = [
-    { ID: '1', Naziv: 'Korisnik' },
-    { ID: '2', Naziv: 'Moderator' },
-    { ID: '3', Naziv: 'Administrator' },
+    { ID: 1, Naziv: 'Korisnik' },
+    { ID: 2, Naziv: 'Moderator' },
+    { ID: 3, Naziv: 'Administrator' },
   ];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -34,7 +34,7 @@ export class KorisniciDialogComponent implements OnInit {
   poduzeca: string[] = [];
   poduzecaArray: any[] = [];
 
-  selectedUloga = this.data.UlogaKorisnikaID;
+  selectedUloga = 1;
 
   @ViewChild('poduzeceInput') poduzeceInput!: ElementRef<HTMLInputElement>;
 
@@ -52,6 +52,8 @@ export class KorisniciDialogComponent implements OnInit {
       this.svaPoduzeca = data;
     });
 
+    console.log(this.data);
+
     this.form = this.fb.group({
       ID: [this.data.ID],
       Ime: [{ value: this.data.Ime, disabled: true }],
@@ -64,6 +66,8 @@ export class KorisniciDialogComponent implements OnInit {
       Blokiran: [+this.data.Blokiran],
       poduzeceCtrl: [''],
     });
+
+    this.selectedUloga = this.data.UlogaKorisnikaID;
 
     this.data?.Poduzece.forEach((element: any) => {
       this.poduzeca.push(element.Naziv);

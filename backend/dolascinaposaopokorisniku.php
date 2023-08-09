@@ -19,9 +19,9 @@ if (isset($postData) && !empty($postData)) {
     $dolasciNaPosao = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $dolasciNaPosao[] = [
-            'ID' => $row['ID'],
+            'ID' => (int)$row['ID'],
             'DatumVrijemeDolaska' => $row['DatumVrijemeDolaska'],
-            'KorisnikID' => $row['KorisnikID']
+            'KorisnikID' => (int)$row['KorisnikID']
         ];
     }
 

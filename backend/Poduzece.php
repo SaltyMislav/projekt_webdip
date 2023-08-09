@@ -14,7 +14,7 @@ if ($result = mysqli_query($con, $sql)) {
         if (!isset($poduzece[$row['ID']])) {
             // If not, add it with the poduzece details and an empty 'moderatori' array
             $poduzece[$row['ID']] = [
-                'ID' => $row['ID'],
+                'ID' => (int)$row['ID'],
                 'Naziv' => $row['Naziv'],
                 'Opis' => $row['Opis'],
                 'RadnoVrijemeOd' => $row['RadnoVrijemeOd'],
@@ -26,7 +26,7 @@ if ($result = mysqli_query($con, $sql)) {
         // Add the korisnik data into the 'moderatori' subarray of the existing poduzece
         if($row['KorisnikID'] != null && $row['KorisnickoIme'] != null) {
             $poduzece[$row['ID']]['Moderatori'][] = [
-                'ID' => $row['KorisnikID'],
+                'ID' => (int)$row['KorisnikID'],
                 'KorisnickoIme' => $row['KorisnickoIme']
             ];
         }

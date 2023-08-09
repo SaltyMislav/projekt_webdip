@@ -2,9 +2,23 @@
   margin: 10px;
 }
 
-
 mat-card-actions > span {
   margin: 0 5px;
+}
+
+.roditelj {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.roditelj > .dijete {
+  margin: 5px;
+}
+.roditelj > .dijete > button {
+  margin: 0px 5px;
 }
 
 .mat-mdc-header-row .mat-mdc-header-cell {

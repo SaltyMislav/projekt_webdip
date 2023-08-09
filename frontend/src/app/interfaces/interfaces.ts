@@ -35,6 +35,7 @@ export interface Korisnik {
   Email: string;
   UlogaKorisnikaID: number;
   UlogaKorisnikaNaziv: string;
+  BrojDolazakaNaPosao: number;
   Active: boolean;
   Blokiran: boolean;
 }
@@ -48,11 +49,11 @@ export interface Poduzece {
 }
 
 export interface UlogaKorisnika {
-  ID: string;
+  ID: number;
   Naziv: string;
 }
 
 export interface KorisniciModeratori {
-  ID: string;
+  ID: number;
   KorisnickoIme: string;
 }

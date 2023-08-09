@@ -9,7 +9,7 @@ $sql = "SELECT p.ID, p.Naziv from poduzece p";
 if ($result = mysqli_query($con, $sql)) {
     while ($row = mysqli_fetch_assoc($result)) {
         $poduzece[] = [
-            'ID' => $row['ID'],
+            'ID' => (int)$row['ID'],
             'Naziv' => $row['Naziv']
         ];
     }
