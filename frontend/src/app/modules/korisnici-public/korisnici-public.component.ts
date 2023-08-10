@@ -86,7 +86,6 @@ export class KorisniciPublicComponent implements OnInit {
     this.updatePageData(true);
   }
 
-  //todo - promijeniti logiku, da se inicira poziv na backend
   applyFilter(): void {
     const prezime = this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '';
 
