@@ -33,7 +33,7 @@ export class KorisniciComponent implements OnInit {
   emailFilter = '';
 
   sortColumn = '';
-  sortOrder: 'asc' | 'desc' | '' = 'asc';
+  sortOrder: 'asc' | 'desc' | '' = '';
 
   constructor(
     private korisniciService: KorisniciService,

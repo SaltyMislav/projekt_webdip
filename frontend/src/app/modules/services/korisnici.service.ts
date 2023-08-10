@@ -17,6 +17,14 @@ export class KorisniciService {
         );
     }
 
+    getZaposlenici() {
+        return this.http.get(environment.apiUrl + '/zaposlenici').pipe(
+            map((res: any) => {
+                return res['data'];
+            })
+        );
+    }
+
     getKorisniciModeratori() {
         return this.http.get(environment.apiUrl + '/korisniciModeratori').pipe(
             map((res: any) => {

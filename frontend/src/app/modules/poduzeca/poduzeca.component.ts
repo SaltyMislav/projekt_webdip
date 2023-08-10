@@ -48,7 +48,6 @@ export class PoduzecaComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog
   ) {
     this.stranicenje = this.konfiguracijaClass.stranicenje;
-    console.log(this.stranicenje);
   }
 
   ngOnInit(): void {
