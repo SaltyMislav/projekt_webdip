@@ -17,8 +17,8 @@ export class KorisniciService {
         );
     }
 
-    getZaposlenici() {
-        return this.http.get(environment.apiUrl + '/zaposlenici').pipe(
+    getZaposlenici(data?: any) {
+        return this.http.post(environment.apiUrl + '/zaposlenici', data ? {data: data} : null).pipe(
             map((res: any) => {
                 return res['data'];
             })

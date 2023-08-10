@@ -48,9 +48,11 @@ export class KorisniciDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.poduzeceService.getPoduzeceWithoutModerator().subscribe((data: any) => {
-      this.svaPoduzeca = data;
-    });
+    this.poduzeceService
+      .getPoduzeceWithoutModerator()
+      .subscribe((data: any) => {
+        this.svaPoduzeca = data;
+      });
 
     console.log(this.data);
 
@@ -135,7 +137,9 @@ export class KorisniciDialogComponent implements OnInit {
   onSave(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      this.form.controls['poduzeceCtrl'].setValue(this.poduzecaArray);
+      if (this.form.controls['UlogaKorisnikaID'].value == 2) {
+        this.form.controls['poduzeceCtrl'].setValue(this.poduzecaArray);
+      }
       this.korisnikService.onSaveKorisnik(this.form.getRawValue()).subscribe({
         next: (result) => {
           this.snackBar.open('Korisnik je uspješno spremljen', 'U redu', {

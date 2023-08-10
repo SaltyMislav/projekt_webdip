@@ -1,6 +1,18 @@
 <mat-card class="razmak">
   <mat-card-title>Zaposlenici</mat-card-title>
   <mat-card-content>
+    <div class="roditelj">
+      <div class="dijete">
+        <label for="filterPrezime">Prezime: </label>
+        <input type="text" [(ngModel)]="prezimeFilter" placeholder="Prezime: ">
+      </div>
+      <div class="dijete">
+        <button mat-raised-button color="primary" (click)="applyFilter()">
+          Filtriraj
+        </button>
+        <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+      </div>
+    </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="Ime">
         <th mat-header-cell *matHeaderCellDef>Ime</th>

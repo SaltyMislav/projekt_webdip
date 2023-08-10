@@ -10,8 +10,8 @@ export class NatjecajService {
 
   constructor(private http: HttpClient) { }
 
-  getAllNatjecaj() {
-    return this.http.get(environment.apiUrl + '/natjecaj').pipe(
+  getAllNatjecaj(data?: any) {
+    return this.http.post(environment.apiUrl + '/natjecaj', data ? {data: data} : null).pipe(
       map((res: any) => {
         return res['data'];
       })

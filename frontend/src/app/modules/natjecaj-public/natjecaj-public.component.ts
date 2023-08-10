@@ -17,7 +17,6 @@ export class NatjecajPublicComponent implements OnInit {
   dataSource: Natjecaj[] = [];
   natjecaji: Natjecaj[] = [];
   sortiraniNatjecaji: Natjecaj[] = [];
-  applyFilterNatjecaji: Natjecaj[] = [];
   displayedColumns: string[] = [
     'ID',
     'Naziv',
@@ -40,15 +39,14 @@ export class NatjecajPublicComponent implements OnInit {
     private natjecajService: NatjecajService,
     private cdref: ChangeDetectorRef,
     private konfiguracijaClass: KonfiguracijaClass
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getNatjecaj();
   }
 
-  getNatjecaj(): void {
-    this.natjecajService.getAllNatjecaj().subscribe({
+  getNatjecaj(data?: any): void {
+    this.natjecajService.getAllNatjecaj(data).subscribe({
       next: (data: Natjecaj[]) => {
         this.dataSource = this.natjecaji = data;
         this.ukupnoNatjecaja = data.length;
@@ -77,21 +75,13 @@ export class NatjecajPublicComponent implements OnInit {
       this.sortOrder = 'asc';
     }
 
-    if (this.sortOrder === '' && this.applyFilterNatjecaji.length === 0) {
-      this.updatePageData();
-      return;
-    } else if (this.sortOrder === '' && this.applyFilterNatjecaji.length > 0) {
-      this.updatePageData(false, false, true);
-      return;
-    }
-
-    const sortedData = this.applyFilterNatjecaji.length > 0 ? this.applyFilterNatjecaji.slice() : this.natjecaji.slice();
+    const sortedData = this.natjecaji.slice();
 
     sortedData.sort((a, b) => {
       const isAsc = this.sortOrder === 'asc';
       switch (column) {
         case 'ID':
-          return this.compare(+a.ID, +b.ID, isAsc);
+          return this.compare(a.ID, b.ID, isAsc);
         case 'Naziv':
           return this.compare(a.Naziv, b.Naziv, isAsc);
         case 'VrijemePocetka':
@@ -133,41 +123,47 @@ export class NatjecajPublicComponent implements OnInit {
     const fromDate = this.datumOd ? new Date(this.datumOd) : null;
     const toDate = this.datumDo ? new Date(this.datumDo) : null;
 
-    toDate?.setHours(25);
+    toDate?.setHours(23);
     toDate?.setMinutes(59);
     toDate?.setSeconds(59);
 
-    this.applyFilterNatjecaji = this.natjecaji.filter((row) => {
-      return (
-        (!fromDate || new Date(row.VrijemePocetka) >= fromDate) &&
-        (!toDate || new Date(row.VrijemeKraja) <= toDate)
+    if (fromDate == null || toDate == null) {
+      this.IndexStranice = 0;
+      this.getNatjecaj();
+    } else {
+      this.IndexStranice = 0;
+      const value = JSON.parse(
+        '{ "fromDate": "' +
+          this.toSqlDateString(fromDate) +
+          '", "toDate": "' +
+          this.toSqlDateString(toDate) +
+          '" }'
       );
-    });
+      this.getNatjecaj(value);
+    }
+  }
 
-    this.IndexStranice = 0;
-    this.ukupnoNatjecaja = this.applyFilterNatjecaji.length;
-    this.updatePageData(false, false, true);
+  toSqlDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = (date.getHours() - 2).toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
   clearFilter(): void {
     this.datumOd = '';
     this.datumDo = '';
-    this.dataSource = this.natjecaji;
-    this.ukupnoNatjecaja = this.dataSource.length;
     this.IndexStranice = 0;
-    this.updatePageData();
+    this.getNatjecaj();
   }
 
-  updatePageData(sort = false, sortiraniNatjecaji = false, applyFilter = false): void {
+  updatePageData(sort = false, sortiraniNatjecaji = false): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
-
-    if (applyFilter) {
-      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
-        endIndex = this.ukupnoNatjecaja;
-      this.dataSource = this.applyFilterNatjecaji.slice(startIndex, endIndex);
-      return;
-    }
 
     if (sort) {
       if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
@@ -177,7 +173,7 @@ export class NatjecajPublicComponent implements OnInit {
       return;
     }
 
-    if(sortiraniNatjecaji) {
+    if (sortiraniNatjecaji) {
       if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
         endIndex = this.ukupnoNatjecaja;
       this.dataSource = this.sortiraniNatjecaji.slice(startIndex, endIndex);
@@ -190,18 +186,18 @@ export class NatjecajPublicComponent implements OnInit {
   nextPage(): void {
     if (this.IndexStranice < this.ukupnoNatjecaja / this.stranicenje - 1) {
       this.IndexStranice++;
-      const sortiraniNatjecaji = this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.datumOd !== '' && this.datumDo !== '';
-      this.updatePageData(false, sortiraniNatjecaji, applyFilter);
+      const sortiraniNatjecaji =
+        this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiraniNatjecaji);
     }
   }
 
   previousPage(): void {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
-      const sortiraniNatjecaji = this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.datumOd !== '' && this.datumDo !== '';
-      this.updatePageData(false, sortiraniNatjecaji, applyFilter);
+      const sortiraniNatjecaji =
+        this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiraniNatjecaji);
     }
   }
 }

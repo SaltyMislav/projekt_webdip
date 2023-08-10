@@ -12,7 +12,6 @@ export class KorisniciPublicComponent implements OnInit {
   dataSource: Zaposlenik[] = [];
   zaposlenici: Zaposlenik[] = [];
   sortiraniZaposlenici: Zaposlenik[] = [];
-  applyFilterZaposlenici: Zaposlenik[] = [];
   displayedColumns: string[] = [
     'Ime',
     'Prezime',
@@ -37,10 +36,13 @@ export class KorisniciPublicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.korisniciService.getZaposlenici().subscribe({
+    this.zaposleniciGet();
+  }
+
+  zaposleniciGet(prezime?: any): void {
+    this.korisniciService.getZaposlenici(prezime).subscribe({
       next: (result) => {
         this.dataSource = this.zaposlenici = result;
-        console.log(result);
         this.ukupnoZaposlenika = result.length;
         this.stranicenje = this.konfiguracijaClass.stranicenje;
         this.updatePageData();
@@ -69,15 +71,7 @@ export class KorisniciPublicComponent implements OnInit {
       this.sortOrder = 'asc';
     }
 
-    if (this.sortOrder === '' && this.applyFilterZaposlenici.length === 0) {
-      this.updatePageData();
-      return;
-    } else if (this.sortOrder === '' && this.applyFilterZaposlenici.length > 0) {
-      this.updatePageData(false, false, true);
-      return;
-    }
-
-    const sortedData = this.applyFilterZaposlenici.length > 0 ? this.applyFilterZaposlenici : this.zaposlenici;
+    const sortedData = this.zaposlenici.slice();
 
     sortedData.sort((a: any, b: any) => {
       const isAsc = this.sortOrder === 'asc';
@@ -97,18 +91,12 @@ export class KorisniciPublicComponent implements OnInit {
     const prezime = this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '';
 
     if (prezime === '') {
-      this.dataSource = this.zaposlenici;
-      this.applyFilterZaposlenici = [];
       this.IndexStranice = 0;
-      this.updatePageData();
+      this.zaposleniciGet();
       return;
     } else {
-      this.applyFilterZaposlenici = this.zaposlenici.filter((zaposlenik) => {
-        return zaposlenik.Prezime.toLowerCase().includes(prezime);
-      });
       this.IndexStranice = 0;
-      this.ukupnoZaposlenika = this.applyFilterZaposlenici.length;
-      this.updatePageData(false, false, true);
+      this.zaposleniciGet(prezime);
     }
   }
 
@@ -116,11 +104,7 @@ export class KorisniciPublicComponent implements OnInit {
     this.prezimeFilter = '';
     this.sortColumn = '';
     this.sortOrder = '';
-    this.dataSource = this.zaposlenici;
-    this.applyFilterZaposlenici = [];
-    this.IndexStranice = 0;
-    this.ukupnoZaposlenika = this.zaposlenici.length;
-    this.updatePageData();
+    this.zaposleniciGet();
   }
   
   compare(a: string, b: string, isAsc: boolean): number {
@@ -129,18 +113,10 @@ export class KorisniciPublicComponent implements OnInit {
 
   updatePageData(
     sort = false,
-    sortiraniKorisnici = false,
-    applyFilter = false
+    sortiraniKorisnici = false
   ): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
-
-    if (applyFilter) {
-      if (this.IndexStranice >= this.ukupnoZaposlenika / this.stranicenje - 1)
-        endIndex = this.ukupnoZaposlenika;
-      this.dataSource = this.applyFilterZaposlenici.slice(startIndex, endIndex);
-      return;
-    }
 
     if (sort) {
       if (this.IndexStranice >= this.ukupnoZaposlenika / this.stranicenje - 1)
@@ -157,7 +133,6 @@ export class KorisniciPublicComponent implements OnInit {
     }
 
     this.dataSource = this.zaposlenici.slice(startIndex, endIndex);
-    console.log(this.dataSource);
   }
 
   nextPage(): void {
@@ -165,8 +140,7 @@ export class KorisniciPublicComponent implements OnInit {
       this.IndexStranice++;
       const sortiraniKorisnici =
         this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.prezimeFilter !== '';
-      this.updatePageData(false, sortiraniKorisnici, applyFilter);
+      this.updatePageData(false, sortiraniKorisnici);
     }
   }
 
@@ -175,8 +149,7 @@ export class KorisniciPublicComponent implements OnInit {
       this.IndexStranice--;
       const sortiraniKorisnici =
         this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.prezimeFilter !== '';
-      this.updatePageData(false, sortiraniKorisnici, applyFilter);
+      this.updatePageData(false, sortiraniKorisnici);
     }
   }
 }
