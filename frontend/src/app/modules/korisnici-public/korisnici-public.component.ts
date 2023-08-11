@@ -87,7 +87,9 @@ export class KorisniciPublicComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const prezime = this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '';
+    const prezime = this.prezimeFilter
+      ? this.prezimeFilter.trim().toLowerCase()
+      : '';
 
     if (prezime === '') {
       this.IndexStranice = 0;
@@ -105,15 +107,12 @@ export class KorisniciPublicComponent implements OnInit {
     this.sortOrder = '';
     this.zaposleniciGet();
   }
-  
+
   compare(a: string, b: string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  updatePageData(
-    sort = false,
-    sortiraniKorisnici = false
-  ): void {
+  updatePageData(sort = false, sortiraniKorisnici = false): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
 

@@ -7,33 +7,93 @@
     </button>
   </mat-card-title>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <div class="roditelj">
+      <div class="dijete">
+        <label for="filterPrezime">Naziv: </label>
+        <input type="text" [(ngModel)]="nazivFilter" placeholder="Naziv... " />
+      </div>
+      <div class="dijete">
+        <label for="filterPrezime">Opis: </label>
+        <input type="text" [(ngModel)]="opisFilter" placeholder="Opis... " />
+      </div>
+      <div class="dijete">
+        <button mat-raised-button color="primary" (click)="applyFilter()">
+          Filtriraj
+        </button>
+        <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ID">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <th mat-header-cell *matHeaderCellDef (click)="sortData('ID')">
+          ID
+          <mat-icon *ngIf="sortOrder === 'desc' && sortColumn === 'ID'"
+            >keyboard_arrow_down</mat-icon
+          >
+          <mat-icon *ngIf="sortOrder === 'asc' && sortColumn === 'ID'"
+            >keyboard_arrow_up</mat-icon
+          >
+        </th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.ID }}</td>
       </ng-container>
 
       <ng-container matColumnDef="Naziv">
-        <th mat-header-cell *matHeaderCellDef>Naziv</th>
+        <th mat-header-cell *matHeaderCellDef (click)="sortData('Naziv')">
+          Naziv
+          <mat-icon *ngIf="sortOrder === 'desc' && sortColumn === 'Naziv'"
+            >keyboard_arrow_down</mat-icon
+          >
+          <mat-icon *ngIf="sortOrder === 'asc' && sortColumn === 'Naziv'"
+            >keyboard_arrow_up</mat-icon
+          >
+        </th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.Naziv }}</td>
       </ng-container>
 
       <ng-container matColumnDef="RadnoVrijemeOd">
-        <th mat-header-cell *matHeaderCellDef>Početak</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Početak
+          <mat-icon
+            *ngIf="sortOrder === 'desc' && sortColumn === 'RadnoVrijemeOd'"
+            >keyboard_arrow_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortOrder === 'asc' && sortColumn === 'RadnoVrijemeOd'"
+            >keyboard_arrow_up</mat-icon
+          >
+        </th>
         <td mat-cell *matCellDef="let poduzece">
           {{ poduzece.RadnoVrijemeOd }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="RadnoVrijemeDo">
-        <th mat-header-cell *matHeaderCellDef>Kraj</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Kraj
+          <mat-icon
+            *ngIf="sortOrder === 'desc' && sortColumn === 'RadnoVrijemeDo'"
+            >keyboard_arrow_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortOrder === 'asc' && sortColumn === 'RadnoVrijemeDo'"
+            >keyboard_arrow_up</mat-icon
+          >
+        </th>
         <td mat-cell *matCellDef="let poduzece">
           {{ poduzece.RadnoVrijemeDo }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="Opis">
-        <th mat-header-cell *matHeaderCellDef>Opis</th>
+        <th mat-header-cell *matHeaderCellDef (click)="sortData('Opis')">
+          Opis
+          <mat-icon *ngIf="sortOrder === 'desc' && sortColumn === 'Opis'"
+            >keyboard_arrow_down</mat-icon
+          >
+          <mat-icon *ngIf="sortOrder === 'asc' && sortColumn === 'Opis'"
+            >keyboard_arrow_up</mat-icon
+          >
+        </th>
         <td mat-cell *matCellDef="let poduzece">{{ poduzece.Opis }}</td>
       </ng-container>
 
@@ -43,14 +103,48 @@
         (click)="onDodaj(row)"
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="8"><h3>Nema podataka!!!!</h3></td>
+      </tr>
     </table>
-
-    <mat-paginator
-      [length]="this.counter"
-      [pageSize]="this.stranicenje"
-      showFirstLastButtons
-      aria-label="Select page of periodic elements"
-    >
-    </mat-paginator>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <span><strong>Broj podataka po stranici:</strong> {{ stranicenje }}</span>
+    <span
+      ><strong>Stranica:</strong> {{ IndexStranice + 1 }} /
+      {{ mathCeil(ukupnoZapisa, stranicenje) }}</span
+    >
+    <button
+      mat-button
+      (click)="IndexStranice = 0; sortOrder = ''; updatePageData()"
+      [disabled]="IndexStranice === 0"
+    >
+      <mat-icon>first_page</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="previousPage()"
+      [disabled]="IndexStranice === 0"
+    >
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="nextPage()"
+      [disabled]="IndexStranice >= ukupnoZapisa / stranicenje - 1"
+    >
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="
+        IndexStranice = mathCeil(ukupnoZapisa, stranicenje) - 1;
+        sortOrder = '';
+        updatePageData()
+      "
+      [disabled]="IndexStranice >= ukupnoZapisa / stranicenje - 1"
+    >
+      <mat-icon>last_page</mat-icon>
+    </button>
+  </mat-card-actions>
 </mat-card>

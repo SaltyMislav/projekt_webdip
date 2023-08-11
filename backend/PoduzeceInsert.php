@@ -1,7 +1,5 @@
 <?php
 
-//TODO - dodati moderatore na poduzece i automatska promjena statusa korisnika na 2
-
 require 'connection.php';
 
 $postData = file_get_contents("php://input");

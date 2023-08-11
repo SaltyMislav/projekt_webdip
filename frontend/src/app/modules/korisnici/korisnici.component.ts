@@ -14,7 +14,6 @@ export class KorisniciComponent implements OnInit {
   dataSource: Korisnik[] = [];
   korisnici: Korisnik[] = [];
   sortiraniKorisnici: Korisnik[] = [];
-  applyFilterKorisnici: Korisnik[] = [];
   displayedColumns: string[] = [
     'ID',
     'Ime',
@@ -26,7 +25,7 @@ export class KorisniciComponent implements OnInit {
     'Blokiran',
   ];
   stranicenje!: number;
-  ukupnoNatjecaja = 0;
+  ukupnoKorisnika = 0;
   IndexStranice = 0;
 
   ulogaFilter = '';
@@ -48,11 +47,11 @@ export class KorisniciComponent implements OnInit {
     this.getKorisnici();
   }
 
-  getKorisnici() {
-    this.korisniciService.getAllKorisnici().subscribe({
+  getKorisnici(data?: any) {
+    this.korisniciService.getAllKorisnici(data).subscribe({
       next: (response) => {
         this.dataSource = this.korisnici = response;
-        this.ukupnoNatjecaja = response.length;
+        this.ukupnoKorisnika = response.length;
         this.stranicenje = this.konfiguracijaClass.stranicenje;
         this.updatePageData();
         this.cdref.detectChanges();
@@ -80,18 +79,11 @@ export class KorisniciComponent implements OnInit {
       this.sortOrder = 'asc';
     }
 
-    if (this.sortOrder === '' && this.applyFilterKorisnici.length === 0) {
-      this.updatePageData();
-      return;
-    } else if (this.sortOrder === '' && this.applyFilterKorisnici.length > 0) {
-      this.updatePageData(false, false, true);
-      return;
-    }
-
-    const sortedData = this.applyFilterKorisnici.length > 0 ? this.applyFilterKorisnici.slice() : this.korisnici.slice();
+    const sortedData = this.korisnici.slice();
 
     sortedData.sort((a, b) => {
-      const isAsc = this.sortOrder === 'asc';
+      const isAsc =
+        this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
       switch (column) {
         case 'ID':
           return this.compare(a.ID, b.ID, isAsc);
@@ -126,39 +118,19 @@ export class KorisniciComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const uloga = this.ulogaFilter ? this.ulogaFilter.trim().toLowerCase() : '';
-    const email = this.emailFilter ? this.emailFilter.trim().toLowerCase() : '';
+    const data = {
+      UlogaKorisnikaNaziv: this.ulogaFilter.trim(),
+      Email: this.emailFilter.trim(),
+    };
 
-    if (uloga === '' && email === '') {
-      this.dataSource = this.korisnici;
-      this.applyFilterKorisnici = [];
+    if(data.UlogaKorisnikaNaziv === '' && data.Email === '') {
       this.IndexStranice = 0;
-      this.updatePageData();
-    } else if (uloga !== '' && email === '') {
-      this.applyFilterKorisnici = this.korisnici.filter((korisnik) => {
-        return korisnik.UlogaKorisnikaNaziv.toLowerCase().includes(uloga);
-      });
-      this.IndexStranice = 0;
-      this.ukupnoNatjecaja = this.applyFilterKorisnici.length;
-      this.updatePageData(false, false, true);
-    } else if (uloga === '' && email !== '') {
-      this.applyFilterKorisnici = this.korisnici.filter((korisnik) => {
-        return korisnik.Email.toLowerCase().includes(email);
-      });
-      this.IndexStranice = 0;
-      this.ukupnoNatjecaja = this.applyFilterKorisnici.length;
-      this.updatePageData(false, false, true);
-    } else {
-      this.applyFilterKorisnici = this.korisnici.filter((korisnik) => {
-        return (
-          korisnik.UlogaKorisnikaNaziv.toLowerCase().includes(uloga) &&
-          korisnik.Email.toLowerCase().includes(email)
-        );
-      });
-      this.IndexStranice = 0;
-      this.ukupnoNatjecaja = this.applyFilterKorisnici.length;
-      this.updatePageData(false, false, true);
+      this.getKorisnici();
+      return;
     }
+
+    this.IndexStranice = 0;
+    this.getKorisnici(data);
   }
 
   clearFilter(): void {
@@ -166,10 +138,6 @@ export class KorisniciComponent implements OnInit {
     this.emailFilter = '';
     this.sortColumn = '';
     this.sortOrder = '';
-    this.applyFilterKorisnici = [];
-    this.dataSource = this.korisnici;
-    this.ukupnoNatjecaja = this.dataSource.length;
-    this.IndexStranice = 0;
     this.updatePageData();
   }
 
@@ -185,31 +153,20 @@ export class KorisniciComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  updatePageData(
-    sort = false,
-    sortiraniKorisnici = false,
-    applyFilter = false
-  ): void {
+  updatePageData(sort = false, sortiraniKorisnici = false): void {
     const startIndex = this.IndexStranice * this.stranicenje;
     let endIndex = startIndex + this.stranicenje;
 
-    if (applyFilter) {
-      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
-        endIndex = this.ukupnoNatjecaja;
-      this.dataSource = this.applyFilterKorisnici.slice(startIndex, endIndex);
-      return;
-    }
-
     if (sort) {
-      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
-        endIndex = this.ukupnoNatjecaja;
+      if (this.IndexStranice >= this.ukupnoKorisnika / this.stranicenje - 1)
+        endIndex = this.ukupnoKorisnika;
       this.dataSource = this.dataSource.slice(startIndex, endIndex);
       return;
     }
 
     if (sortiraniKorisnici) {
-      if (this.IndexStranice >= this.ukupnoNatjecaja / this.stranicenje - 1)
-        endIndex = this.ukupnoNatjecaja;
+      if (this.IndexStranice >= this.ukupnoKorisnika / this.stranicenje - 1)
+        endIndex = this.ukupnoKorisnika;
       this.dataSource = this.sortiraniKorisnici.slice(startIndex, endIndex);
       return;
     }
@@ -218,12 +175,11 @@ export class KorisniciComponent implements OnInit {
   }
 
   nextPage(): void {
-    if (this.IndexStranice < this.ukupnoNatjecaja / this.stranicenje - 1) {
+    if (this.IndexStranice < this.ukupnoKorisnika / this.stranicenje - 1) {
       this.IndexStranice++;
       const sortiraniKorisnici =
         this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.emailFilter !== '' || this.ulogaFilter !== '';
-      this.updatePageData(false, sortiraniKorisnici, applyFilter);
+      this.updatePageData(false, sortiraniKorisnici);
     }
   }
 
@@ -232,8 +188,7 @@ export class KorisniciComponent implements OnInit {
       this.IndexStranice--;
       const sortiraniKorisnici =
         this.sortColumn !== '' && this.sortOrder !== '';
-      const applyFilter = this.emailFilter !== '' || this.ulogaFilter !== '';
-      this.updatePageData(false, sortiraniKorisnici, applyFilter);
+      this.updatePageData(false, sortiraniKorisnici);
     }
   }
 

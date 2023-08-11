@@ -9,8 +9,8 @@ import { environment } from "src/environments/environment";
 export class KorisniciService {
     constructor(private http: HttpClient) {}
 
-    getAllKorisnici() {
-        return this.http.get(environment.apiUrl + '/korisnici').pipe(
+    getAllKorisnici(data?: any) {
+        return this.http.post(environment.apiUrl + '/korisnici', data ? {data: data} : null).pipe(
             map((res: any) => {
                 return res['data'];
             })

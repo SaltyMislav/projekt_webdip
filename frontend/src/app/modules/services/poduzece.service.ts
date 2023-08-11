@@ -10,8 +10,8 @@ import { Poduzece } from 'src/app/interfaces/interfaces';
 export class PoduzeceService {
   constructor(private http: HttpClient) {}
 
-  getAllPoduzece() {
-    return this.http.get(environment.apiUrl + '/poduzece').pipe(
+  getAllPoduzece(data?: any) {
+    return this.http.post(environment.apiUrl + '/poduzece', data ? {data: data} : null).pipe(
       map((res: any) => {
         return res['data'];
       })

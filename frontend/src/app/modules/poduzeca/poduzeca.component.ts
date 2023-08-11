@@ -1,16 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
+  OnInit
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { Poduzece } from '../../interfaces/interfaces';
 import { PoduzeceDialogComponent } from '../poduzece-dialog/poduzece-dialog.component';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
@@ -22,10 +16,10 @@ import { PoduzeceService } from '../services/poduzece.service';
   styleUrls: ['./poduzeca.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PoduzecaComponent implements OnInit, AfterViewInit {
-  dataSource!: MatTableDataSource<Poduzece>;
-  poduzece: Poduzece[] = [];
-
+export class PoduzecaComponent implements OnInit {
+  dataSource: Poduzece[] = [];
+  poduzeca: Poduzece[] = [];
+  sortiranaPoduzeca: Poduzece[] = [];
   displayedColumns: string[] = [
     'ID',
     'Naziv',
@@ -34,12 +28,15 @@ export class PoduzecaComponent implements OnInit, AfterViewInit {
     'RadnoVrijemeDo',
   ];
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   stranicenje!: number;
+  ukupnoZapisa!: number;
+  IndexStranice = 0;
 
-  counter = 0;
+  sortColumn = '';
+  sortOrder: 'asc' | 'desc' | '' = '';
+
+  nazivFilter = '';
+  opisFilter = '';
 
   constructor(
     private poduzeceService: PoduzeceService,
@@ -51,27 +48,122 @@ export class PoduzecaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getPoduzece();
   }
 
-  getPoduzece(): void {
-    this.poduzeceService.getAllPoduzece().subscribe({
+  getPoduzece(data?: any): void {
+    this.poduzeceService.getAllPoduzece(data).subscribe({
       next: (data: Poduzece[]) => {
-        data.forEach((element) => {
-          this.counter++;
-        });
-        this.poduzece = data;
-        this.dataSource = new MatTableDataSource(this.poduzece);
+        this.dataSource = this.poduzeca = data;
+        this.ukupnoZapisa = data.length;
+        this.stranicenje = this.konfiguracijaClass.stranicenje;
+        this.updatePageData();
         this.cdref.detectChanges();
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
       },
       error: (error) => console.log(error),
     });
   }
 
-  ngAfterViewInit(): void {
+  applyFilter(): void {
+    const data = {
+      Naziv: this.nazivFilter.trim(),
+      Opis: this.opisFilter.trim(),
+    };
+
+    if (data.Naziv === '' && data.Opis === '') {
+      this.IndexStranice = 0;
+      this.getPoduzece();
+      return;
+    }
+    this.IndexStranice = 0;
+    this.getPoduzece(data);
+  }
+
+  clearFilter(): void {
+    this.nazivFilter = '';
+    this.opisFilter = '';
     this.getPoduzece();
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+  }
+
+  mathCeil(value: number, number: number): number {
+    return Math.ceil(value / number);
+  }
+
+  sortData(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortOrder =
+        this.sortOrder === 'asc'
+          ? 'desc'
+          : this.sortOrder === 'desc'
+          ? ''
+          : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortOrder = 'asc';
+    }
+
+    const sortedData = this.poduzeca.slice();
+
+    sortedData.sort((a: any, b: any) => {
+      const isAsc = this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
+      switch (column) {
+        case 'ID':
+          return this.compare(a.ID, b.ID, isAsc);
+        case 'Naziv':
+          return this.compare(a.Naziv, b.Naziv, isAsc);
+        case 'Opis':
+          return this.compare(a.Opis, b.Opis, isAsc);
+        default:
+          return 0;
+      }
+    });
+    this.dataSource = this.sortiranaPoduzeca = sortedData;
+    this.updatePageData(true);
+  }
+
+  compare(
+    a: string | number,
+    b: string | number,
+    isAsc: boolean
+  ): number {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  updatePageData(sort = false, sortiranaPoduzeca = false): void {
+    const startIndex = this.IndexStranice * this.stranicenje;
+    let endIdex = startIndex + this.stranicenje;
+
+    if (sort) {
+      if (this.IndexStranice >= this.ukupnoZapisa / this.stranicenje - 1)
+        endIdex = this.ukupnoZapisa;
+      this.dataSource = this.dataSource.slice(startIndex, endIdex);
+      return;
+    }
+
+    if (sortiranaPoduzeca) {
+      if (this.IndexStranice >= this.ukupnoZapisa / this.stranicenje - 1)
+        endIdex = this.ukupnoZapisa;
+      this.dataSource = this.sortiranaPoduzeca.slice(startIndex, endIdex);
+      return;
+    }
+
+    this.dataSource = this.poduzeca.slice(startIndex, endIdex);
+  }
+
+  nextPage(): void {
+    if (this.IndexStranice < this.ukupnoZapisa / this.stranicenje - 1){
+      this.IndexStranice++;
+      const sortiranaPoduzeca = this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiranaPoduzeca);
+    }
+  }
+
+  previousPage(): void {
+    if (this.IndexStranice > 0) {
+      this.IndexStranice--;
+      const sortiranaPoduzeca = this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiranaPoduzeca);
+    }
   }
 
   onDodaj(row?: any): void {

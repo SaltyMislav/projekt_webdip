@@ -78,7 +78,7 @@ export class NatjecajPublicComponent implements OnInit {
     const sortedData = this.natjecaji.slice();
 
     sortedData.sort((a, b) => {
-      const isAsc = this.sortOrder === 'asc';
+      const isAsc = this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
       switch (column) {
         case 'ID':
           return this.compare(a.ID, b.ID, isAsc);

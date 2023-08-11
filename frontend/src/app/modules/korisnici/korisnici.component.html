@@ -157,7 +157,7 @@
     <span><strong>Broj podataka po stranici:</strong> {{ stranicenje }}</span>
     <span
       ><strong>Stranica:</strong> {{ IndexStranice + 1 }} /
-      {{ mathCeil(ukupnoNatjecaja, stranicenje) }}</span
+      {{ mathCeil(ukupnoKorisnika, stranicenje) }}</span
     >
     <button
       mat-button
@@ -176,18 +176,18 @@
     <button
       mat-button
       (click)="nextPage()"
-      [disabled]="IndexStranice >= ukupnoNatjecaja / stranicenje - 1"
+      [disabled]="IndexStranice >= ukupnoKorisnika / stranicenje - 1"
     >
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
     <button
       mat-button
       (click)="
-        IndexStranice = mathCeil(ukupnoNatjecaja, stranicenje) - 1;
+        IndexStranice = mathCeil(ukupnoKorisnika, stranicenje) - 1;
         sortOrder = '';
         updatePageData()
       "
-      [disabled]="IndexStranice >= ukupnoNatjecaja / stranicenje - 1"
+      [disabled]="IndexStranice >= ukupnoKorisnika / stranicenje - 1"
     >
       <mat-icon>last_page</mat-icon>
     </button>

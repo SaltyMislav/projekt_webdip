@@ -2,11 +2,23 @@
   margin: 10px;
 }
 
-mat-card-title {
-  display: inline-flex;
-  justify-content: space-between;
+mat-card-actions > span {
+  margin: 0 5px;
+}
+
+.roditelj {
+  display: flex;
   align-items: center;
-  margin: 10px;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.roditelj > .dijete {
+  margin: 5px;
+}
+.roditelj > .dijete > button {
+  margin: 0px 5px;
 }
 
 .mat-mdc-header-row .mat-mdc-header-cell {
@@ -27,6 +39,9 @@ mat-card-title {
   background-color: rgba(16, 149, 193, 0.2);
 }
 
-mat-card-actions > span {
-  margin: 0 5px;
+mat-card-title {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
 }
