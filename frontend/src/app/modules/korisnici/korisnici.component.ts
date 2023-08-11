@@ -32,6 +32,7 @@ export class KorisniciComponent implements OnInit {
 
   sortColumn = '';
   sortOrder: 'asc' | 'desc' | '' = '';
+  counter = 0;
 
   constructor(
     private korisniciService: KorisniciService,
@@ -67,6 +68,7 @@ export class KorisniciComponent implements OnInit {
 
   sortData(column: string): void {
     if (this.sortColumn === column) {
+      this.counter++;
       this.sortOrder =
         this.sortOrder === 'asc'
           ? 'desc'
@@ -76,36 +78,45 @@ export class KorisniciComponent implements OnInit {
     } else {
       this.sortColumn = column;
       this.sortOrder = 'asc';
+      this.counter++;
     }
 
     const sortedData = this.korisnici.slice();
 
-    sortedData.sort((a, b) => {
-      const isAsc =
-        this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
-      switch (column) {
-        case 'ID':
-          return this.compare(a.ID, b.ID, isAsc);
-        case 'Ime':
-          return this.compare(a.Ime, b.Ime, isAsc);
-        case 'Prezime':
-          return this.compare(a.Prezime, b.Prezime, isAsc);
-        case 'Email':
-          return this.compare(a.Email, b.Email, isAsc);
-        case 'UlogaKorisnikaNaziv':
-          return this.compare(
-            a.UlogaKorisnikaNaziv,
-            b.UlogaKorisnikaNaziv,
-            isAsc
-          );
-        case 'Active':
-          return this.compare(a.Active, b.Active, isAsc);
-        case 'Blokiran':
-          return this.compare(a.Blokiran, b.Blokiran, isAsc);
-        default:
-          return 0;
-      }
-    });
+    if (this.counter % 3 === 0) {
+      this.counter = 0;
+    } else {
+      sortedData.sort((a, b) => {
+        const isAsc =
+          this.sortOrder === 'asc'
+            ? true
+            : this.sortOrder === ''
+            ? true
+            : false;
+        switch (column) {
+          case 'ID':
+            return this.compare(a.ID, b.ID, isAsc);
+          case 'Ime':
+            return this.compare(a.Ime, b.Ime, isAsc);
+          case 'Prezime':
+            return this.compare(a.Prezime, b.Prezime, isAsc);
+          case 'Email':
+            return this.compare(a.Email, b.Email, isAsc);
+          case 'UlogaKorisnikaNaziv':
+            return this.compare(
+              a.UlogaKorisnikaNaziv,
+              b.UlogaKorisnikaNaziv,
+              isAsc
+            );
+          case 'Active':
+            return this.compare(a.Active, b.Active, isAsc);
+          case 'Blokiran':
+            return this.compare(a.Blokiran, b.Blokiran, isAsc);
+          default:
+            return 0;
+        }
+      });
+    }
     this.dataSource = this.sortiraniKorisnici = sortedData;
     this.updatePageData(true);
   }
@@ -116,7 +127,7 @@ export class KorisniciComponent implements OnInit {
       Email: this.emailFilter.trim(),
     };
 
-    if(data.UlogaKorisnikaNaziv === '' && data.Email === '') {
+    if (data.UlogaKorisnikaNaziv === '' && data.Email === '') {
       this.IndexStranice = 0;
       this.getKorisnici();
       return;

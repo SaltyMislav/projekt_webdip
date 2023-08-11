@@ -31,9 +31,14 @@ export interface Zaposlenik {
   ID: number;
   Ime: string;
   Prezime: string;
-  KorisnickoIme: string;
   PoduzeceID: number;
   PoduzeceNaziv: string;
+}
+
+export interface ZaposlenikPrivatno extends Zaposlenik {
+  BrojDolazakaNaPosao: number;
+  BrojOdradenihZadataka: number;
+  BrojNeodradenihZadataka: number;
 }
 
 export interface Korisnik {

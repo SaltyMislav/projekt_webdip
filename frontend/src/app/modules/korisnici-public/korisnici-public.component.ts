@@ -12,12 +12,7 @@ export class KorisniciPublicComponent implements OnInit {
   dataSource: Zaposlenik[] = [];
   zaposlenici: Zaposlenik[] = [];
   sortiraniZaposlenici: Zaposlenik[] = [];
-  displayedColumns: string[] = [
-    'Ime',
-    'Prezime',
-    'KorisnickoIme',
-    'PoduzeceNaziv',
-  ];
+  displayedColumns: string[] = ['Ime', 'Prezime', 'PoduzeceNaziv'];
   stranicenje!: number;
   ukupnoZaposlenika = 0;
   IndexStranice = 0;
@@ -26,6 +21,8 @@ export class KorisniciPublicComponent implements OnInit {
 
   sortColumn = '';
   sortOrder: 'asc' | 'desc' | '' = '';
+
+  counter = 0;
 
   constructor(
     private korisniciService: KorisniciService,
@@ -60,6 +57,7 @@ export class KorisniciPublicComponent implements OnInit {
 
   sortData(column: string): void {
     if (this.sortColumn === column) {
+      this.counter++;
       this.sortOrder =
         this.sortOrder === 'asc'
           ? 'desc'
@@ -69,19 +67,30 @@ export class KorisniciPublicComponent implements OnInit {
     } else {
       this.sortColumn = column;
       this.sortOrder = 'asc';
+      this.counter++;
     }
 
     const sortedData = this.zaposlenici.slice();
 
-    sortedData.sort((a: any, b: any) => {
-      const isAsc = this.sortOrder === 'asc';
-      switch (column) {
-        case 'Prezime':
-          return this.compare(a.Prezime, b.Prezime, isAsc);
-        default:
-          return 0;
-      }
-    });
+    if (this.counter % 3 === 0) {
+      this.counter = 0;
+    } else {
+      sortedData.sort((a: any, b: any) => {
+        const isAsc =
+          this.sortOrder === 'asc'
+            ? true
+            : this.sortOrder === ''
+            ? true
+            : false;
+        switch (column) {
+          case 'Prezime':
+            return this.compare(a.Prezime, b.Prezime, isAsc);
+          default:
+            return 0;
+        }
+      });
+    }
+
     this.dataSource = this.sortiraniZaposlenici = sortedData;
     this.updatePageData(true);
   }

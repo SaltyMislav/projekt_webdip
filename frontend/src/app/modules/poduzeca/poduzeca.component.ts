@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Poduzece } from '../../interfaces/interfaces';
@@ -37,6 +37,8 @@ export class PoduzecaComponent implements OnInit {
 
   nazivFilter = '';
   opisFilter = '';
+
+  counter = 0;
 
   constructor(
     private poduzeceService: PoduzeceService,
@@ -91,6 +93,7 @@ export class PoduzecaComponent implements OnInit {
 
   sortData(column: string): void {
     if (this.sortColumn === column) {
+      this.counter++;
       this.sortOrder =
         this.sortOrder === 'asc'
           ? 'desc'
@@ -100,32 +103,38 @@ export class PoduzecaComponent implements OnInit {
     } else {
       this.sortColumn = column;
       this.sortOrder = 'asc';
+      this.counter++;
     }
 
     const sortedData = this.poduzeca.slice();
 
-    sortedData.sort((a: any, b: any) => {
-      const isAsc = this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
-      switch (column) {
-        case 'ID':
-          return this.compare(a.ID, b.ID, isAsc);
-        case 'Naziv':
-          return this.compare(a.Naziv, b.Naziv, isAsc);
-        case 'Opis':
-          return this.compare(a.Opis, b.Opis, isAsc);
-        default:
-          return 0;
-      }
-    });
+    if (this.counter % 3 === 0) {
+      this.counter = 0;
+    } else {
+      sortedData.sort((a: any, b: any) => {
+        const isAsc =
+          this.sortOrder === 'asc'
+            ? true
+            : this.sortOrder === ''
+            ? true
+            : false;
+        switch (column) {
+          case 'ID':
+            return this.compare(a.ID, b.ID, isAsc);
+          case 'Naziv':
+            return this.compare(a.Naziv, b.Naziv, isAsc);
+          case 'Opis':
+            return this.compare(a.Opis, b.Opis, isAsc);
+          default:
+            return 0;
+        }
+      });
+    }
     this.dataSource = this.sortiranaPoduzeca = sortedData;
     this.updatePageData(true);
   }
 
-  compare(
-    a: string | number,
-    b: string | number,
-    isAsc: boolean
-  ): number {
+  compare(a: string | number, b: string | number, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -151,7 +160,7 @@ export class PoduzecaComponent implements OnInit {
   }
 
   nextPage(): void {
-    if (this.IndexStranice < this.ukupnoZapisa / this.stranicenje - 1){
+    if (this.IndexStranice < this.ukupnoZapisa / this.stranicenje - 1) {
       this.IndexStranice++;
       const sortiranaPoduzeca = this.sortColumn !== '' && this.sortOrder !== '';
       this.updatePageData(false, sortiranaPoduzeca);

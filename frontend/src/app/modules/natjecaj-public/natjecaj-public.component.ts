@@ -35,6 +35,8 @@ export class NatjecajPublicComponent implements OnInit {
   sortColumn = '';
   sortOrder: 'asc' | 'desc' | '' = '';
 
+  counter = 0;
+
   constructor(
     private natjecajService: NatjecajService,
     private cdref: ChangeDetectorRef,
@@ -64,6 +66,7 @@ export class NatjecajPublicComponent implements OnInit {
 
   sortData(column: string): void {
     if (this.sortColumn === column) {
+      this.counter++;
       this.sortOrder =
         this.sortOrder === 'asc'
           ? 'desc'
@@ -73,37 +76,47 @@ export class NatjecajPublicComponent implements OnInit {
     } else {
       this.sortColumn = column;
       this.sortOrder = 'asc';
+      this.counter++;
     }
 
     const sortedData = this.natjecaji.slice();
 
-    sortedData.sort((a, b) => {
-      const isAsc = this.sortOrder === 'asc' ? true : this.sortOrder === '' ? true : false;
-      switch (column) {
-        case 'ID':
-          return this.compare(a.ID, b.ID, isAsc);
-        case 'Naziv':
-          return this.compare(a.Naziv, b.Naziv, isAsc);
-        case 'VrijemePocetka':
-          return this.compare(
-            new Date(a.VrijemePocetka),
-            new Date(b.VrijemePocetka),
-            isAsc
-          );
-        case 'VrijemeKraja':
-          return this.compare(
-            new Date(a.VrijemeKraja),
-            new Date(b.VrijemeKraja),
-            isAsc
-          );
-        case 'StatusNatjecajaNaziv':
-          return this.compare(a.VrstaStatusa, b.VrstaStatusa, isAsc);
-        case 'PoduzeceNaziv':
-          return this.compare(a.NazivPoduzeca, b.NazivPoduzeca, isAsc);
-        default:
-          return 0;
-      }
-    });
+    if (this.counter % 3 === 0) {
+      this.counter = 0;
+    } else {
+      sortedData.sort((a, b) => {
+        const isAsc =
+          this.sortOrder === 'asc'
+            ? true
+            : this.sortOrder === ''
+            ? true
+            : false;
+        switch (column) {
+          case 'ID':
+            return this.compare(a.ID, b.ID, isAsc);
+          case 'Naziv':
+            return this.compare(a.Naziv, b.Naziv, isAsc);
+          case 'VrijemePocetka':
+            return this.compare(
+              new Date(a.VrijemePocetka),
+              new Date(b.VrijemePocetka),
+              isAsc
+            );
+          case 'VrijemeKraja':
+            return this.compare(
+              new Date(a.VrijemeKraja),
+              new Date(b.VrijemeKraja),
+              isAsc
+            );
+          case 'StatusNatjecajaNaziv':
+            return this.compare(a.VrstaStatusa, b.VrstaStatusa, isAsc);
+          case 'PoduzeceNaziv':
+            return this.compare(a.NazivPoduzeca, b.NazivPoduzeca, isAsc);
+          default:
+            return 0;
+        }
+      });
+    }
     this.dataSource = this.sortiraniNatjecaji = sortedData;
     this.updatePageData(true);
   }

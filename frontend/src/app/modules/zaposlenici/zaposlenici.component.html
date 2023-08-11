@@ -1,1 +1,197 @@
-<p>zaposlenici works!</p>
+<mat-card class="razmak">
+  <mat-card-title>Statistika zaposlenika</mat-card-title>
+  <mat-card-content>
+    <div class="roditelj">
+      <div class="dijete">
+        <label for="filterIme">Ime: </label>
+        <input type="text" [(ngModel)]="imeFilter" placeholder="Ime: " />
+      </div>
+      <div class="dijete">
+        <label for="filterPrezime">Prezime: </label>
+        <input
+          type="text"
+          [(ngModel)]="prezimeFilter"
+          placeholder="Prezime: "
+        />
+      </div>
+      <div class="dijete">
+        <button mat-raised-button color="primary" (click)="applyFilter()">
+          Filtriraj
+        </button>
+        <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="Ime">
+        <th mat-header-cell *matHeaderCellDef (click)="sortData('Ime')">
+          Ime
+          <mat-icon
+            *ngIf="sortColumn == 'Ime' && sortOrder === 'desc'"
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortColumn == 'Ime' && sortOrder === 'asc'"
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.Ime }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Prezime">
+        <th mat-header-cell *matHeaderCellDef (click)="sortData('Prezime')">
+          Prezime
+          <mat-icon
+            *ngIf="sortColumn == 'Prezime' && sortOrder === 'desc'"
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortColumn == 'Prezime' && sortOrder === 'asc'"
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.Prezime }}</td>
+      </ng-container>
+      <ng-container matColumnDef="PoduzeceNaziv">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          (click)="sortData('PoduzeceNaziv')"
+        >
+          Poduzeće
+          <mat-icon
+            *ngIf="sortColumn == 'PoduzeceNaziv' && sortOrder === 'desc'"
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortColumn == 'PoduzeceNaziv' && sortOrder === 'asc'"
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.PoduzeceNaziv }}</td>
+      </ng-container>
+      <ng-container matColumnDef="BrojDolazakaNaPosao" *ngIf="this.authService.isAdmin()">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          (click)="sortData('BrojDolazakaNaPosao')"
+        >
+          Dolasci
+          <mat-icon
+            *ngIf="sortColumn == 'BrojDolazakaNaPosao' && sortOrder === 'desc'"
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortColumn == 'BrojDolazakaNaPosao' && sortOrder === 'asc'"
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.BrojDolazakaNaPosao }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="BrojOdradenihZadataka">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          (click)="sortData('BrojOdradenihZadataka')"
+        >
+          Odrađeno
+          <mat-icon
+            *ngIf="
+              sortColumn == 'BrojOdradenihZadataka' && sortOrder === 'desc'
+            "
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="sortColumn == 'BrojOdradenihZadataka' && sortOrder === 'asc'"
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.BrojOdradenihZadataka }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="BrojNeodradenihZadataka">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          (click)="sortData('BrojNeodradenihZadataka')"
+        >
+          Neodrađeno
+          <mat-icon
+            *ngIf="
+              sortColumn == 'BrojNeodradenihZadataka' && sortOrder === 'desc'
+            "
+            class="sort-icon"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            *ngIf="
+              sortColumn == 'BrojNeodradenihZadataka' && sortOrder === 'asc'
+            "
+            class="sort-icon"
+            >arrow_drop_up</mat-icon
+          >
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.BrojNeodradenihZadataka }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="6"><h3>Nema podataka!!!!</h3></td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <span><strong>Broj podataka po stranici:</strong> {{ stranicenje }}</span>
+    <span
+      ><strong>Stranica:</strong> {{ IndexStranice + 1 }} /
+      {{ mathCeil(ukupnoZaposlenika, stranicenje) }}</span
+    >
+    <button
+      mat-button
+      (click)="IndexStranice = 0; sortOrder = ''; updatePageData()"
+      [disabled]="IndexStranice === 0"
+    >
+      <mat-icon>first_page</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="previousPage()"
+      [disabled]="IndexStranice === 0"
+    >
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="nextPage()"
+      [disabled]="IndexStranice >= ukupnoZaposlenika / stranicenje - 1"
+    >
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <button
+      mat-button
+      (click)="
+        IndexStranice = mathCeil(ukupnoZaposlenika, stranicenje) - 1;
+        sortOrder = '';
+        updatePageData()
+      "
+      [disabled]="IndexStranice >= ukupnoZaposlenika / stranicenje - 1"
+    >
+      <mat-icon>last_page</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
