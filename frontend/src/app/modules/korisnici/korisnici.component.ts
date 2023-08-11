@@ -20,7 +20,6 @@ export class KorisniciComponent implements OnInit {
     'Prezime',
     'Email',
     'UlogaKorisnikaNaziv',
-    'BrojDolazakaNaPosao',
     'Active',
     'Blokiran',
   ];
@@ -97,12 +96,6 @@ export class KorisniciComponent implements OnInit {
           return this.compare(
             a.UlogaKorisnikaNaziv,
             b.UlogaKorisnikaNaziv,
-            isAsc
-          );
-        case 'BrojDolazakaNaPosao':
-          return this.compare(
-            a.BrojDolazakaNaPosao,
-            b.BrojDolazakaNaPosao,
             isAsc
           );
         case 'Active':
