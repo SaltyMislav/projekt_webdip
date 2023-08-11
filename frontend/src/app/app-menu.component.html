@@ -12,6 +12,9 @@
       <li class="elementi" *ngIf="this.authService.isUser()">
         <a routerLink="/dolazak-na-posao">Dolazak na posao</a>
       </li>
+      <li class="elementi" *ngIf="this.authService.isModerator()">
+        <a routerLink="/zaposlenici">Zaposlenici</a>
+      </li>
       <li class="elementi">
         <a>ERA model</a>
       </li>

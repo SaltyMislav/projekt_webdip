@@ -57,6 +57,7 @@ import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/k
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ZaboravljenaLozinkaComponent,
     KonfiguracijaComponent,
     KorisniciDialogComponent,
+    ZaposleniciComponent,
   ],
   imports: [
     BrowserModule,

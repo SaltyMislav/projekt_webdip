@@ -25,6 +25,14 @@ export class KorisniciService {
         );
     }
 
+    getZaposleniciPrivatno(data?: any) {
+        return this.http.post(environment.apiUrl + '/zaposleniciPrivatno', data ? {data: data} : null).pipe(
+            map((res: any) => {
+                return res['data'];
+            })
+        );
+    }
+
     getKorisniciModeratori() {
         return this.http.get(environment.apiUrl + '/korisniciModeratori').pipe(
             map((res: any) => {
