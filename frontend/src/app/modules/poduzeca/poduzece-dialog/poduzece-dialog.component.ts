@@ -13,11 +13,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PoduzeceService } from '../services/poduzece.service';
+import { PoduzeceService } from '../../services/poduzece.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { KorisniciService } from '../services/korisnici.service';
+import { KorisniciService } from '../../services/korisnici.service';
 import { KorisniciModeratori } from 'src/app/interfaces/interfaces';
 
 @Component({

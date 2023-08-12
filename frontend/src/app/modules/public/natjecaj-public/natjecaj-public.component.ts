@@ -5,8 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { Natjecaj } from 'src/app/interfaces/interfaces';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { NatjecajService } from '../services/natjecaj.service';
+import { KonfiguracijaClass } from '../../services/class/konfiguracijaclass.service';
+import { NatjecajService } from '../../services/natjecaj.service';
 
 @Component({
   selector: 'app-natjecaj-public',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PrijavaEnforcehttpsService } from '../services/prijavaEnforcehttps.service';
-import { PrijavaService } from '../services/prijava.service';
+import { PrijavaEnforcehttpsService } from '../../services/prijavaEnforcehttps.service';
+import { PrijavaService } from '../../services/prijava.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthenticationService } from '../../auth/authentication.service';
+import { AuthenticationService } from '../../../auth/authentication.service';
 import { environment } from 'src/environments/environment';
 
 @Component({

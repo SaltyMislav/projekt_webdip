@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Poduzece } from '../../interfaces/interfaces';
-import { PoduzeceDialogComponent } from '../poduzece-dialog/poduzece-dialog.component';
+import { PoduzeceDialogComponent } from './poduzece-dialog/poduzece-dialog.component';
 import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { PoduzeceService } from '../services/poduzece.service';
 

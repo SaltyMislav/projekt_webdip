@@ -4,7 +4,7 @@ import {
     ValidationErrors
 } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
-import { RegistracijaService } from '../services/registracija.service';
+import { RegistracijaService } from '../../services/registracija.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
