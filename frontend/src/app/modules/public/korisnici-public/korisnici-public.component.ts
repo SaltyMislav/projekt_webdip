@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Zaposlenik } from 'src/app/interfaces/interfaces';
-import { KorisniciService } from '../../services/korisnici.service';
-import { KonfiguracijaClass } from '../../services/class/konfiguracijaclass.service';
+import { Zaposlenik } from '../../../../app/interfaces/interfaces';
+import { KonfiguracijaClass } from '../../../shared/services/class/konfiguracijaclass.service';
+import { KorisniciService } from '../../../shared/services/korisnici.service';
 
 @Component({
   selector: 'app-korisnici-public',

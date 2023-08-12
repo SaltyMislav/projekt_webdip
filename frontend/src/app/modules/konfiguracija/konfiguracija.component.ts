@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { KonfiguracijaService } from '../services/konfiguracija.service';
+import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
+import { KonfiguracijaService } from '../../shared/services/konfiguracija.service';
 
 @Component({
   selector: 'app-konfiguracija',

@@ -1,12 +1,11 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnInit,
+  OnInit
 } from '@angular/core';
-import { Natjecaj } from 'src/app/interfaces/interfaces';
-import { KonfiguracijaClass } from '../../services/class/konfiguracijaclass.service';
-import { NatjecajService } from '../../services/natjecaj.service';
+import { Natjecaj } from '../../../../app/interfaces/interfaces';
+import { KonfiguracijaClass } from '../../../shared/services/class/konfiguracijaclass.service';
+import { NatjecajService } from '../../../shared/services/natjecaj.service';
 
 @Component({
   selector: 'app-natjecaj-public',

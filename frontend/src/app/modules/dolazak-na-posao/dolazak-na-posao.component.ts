@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { AuthenticationService } from 'src/app/auth/authentication.service';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { DolazakNaPosaoService } from '../services/dolazaknaposao.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from '../../auth/authentication.service';
+import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
+import { DolazakNaPosaoService } from '../../shared/services/dolazaknaposao.service';
 
 @Component({
   selector: 'app-dolazak-na-posao',

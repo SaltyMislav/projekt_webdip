@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PrijavaEnforcehttpsService } from '../../services/prijavaEnforcehttps.service';
-import { PrijavaService } from '../../services/prijava.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../environments/environment';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import { environment } from 'src/environments/environment';
+import { PrijavaService } from '../../../shared/services/prijava.service';
+import { PrijavaEnforcehttpsService } from '../../../shared/services/prijavaEnforcehttps.service';
 
 @Component({
   selector: 'app-prijava',

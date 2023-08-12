@@ -4,7 +4,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { CookieService } from 'ngx-cookie-service';
-import { KonfiguracijaClass } from './modules/services/class/konfiguracijaclass.service';
+import { KonfiguracijaClass } from './shared/services/class/konfiguracijaclass.service';
 
 @Component({
   selector: 'app-root',

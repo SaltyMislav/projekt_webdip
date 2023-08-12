@@ -1,11 +1,11 @@
+import { Injectable } from '@angular/core';
 import {
-    AbstractControl,
-    AsyncValidator,
-    ValidationErrors
+  AbstractControl,
+  AsyncValidator,
+  ValidationErrors
 } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
-import { RegistracijaService } from '../../services/registracija.service';
-import { Injectable } from '@angular/core';
+import { RegistracijaService } from '../../../shared/services/registracija.service';
 
 @Injectable({
     providedIn: 'root',

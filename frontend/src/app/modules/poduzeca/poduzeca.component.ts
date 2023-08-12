@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Poduzece } from '../../interfaces/interfaces';
+import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
+import { PoduzeceService } from '../../shared/services/poduzece.service';
 import { PoduzeceDialogComponent } from './poduzece-dialog/poduzece-dialog.component';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { PoduzeceService } from '../services/poduzece.service';
 
 @Component({
   selector: 'app-poduzeca',

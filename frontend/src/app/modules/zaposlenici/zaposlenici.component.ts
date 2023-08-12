@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ZaposlenikPrivatno } from '../../interfaces/interfaces';
-import { KorisniciService } from '../services/korisnici.service';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
 import { AuthenticationService } from '../../auth/authentication.service';
+import { ZaposlenikPrivatno } from '../../interfaces/interfaces';
+import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
+import { KorisniciService } from '../../shared/services/korisnici.service';
 
 @Component({
   selector: 'app-zaposlenici',

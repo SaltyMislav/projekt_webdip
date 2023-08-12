@@ -7,13 +7,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { KorisniciService } from '../../services/korisnici.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Poduzece, UlogaKorisnika } from 'src/app/interfaces/interfaces';
-import { Observable, debounce, debounceTime, map, startWith } from 'rxjs';
-import { PoduzeceService } from '../../services/poduzece.service';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { Poduzece, UlogaKorisnika } from '../../../../app/interfaces/interfaces';
+import { KorisniciService } from '../../../shared/services/korisnici.service';
+import { PoduzeceService } from '../../../shared/services/poduzece.service';
 
 @Component({
   selector: 'app-korisnici-dialog',

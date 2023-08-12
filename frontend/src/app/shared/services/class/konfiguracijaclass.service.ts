@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, catchError, of, take, tap } from 'rxjs';
+import { catchError, of, take, tap } from 'rxjs';
 import { KonfiguracijaService } from '../konfiguracija.service';
 
 @Injectable({

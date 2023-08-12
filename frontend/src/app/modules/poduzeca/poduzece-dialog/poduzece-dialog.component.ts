@@ -8,17 +8,16 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PoduzeceService } from '../../services/poduzece.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { KorisniciService } from '../../services/korisnici.service';
-import { KorisniciModeratori } from 'src/app/interfaces/interfaces';
+import { KorisniciModeratori } from '../../../interfaces/interfaces';
+import { KorisniciService } from '../../../shared/services/korisnici.service';
+import { PoduzeceService } from '../../../shared/services/poduzece.service';
 
 @Component({
   selector: 'app-poduzece-dialog',

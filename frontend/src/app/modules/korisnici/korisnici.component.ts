@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Korisnik } from 'src/app/interfaces/interfaces';
-import { KonfiguracijaClass } from '../services/class/konfiguracijaclass.service';
-import { KorisniciService } from '../services/korisnici.service';
+import { Korisnik } from '../../interfaces/interfaces';
+import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
+import { KorisniciService } from '../../shared/services/korisnici.service';
 import { KorisniciDialogComponent } from './korisnici-dialog/korisnici-dialog.component';
 
 @Component({

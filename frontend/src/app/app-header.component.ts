@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
 import { AuthenticationService } from './auth/authentication.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-header',

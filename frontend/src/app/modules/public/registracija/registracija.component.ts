@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RegistracijaService } from '../../services/registracija.service';
-import { UsernameValidator } from './username.validator';
+import { environment } from '../../../../environments/environment';
+import { RegistracijaService } from '../../../shared/services/registracija.service';
 import { passwordValidator } from './password.validator';
-import { environment } from 'src/environments/environment';
+import { UsernameValidator } from './username.validator';
 
 @Component({
   selector: 'app-registracija',
