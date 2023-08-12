@@ -2,8 +2,6 @@
 
 require 'connection.php';
 
-//todo update da se koriste prededefinirane vrijednosti
-
 $postData = file_get_contents("php://input");
 
 if (isset($postData) && !empty($postData)) {
@@ -29,8 +27,13 @@ if (isset($postData) && !empty($postData)) {
         $types .= 's';
     }
 
-    $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca
+    $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
+                n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, 
+                n.Opis AS Opis, s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
+                pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
             FROM natjecaj n 
+            LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
+            LEFT JOIN korisnik k on k.ID = pn.KorisnikID
             LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
             LEFT JOIN natjecaj_poduzeca np ON np.NatjecajID = n.ID 
             LEFT JOIN poduzece p ON p.ID = np.PoduzeceID";
@@ -51,17 +54,30 @@ if (isset($postData) && !empty($postData)) {
         $result = mysqli_stmt_get_result($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
-            $natjecaj[] = [
-                'ID' => (int)$row['ID'],
-                'Naziv' => $row['Naziv'],
-                'VrijemeKraja' => $row['VrijemeKraja'],
-                'VrijemePocetka' => $row['VrijemePocetka'],
-                'Opis' => $row['Opis'],
-                'StatusNatjecajaID' => (int)$row['StatusNatjecajaID'],
-                'StatusNatjecajaNaziv' => $row['VrstaStatusa'],
-                'PoduzeceID' => (int)$row['PoduzeceID'],
-                'PoduzeceNaziv' => $row['NazivPoduzeca']
-            ];
+            if (!isset($natjecaj[$row['ID']])) {
+                $natjecaj[$row['ID']] = [
+                    'ID' => (int)$row['ID'],
+                    'Naziv' => $row['Naziv'],
+                    'VrijemeKraja' => $row['VrijemeKraja'],
+                    'VrijemePocetka' => $row['VrijemePocetka'],
+                    'Opis' => $row['Opis'],
+                    'StatusNatjecajaID' => (int)$row['StatusNatjecajaID'],
+                    'StatusNatjecajaNaziv' => $row['VrstaStatusa'],
+                    'PoduzeceID' => (int)$row['PoduzeceID'],
+                    'PoduzeceNaziv' => $row['NazivPoduzeca'],
+                    'Prijavljeni' => []
+                ];
+            }
+
+            if ($row['KorisnikID'] != null) {
+                $base64Image = base64_encode($row['SlikaKorisnika']);
+                $natjecaj[$row['ID']]['Prijavljeni'][] = [
+                    'KorisnikID' => (int)$row['KorisnikID'],
+                    'Ime' => $row['PrijavljeniIme'],
+                    'Prezime' => $row['PrijavljeniPrezime'],
+                    'Slika' => $base64Image
+                ];
+            }
         }
 
         echo json_encode(['data' => $natjecaj]);
@@ -70,11 +86,16 @@ if (isset($postData) && !empty($postData)) {
     }
 } else {
     $natjecaj = [];
-    $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca
+    $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
+                n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, 
+                n.Opis AS Opis, s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca
+                np.KorisnikID AS KorisnikID, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
             FROM natjecaj n 
+            LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
+            LEFT JOIN korisnik k on k.ID = pn.KorisnikID
             LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
             LEFT JOIN natjecaj_poduzeca np ON np.NatjecajID = n.ID 
-            LEFT JOIN poduzece p ON p.ID = np.PoduzeceID 
+            LEFT JOIN poduzece p ON p.ID = np.PoduzeceID
             ORDER BY s.ID ASC, n.ID ASC";
 
     if ($result = mysqli_query($con, $sql)) {
