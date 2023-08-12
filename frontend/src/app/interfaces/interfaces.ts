@@ -36,7 +36,7 @@ export interface Zaposlenik {
 }
 
 export interface ZaposlenikPrivatno extends Zaposlenik {
-  BrojDolazakaNaPosao: number;
+  BrojDolazakaNaPosao?: number;
   BrojOdradenihZadataka: number;
   BrojNeodradenihZadataka: number;
 }

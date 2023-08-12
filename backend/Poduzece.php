@@ -11,15 +11,38 @@ if (isset($postData) && !empty($postData)) {
     $opis = mysqli_real_escape_string($con, trim($result['data']['Opis']));
 
     $poduzece = [];
+    $conditions = [];
+    $params = [];
+    $types = '';
+
+    if ($naziv != '') {
+        $conditions[] = "LOWER(p.Naziv) LIKE ?";
+        $params[] = '%' . $naziv . '%';
+        $types .= 's';
+    }
+
+    if ($opis != '') {
+        $conditions[] = "LOWER(p.Opis) LIKE ?";
+        $params[] = '%' . $opis . '%';
+        $types .= 's';
+    }
 
     $sql = "SELECT p.ID, p.Naziv, p.Opis, p.RadnoVrijemeOd, p.RadnoVrijemeDo, k.ID as KorisnikID, k.KorisnickoIme 
             FROM poduzece p
             LEFT JOIN moderatorpoduzeca mp on p.ID = mp.PoduzeceID
-            LEFT JOIN korisnik k on k.ID = mp.KorisnikID
-            WHERE LOWER(p.Naziv) LIKE '%" . $naziv . "%'
-            AND LOWER(p.Opis) LIKE '%" . $opis . "%'";
+            LEFT JOIN korisnik k on k.ID = mp.KorisnikID";
 
-    if ($result = mysqli_query($con, $sql)) {
+    if (count($conditions) > 0) {
+        $sql .= " WHERE " . implode(' AND ', $conditions);
+    }
+
+    $stmt = mysqli_prepare($con, $sql);
+    if ($types != '') {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+    if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_get_result($stmt);
+
         while ($row = mysqli_fetch_assoc($result)) {
             if (!isset($poduzece[$row['ID']])) {
                 $poduzece[$row['ID']] = [

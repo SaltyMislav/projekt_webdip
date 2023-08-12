@@ -17,4 +17,12 @@ export class NatjecajService {
       })
     );
   }
+
+  getModeratoriNatjecaj(data?: any) {
+    return this.http.post(environment.apiUrl + '/natjecajprivatno', data ? {data: data} : null).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
 }

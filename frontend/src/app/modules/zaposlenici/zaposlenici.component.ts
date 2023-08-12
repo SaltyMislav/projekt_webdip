@@ -43,9 +43,17 @@ export class ZaposleniciComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.zaposleniciGet();
     if (this.authService.isAdmin()) {
+      const data = {
+        Ime: this.imeFilter ? this.imeFilter.trim().toLowerCase() : '',
+        Prezime: this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '',
+        KorisnikID: this.authService.getUser().user_ID,
+        UlogaID: this.authService.getUser().uloga,
+      }
+      this.zaposleniciGet(data);
       this.displayedColumns.push('BrojDolazakaNaPosao');
+    } else {
+      this.zaposleniciGet();
     }
   }
 
@@ -133,11 +141,13 @@ export class ZaposleniciComponent implements OnInit {
       Prezime: this.prezimeFilter
         ? this.prezimeFilter.trim().toLowerCase()
         : '',
+      KorisnikID: this.authService.getUser().user_ID,
+      UlogaID: this.authService.getUser().uloga,
     };
 
     if (data.Ime === '' && data.Prezime === '') {
       this.IndexStranice = 0;
-      this.zaposleniciGet();
+      this.zaposleniciGet(data);
       return;
     }
 
@@ -154,7 +164,10 @@ export class ZaposleniciComponent implements OnInit {
     this.zaposleniciGet();
   }
 
-  compare(a: string | number, b: string | number, isAsc: boolean): number {
+  compare(a: string | number | undefined, b: string | number | undefined, isAsc: boolean): number {
+    if (a === undefined || b === undefined) {
+      return 0;
+    }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
