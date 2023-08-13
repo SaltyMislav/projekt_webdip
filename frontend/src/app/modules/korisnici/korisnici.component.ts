@@ -4,6 +4,7 @@ import { Korisnik } from '../../interfaces/interfaces';
 import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
 import { KorisniciService } from '../../shared/services/korisnici.service';
 import { KorisniciDialogComponent } from './korisnici-dialog/korisnici-dialog.component';
+import { AuthenticationService } from 'src/app/auth/authentication.service';
 
 @Component({
   selector: 'app-korisnici',
@@ -38,16 +39,23 @@ export class KorisniciComponent implements OnInit {
     private korisniciService: KorisniciService,
     private cdref: ChangeDetectorRef,
     private konfiguracijaClass: KonfiguracijaClass,
+    private authService: AuthenticationService,
     public dialog: MatDialog
   ) {
     this.stranicenje = this.konfiguracijaClass.stranicenje;
   }
 
   ngOnInit(): void {
-    this.getKorisnici();
+    const data = {
+      UlogaKorisnikaNaziv: '',
+      Email: '',
+      UlogaID: this.authService.getUser().uloga,
+      KorisnikID: this.authService.getUser().user_ID,
+    }
+    this.getKorisnici(data);
   }
 
-  getKorisnici(data?: any) {
+  getKorisnici(data: any) {
     this.korisniciService.getAllKorisnici(data).subscribe({
       next: (response) => {
         this.dataSource = this.korisnici = response;
@@ -123,15 +131,11 @@ export class KorisniciComponent implements OnInit {
 
   applyFilter(): void {
     const data = {
-      UlogaKorisnikaNaziv: this.ulogaFilter.trim(),
-      Email: this.emailFilter.trim(),
+      UlogaKorisnikaNaziv: this.ulogaFilter ? this.ulogaFilter.trim() : '',
+      Email: this.emailFilter ? this.emailFilter.trim() : '',
+      UlogaID: this.authService.getUser().uloga,
+      KorisnikID: this.authService.getUser().user_ID,
     };
-
-    if (data.UlogaKorisnikaNaziv === '' && data.Email === '') {
-      this.IndexStranice = 0;
-      this.getKorisnici();
-      return;
-    }
 
     this.IndexStranice = 0;
     this.getKorisnici(data);
@@ -204,7 +208,13 @@ export class KorisniciComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.IndexStranice = 0;
-      this.getKorisnici();
+      const data = {
+        UlogaKorisnikaNaziv: '',
+        Email: '',
+        UlogaID: this.authService.getUser().uloga,
+        KorisnikID: this.authService.getUser().user_ID,
+      }
+      this.getKorisnici(data);
     });
   }
 }

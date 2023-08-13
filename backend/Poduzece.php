@@ -36,6 +36,8 @@ if (isset($postData) && !empty($postData)) {
         $sql .= " WHERE " . implode(' AND ', $conditions);
     }
 
+    $sql .= " ORDER BY p.ID ASC";
+
     $stmt = mysqli_prepare($con, $sql);
     if ($types != '') {
         mysqli_stmt_bind_param($stmt, $types, ...$params);

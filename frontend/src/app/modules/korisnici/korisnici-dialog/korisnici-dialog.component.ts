@@ -54,8 +54,6 @@ export class KorisniciDialogComponent implements OnInit {
         this.svaPoduzeca = data;
       });
 
-    console.log(this.data);
-
     this.form = this.fb.group({
       ID: [this.data.ID],
       Ime: [{ value: this.data.Ime, disabled: true }],
@@ -85,9 +83,8 @@ export class KorisniciDialogComponent implements OnInit {
       startWith(null),
       debounceTime(100),
       map((value) => (typeof value === 'string' ? value : value?.Naziv)),
-      map((name: string | null) =>
-        name ? this._filter(name) : this.svaPoduzeca.slice()
-      )
+      map((name) =>
+        (name ? this._filter(name) : this.svaPoduzeca.slice()))
     );
   }
 

@@ -68,9 +68,7 @@ export class PoduzeceDialogComponent implements OnInit {
     this.filteredKorisnici = this.formGroup.controls['moderatorCtrl'].valueChanges.pipe(
       startWith(null),
       debounceTime(100),
-      map((value) =>
-        typeof value === 'string' ? value : value?.KorisnickoIme
-      ),
+      map((value) =>(typeof value === 'string' ? value : value?.KorisnickoIme)),
       map((name) => (name ? this._filter(name) : this.korisnici.slice()))
     );
   }
