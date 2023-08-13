@@ -58,6 +58,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.component';
+import { NatjecajDialogComponent } from './modules/natjecaj/natjecaj-dialog/natjecaj-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.componen
     KonfiguracijaComponent,
     KorisniciDialogComponent,
     ZaposleniciComponent,
+    NatjecajDialogComponent,
   ],
   imports: [
     BrowserModule,
