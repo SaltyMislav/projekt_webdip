@@ -18,7 +18,6 @@ export class KorisniciService {
     }
 
     getZaposlenici(data?: any) {
-        console.log(data);
         return this.http.post(environment.apiUrl + '/zaposlenici', data ? {data: data} : null).pipe(
             map((res: any) => {
                 return res['data'];
