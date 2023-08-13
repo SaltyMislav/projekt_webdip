@@ -83,8 +83,8 @@ if (isset($postData) && !empty($postData)) {
                 $natjecaji[$row['ID']] = [
                     'ID' => (int)$row['ID'],
                     'Naziv' => $row['Naziv'],
-                    'VrijemeKraja' => $row['VrijemeKraja'],
                     'VrijemePocetka' => $row['VrijemePocetka'],
+                    'VrijemeKraja' => $row['VrijemeKraja'],
                     'Opis' => $row['Opis'],
                     'StatusNatjecajaID' => (int)$row['StatusNatjecajaID'],
                     'StatusNatjecajaNaziv' => $row['VrstaStatusa'],

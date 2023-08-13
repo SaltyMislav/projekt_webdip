@@ -43,18 +43,16 @@ export class ZaposleniciComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isAdmin()) {
-      const data = {
-        Ime: this.imeFilter ? this.imeFilter.trim().toLowerCase() : '',
-        Prezime: this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '',
-        KorisnikID: this.authService.getUser().user_ID,
-        UlogaID: this.authService.getUser().uloga,
-      }
-      this.zaposleniciGet(data);
-      this.displayedColumns.push('BrojDolazakaNaPosao');
-    } else {
-      this.zaposleniciGet();
-    }
+    const data = {
+      Ime: this.imeFilter ? this.imeFilter.trim().toLowerCase() : '',
+      Prezime: this.prezimeFilter
+        ? this.prezimeFilter.trim().toLowerCase()
+        : '',
+      KorisnikID: this.authService.getUser().user_ID,
+      UlogaID: this.authService.getUser().uloga,
+    };
+    this.zaposleniciGet(data);
+    this.displayedColumns.push('BrojDolazakaNaPosao');
   }
 
   zaposleniciGet(data?: any): void {
@@ -77,7 +75,6 @@ export class ZaposleniciComponent implements OnInit {
   }
 
   sortData(column: string): void {
-    console.log(column);
     if (this.sortColumn === column) {
       this.counter++;
       this.sortOrder =
@@ -128,7 +125,6 @@ export class ZaposleniciComponent implements OnInit {
             return 0;
         }
       });
-
     }
 
     this.dataSource = this.sortiraniZaposlenici = sortedData;
@@ -145,12 +141,6 @@ export class ZaposleniciComponent implements OnInit {
       UlogaID: this.authService.getUser().uloga,
     };
 
-    if (data.Ime === '' && data.Prezime === '') {
-      this.IndexStranice = 0;
-      this.zaposleniciGet(data);
-      return;
-    }
-
     this.IndexStranice = 0;
     this.zaposleniciGet(data);
   }
@@ -161,10 +151,22 @@ export class ZaposleniciComponent implements OnInit {
     this.sortColumn = '';
     this.sortOrder = '';
     this.IndexStranice = 0;
-    this.zaposleniciGet();
+
+    const data = {
+      Ime: this.imeFilter,
+      Prezime: this.prezimeFilter,
+      KorisnikID: this.authService.getUser().user_ID,
+      UlogaID: this.authService.getUser().uloga,
+    };
+
+    this.zaposleniciGet(data);
   }
 
-  compare(a: string | number | undefined, b: string | number | undefined, isAsc: boolean): number {
+  compare(
+    a: string | number | undefined,
+    b: string | number | undefined,
+    isAsc: boolean
+  ): number {
     if (a === undefined || b === undefined) {
       return 0;
     }

@@ -16,11 +16,15 @@ if (isset($postData) && !empty($postData)) {
         trigger_error("Token nije validan", E_USER_ERROR);
     }
 
+    $currentDateTime = date('Y-m-d H:i:s');
+
+    $pomak = date('Y-m-d H:i:s', strtotime($currentDateTime . VirtualnoVrijeme::procitajVrijeme($con) .'hours')); 
+
     //generate prepared statement
-    $sql = "SELECT ID, Token, KorisnickoIme, IstekTokena < NOW() AS Istekao FROM korisnik WHERE KorisnickoIme = ? AND Token = ? AND Active = 0";
+    $sql = "SELECT ID, Token, KorisnickoIme, IstekTokena < ? AS Istekao FROM korisnik WHERE KorisnickoIme = ? AND Token = ? AND Active = 0";
 
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'ss', $username, $token);
+    mysqli_stmt_bind_param($stmt, 'sss', $pomak, $username, $token);
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);

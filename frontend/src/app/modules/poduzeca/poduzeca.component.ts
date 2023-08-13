@@ -50,10 +50,14 @@ export class PoduzecaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPoduzece();
+    const data = {
+      Naziv: this.nazivFilter ? this.nazivFilter.trim().toLowerCase() : '',
+      Opis: this.opisFilter ? this.opisFilter.trim().toLowerCase() : '',
+    };
+    this.getPoduzece(data);
   }
 
-  getPoduzece(data?: any): void {
+  getPoduzece(data: any): void {
     this.poduzeceService.getAllPoduzece(data).subscribe({
       next: (data: Poduzece[]) => {
         this.dataSource = this.poduzeca = data;
@@ -68,15 +72,10 @@ export class PoduzecaComponent implements OnInit {
 
   applyFilter(): void {
     const data = {
-      Naziv: this.nazivFilter.trim(),
-      Opis: this.opisFilter.trim(),
+      Naziv: this.nazivFilter ? this.nazivFilter.trim().toLowerCase() : '',
+      Opis: this.opisFilter ? this.opisFilter.trim().toLowerCase() : '',
     };
 
-    if (data.Naziv === '' && data.Opis === '') {
-      this.IndexStranice = 0;
-      this.getPoduzece();
-      return;
-    }
     this.IndexStranice = 0;
     this.getPoduzece(data);
   }
@@ -84,7 +83,11 @@ export class PoduzecaComponent implements OnInit {
   clearFilter(): void {
     this.nazivFilter = '';
     this.opisFilter = '';
-    this.getPoduzece();
+    const data = {
+      Naziv: this.nazivFilter,
+      Opis: this.opisFilter,
+    };
+    this.getPoduzece(data);
   }
 
   mathCeil(value: number, number: number): number {
@@ -182,7 +185,11 @@ export class PoduzecaComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getPoduzece();
+      const data = {
+        Naziv: '',
+        Opis: '',
+      };
+      this.getPoduzece(data);
     });
   }
 }

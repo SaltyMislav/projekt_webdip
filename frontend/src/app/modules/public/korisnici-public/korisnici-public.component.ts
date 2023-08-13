@@ -33,7 +33,10 @@ export class KorisniciPublicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.zaposleniciGet();
+    const data = {
+      Prezime: this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '',
+    }
+    this.zaposleniciGet(data);
   }
 
   zaposleniciGet(prezime?: any): void {

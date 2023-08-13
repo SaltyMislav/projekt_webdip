@@ -44,7 +44,7 @@ if (isset($postData) && !empty($postData)) {
 
     $sql .= " ORDER BY s.ID ASC, n.ID ASC";
 
-    $stmt = mysqli_prepare($con, $sql);
+    $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
         mysqli_stmt_bind_param($stmt, $types, ...$params);

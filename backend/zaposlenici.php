@@ -20,8 +20,6 @@ if (isset($postData) && !empty($postData)) {
             INNER JOIN poduzece p ON p.ID = k.PoduzeceID
             WHERE k.UlogaKorisnikaID = 1";
 
-    echo $sql;
-
     if ($prezime != '') {
         $conditions[] = "LOWER(k.Prezime) LIKE ?";
         $params[] = '%' . $prezime . '%';

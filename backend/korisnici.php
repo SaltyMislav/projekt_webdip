@@ -38,7 +38,7 @@ if (isset($postData) && !empty($postData)) {
         $sql .= " WHERE " . implode(' AND ', $conditions);
     }
 
-    $stmt = mysqli_prepare($con, $sql);
+    $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
     if ($types != '') {
         mysqli_stmt_bind_param($stmt, $types, ...$params);
     }

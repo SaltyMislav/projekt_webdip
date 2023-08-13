@@ -1,8 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Natjecaj } from '../../../../app/interfaces/interfaces';
 import { KonfiguracijaClass } from '../../../shared/services/class/konfiguracijaclass.service';
 import { NatjecajService } from '../../../shared/services/natjecaj.service';
@@ -43,12 +39,17 @@ export class NatjecajPublicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getNatjecaj();
+    const data = {
+      fromDate: '',
+      toDate: '',
+    };
+    this.getNatjecaj(data);
   }
 
-  getNatjecaj(data?: any): void {
+  getNatjecaj(data: any): void {
     this.natjecajService.getAllNatjecaj(data).subscribe({
-      next: (data: Natjecaj[]) => {
+      next: (data: any) => {
+        console.log(data);
         this.dataSource = this.natjecaji = data;
         this.ukupnoNatjecaja = data.length;
         this.stranicenje = this.konfiguracijaClass.stranicenje;
@@ -108,9 +109,13 @@ export class NatjecajPublicComponent implements OnInit {
               isAsc
             );
           case 'StatusNatjecajaNaziv':
-            return this.compare(a.VrstaStatusa, b.VrstaStatusa, isAsc);
+            return this.compare(
+              a.StatusNatjecajaNaziv,
+              b.StatusNatjecajaNaziv,
+              isAsc
+            );
           case 'PoduzeceNaziv':
-            return this.compare(a.NazivPoduzeca, b.NazivPoduzeca, isAsc);
+            return this.compare(a.PoduzeceNaziv, b.PoduzeceNaziv, isAsc);
           default:
             return 0;
         }
@@ -132,27 +137,22 @@ export class NatjecajPublicComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const fromDate = this.datumOd ? new Date(this.datumOd) : null;
-    const toDate = this.datumDo ? new Date(this.datumDo) : null;
+    const fromDate = new Date(this.datumOd);
+    const toDate = new Date(this.datumDo);
 
     toDate?.setHours(23);
     toDate?.setMinutes(59);
     toDate?.setSeconds(59);
 
-    if (fromDate == null || toDate == null) {
-      this.IndexStranice = 0;
-      this.getNatjecaj();
-    } else {
-      this.IndexStranice = 0;
-      const value = JSON.parse(
-        '{ "fromDate": "' +
-          this.toSqlDateString(fromDate) +
-          '", "toDate": "' +
-          this.toSqlDateString(toDate) +
-          '" }'
-      );
-      this.getNatjecaj(value);
-    }
+    this.IndexStranice = 0;
+    const value = JSON.parse(
+      '{ "fromDate": "' +
+        this.toSqlDateString(fromDate) +
+        '", "toDate": "' +
+        this.toSqlDateString(toDate) +
+        '" }'
+    );
+    this.getNatjecaj(value);
   }
 
   toSqlDateString(date: Date): string {
@@ -170,7 +170,11 @@ export class NatjecajPublicComponent implements OnInit {
     this.datumOd = '';
     this.datumDo = '';
     this.IndexStranice = 0;
-    this.getNatjecaj();
+    const data = {
+      fromDate: '',
+      toDate: '',
+    };
+    this.getNatjecaj(data);
   }
 
   updatePageData(sort = false, sortiraniNatjecaji = false): void {
