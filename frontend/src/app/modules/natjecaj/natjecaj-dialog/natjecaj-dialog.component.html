@@ -38,17 +38,20 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Status</mat-label>
-      <mat-select formControlName="StatusNatjecajaID" [(value)]="selectedStatus">
+      <mat-select
+        formControlName="StatusNatjecajaID"
+        [(value)]="selectedStatus"
+      >
         <mat-option *ngFor="let status of statusNatjecaja" [value]="status.ID">
           {{ status.Naziv }}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </form>
-  <!-- <mat-card class="razmak">
+  <mat-card class="razmak">
     <mat-card-title>
       Prijavljeni korisnici
-      <button mat-raised-button color="primary" (click)="onAdd()">
+      <button mat-raised-button color="primary" (click)="onAdd()" *ngIf="this.data?.ID">
         <mat-icon>add</mat-icon>
         Dodaj
       </button>
@@ -116,11 +119,13 @@
     >
       <mat-icon>last_page</mat-icon>
     </button>
-  </mat-card-actions> -->
+  </mat-card-actions>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Odustani</button>
   <button
-    mat-button
+    mat-raised-button
+    color="primary"
     [mat-dialog-close]="true"
     type="button"
     [disabled]="!form.valid"
@@ -128,5 +133,4 @@
   >
     Spremi
   </button>
-  <button mat-button [mat-dialog-close]="false">Odustani</button>
 </mat-dialog-actions>

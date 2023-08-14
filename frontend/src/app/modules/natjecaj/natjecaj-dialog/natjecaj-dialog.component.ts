@@ -1,10 +1,20 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from 'src/app/auth/authentication.service';
-import { Poduzece, StatusNatjecaja } from 'src/app/interfaces/interfaces';
+import {
+  Poduzece,
+  PrijavaKorisnika,
+  StatusNatjecaja,
+} from 'src/app/interfaces/interfaces';
+import { KonfiguracijaClass } from 'src/app/shared/services/class/konfiguracijaclass.service';
 import { NatjecajService } from 'src/app/shared/services/natjecaj.service';
+import { PrijavaNatjecajComponent } from '../prijava-natjecaj/prijava-natjecaj.component';
 
 @Component({
   selector: 'app-natjecaj-dialog',
@@ -12,7 +22,6 @@ import { NatjecajService } from 'src/app/shared/services/natjecaj.service';
   styleUrls: ['./natjecaj-dialog.component.css'],
 })
 export class NatjecajDialogComponent implements OnInit {
-  dataSource: any[] = [];
   form!: FormGroup;
   poduzeca: Poduzece[] = [];
   statusNatjecaja: StatusNatjecaja[] = [];
@@ -20,16 +29,35 @@ export class NatjecajDialogComponent implements OnInit {
   selectedStatus!: number;
 
   displayedColumns = ['Ime', 'Prezime', 'Slika'];
+  dataSource: PrijavaKorisnika[] = [];
+  prijvaljeniKorisnici: PrijavaKorisnika[] = [];
+  sortiraniPrijavljeniKorisnici: PrijavaKorisnika[] = [];
+
+  stranicenje!: number;
+  ukupnoZapisa!: number;
+  IndexStranice = 0;
+
+  sortColumn = '';
+  sortOrder: 'asc' | 'desc' | '' = '';
+
+  imeKorisnikaFilter = '';
+  prezimeKorisnikaFilter = '';
+
+  counter = 0;
 
   constructor(
     private fb: FormBuilder,
     private natjecajService: NatjecajService,
     private authService: AuthenticationService,
+    private konfiguracijaClass: KonfiguracijaClass,
     private cdref: ChangeDetectorRef,
     private snackBar: MatSnackBar,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<NatjecajDialogComponent>,
     @Inject(MAT_DIALOG_DATA) protected data: any
-  ) {}
+  ) {
+    this.stranicenje = this.konfiguracijaClass.stranicenje;
+  }
 
   ngOnInit(): void {
     const postData = {
@@ -64,7 +92,7 @@ export class NatjecajDialogComponent implements OnInit {
     this.selectedStatus = this.data?.StatusNatjecajaID;
     this.selectedPoduzece = this.data?.PoduzeceID;
 
-    this.dataSource = this.data?.Prijavljeni;
+    this.dataSource = this.data?.Prijavljeni ? this.data?.Prijavljeni : [];
   }
 
   setDatumZavrsetka(event: FocusEvent): void {
@@ -93,5 +121,165 @@ export class NatjecajDialogComponent implements OnInit {
         },
       });
     }
+  }
+
+  mathCeil(value: number, number: number): number {
+    return Math.ceil(value / number);
+  }
+
+  sortData(column: string): void {
+    if (this.sortColumn === column) {
+      this.counter++;
+      this.sortOrder =
+        this.sortOrder === 'asc'
+          ? 'desc'
+          : this.sortOrder === 'desc'
+          ? ''
+          : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortOrder = 'asc';
+      this.counter++;
+    }
+
+    const sortedData = this.dataSource.slice();
+    if (this.counter % 3 === 0) {
+      this.counter = 0;
+    } else {
+      sortedData.sort((a, b) => {
+        const isAsc = this.sortOrder === 'asc';
+        switch (column) {
+          case 'Ime':
+            return this.compare(a.Ime, b.Ime, isAsc);
+          case 'Prezime':
+            return this.compare(a.Prezime, b.Prezime, isAsc);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    this.dataSource = this.sortiraniPrijavljeniKorisnici = sortedData;
+    this.updatePageData(true);
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean): number {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  applyFilter(): void {
+    const dataFilter = {
+      Ime: this.imeKorisnikaFilter
+        ? this.imeKorisnikaFilter.trim().toLowerCase()
+        : null,
+      Prezime: this.prezimeKorisnikaFilter
+        ? this.prezimeKorisnikaFilter.trim().toLowerCase()
+        : null,
+      NatjecajID: this.data?.ID,
+    };
+    this.IndexStranice = 0;
+    this.getPrijavljeniKorisnici(dataFilter);
+  }
+
+  clearFilter(): void {
+    this.imeKorisnikaFilter = '';
+    this.prezimeKorisnikaFilter = '';
+    this.sortColumn = '';
+    this.sortOrder = '';
+    this.IndexStranice = 0;
+
+    const dataFilter = {
+      Ime: this.imeKorisnikaFilter,
+      Prezime: this.prezimeKorisnikaFilter,
+      NatjecajID: this.data?.ID,
+    };
+    this.getPrijavljeniKorisnici(dataFilter);
+  }
+
+  getPrijavljeniKorisnici(dataFilter: any): void {
+    this.natjecajService.getPrijavljeniKorisnici(dataFilter).subscribe({
+      next: (result: PrijavaKorisnika[]) => {
+        this.dataSource = this.prijvaljeniKorisnici = result;
+        this.ukupnoZapisa = result.length;
+        this.stranicenje = this.konfiguracijaClass.stranicenje;
+        this.updatePageData();
+        this.cdref.detectChanges();
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  updatePageData(sort = false, sortiraniKorisnici = false): void {
+    const startIndex = this.IndexStranice * this.stranicenje;
+    let endIndex = startIndex + this.stranicenje;
+
+    if (sort) {
+      if (this.IndexStranice >= this.ukupnoZapisa / this.stranicenje - 1)
+        endIndex = this.ukupnoZapisa;
+      this.dataSource = this.dataSource.slice(startIndex, endIndex);
+      return;
+    }
+
+    if (sortiraniKorisnici) {
+      if (this.IndexStranice >= this.ukupnoZapisa / this.stranicenje - 1)
+        endIndex = this.ukupnoZapisa;
+      this.dataSource = this.sortiraniPrijavljeniKorisnici.slice(
+        startIndex,
+        endIndex
+      );
+      return;
+    }
+
+    this.dataSource = this.prijvaljeniKorisnici.slice(startIndex, endIndex);
+  }
+
+  nextPage(): void {
+    if (this.IndexStranice < this.ukupnoZapisa / this.stranicenje - 1) {
+      this.IndexStranice++;
+      const sortiraniKorisnici =
+        this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiraniKorisnici);
+    }
+  }
+
+  previousPage(): void {
+    if (this.IndexStranice > 0) {
+      this.IndexStranice--;
+      const sortiraniKorisnici =
+        this.sortColumn !== '' && this.sortOrder !== '';
+      this.updatePageData(false, sortiraniKorisnici);
+    }
+  }
+
+  onAdd(row?: any) {
+    let dataSend = {};
+    if (row === undefined) {
+      dataSend = {
+        NatjecajID: this.data?.ID,
+        RowID: row?.ID,
+      };
+
+      if (!this.authService.isModerator()) {
+        dataSend = {
+          ...dataSend,
+          KorisnikID: this.authService.getUser().user_ID,
+        };
+      }
+    }
+    const dialogPrijavljeni = this.dialog.open(PrijavaNatjecajComponent, {
+      width: '20%',
+      data: row ? row : dataSend,
+    });
+
+    dialogPrijavljeni.afterClosed().subscribe((result) => {
+      const dataFilter = {
+        Ime: '',
+        Prezime: '',
+        NatjecajID: this.data?.ID,
+      };
+      this.getPrijavljeniKorisnici(dataFilter);
+    });
   }
 }

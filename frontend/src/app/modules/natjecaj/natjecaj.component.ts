@@ -41,7 +41,7 @@ export class NatjecajComponent implements OnInit {
     private cdref: ChangeDetectorRef,
     private konfiguracijaClass: KonfiguracijaClass,
     protected authService: AuthenticationService,
-    public dialog: MatDialog
+    private dialog: MatDialog
   ) {
     this.stranicenje = this.konfiguracijaClass.stranicenje;
   }

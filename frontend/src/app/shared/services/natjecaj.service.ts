@@ -49,4 +49,12 @@ export class NatjecajService {
       })
     );
   }
+
+  getPrijavljeniKorisnici(data?: any) {
+    return this.http.post(environment.apiUrl + '/natjecajprijavljenikorisnici', data ? {data: data} : null).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
 }

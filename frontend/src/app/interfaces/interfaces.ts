@@ -70,3 +70,10 @@ export interface KorisniciModeratori {
   ID: number;
   KorisnickoIme: string;
 }
+
+export interface PrijavaKorisnika {
+  ID: number;
+  Ime: string;
+  Prezime: string;
+  Slika: string;
+}
