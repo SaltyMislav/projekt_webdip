@@ -67,7 +67,9 @@
       </ng-container>
       <ng-container matColumnDef="Slika">
         <th mat-header-cell *matHeaderCellDef>Slika</th>
-        <td mat-cell *matCellDef="let element">{{ element.Slika }}</td>
+        <td mat-cell *matCellDef="let element" style="height: 50px; width: 50px;">
+            <img [src]="'data:image/png;base64,' + element.Slika" alt="Slika" style="max-width: 100%; height: auto;">
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

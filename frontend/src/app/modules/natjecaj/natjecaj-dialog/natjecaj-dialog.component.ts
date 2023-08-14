@@ -78,6 +78,7 @@ export class NatjecajDialogComponent implements OnInit {
       });
 
     this.form = this.fb.group({
+      ID: [this.data?.ID],
       Naziv: [this.data?.Naziv, Validators.required],
       Opis: [this.data?.Opis, Validators.required],
       VrijemePocetka: [this.data?.VrijemePocetka, Validators.required],
@@ -93,6 +94,8 @@ export class NatjecajDialogComponent implements OnInit {
     this.selectedPoduzece = this.data?.PoduzeceID;
 
     this.dataSource = this.data?.Prijavljeni ? this.data?.Prijavljeni : [];
+    this.ukupnoZapisa = this.dataSource.length;
+    this.updatePageData(true);
   }
 
   setDatumZavrsetka(event: FocusEvent): void {
@@ -268,6 +271,7 @@ export class NatjecajDialogComponent implements OnInit {
         };
       }
     }
+    console.log(row);
     const dialogPrijavljeni = this.dialog.open(PrijavaNatjecajComponent, {
       width: '20%',
       data: row ? row : dataSend,

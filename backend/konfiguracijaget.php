@@ -3,7 +3,7 @@
 require 'connection.php';
 
 $konfiguracija = [];
-$sql = "SELECT ID, Pomak, Stranicenje FROM konfiguracija";
+$sql = "SELECT ID, Pomak, Stranicenje, ImgSize FROM konfiguracija";
 
 if ($result = mysqli_query($con, $sql)) {
     $cr = 0;
@@ -11,6 +11,7 @@ if ($result = mysqli_query($con, $sql)) {
         $konfiguracija[$cr]['ID'] = (int)$row['ID'];
         $konfiguracija[$cr]['Pomak'] = (int)$row['Pomak'];
         $konfiguracija[$cr]['Stranicenje'] = (int)$row['Stranicenje'];
+        $konfiguracija[$cr]['ImgSize'] = (int)$row['ImgSize'];
         $cr++;
     }
 

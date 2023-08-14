@@ -12,6 +12,7 @@ import { KonfiguracijaService } from '../../shared/services/konfiguracija.servic
 export class KonfiguracijaComponent implements OnInit {
   pomak!: number;
   stranicenje!: number;
+  imgSize!: number;
 
   form!: FormGroup;
 
@@ -24,12 +25,14 @@ export class KonfiguracijaComponent implements OnInit {
   ) {
     this.pomak = this.konfiguracijaClass.pomak;
     this.stranicenje = this.konfiguracijaClass.stranicenje;
+    this.imgSize = this.konfiguracijaClass.imageSize;
   }
 
   ngOnInit(): void {
     this.form = this.fb.group({
       pomak: [{value: this.pomak, disabled: true}],
-      stranicenje: [this.stranicenje, Validators.min(1)],
+      Stranicenje: [this.stranicenje, Validators.min(1)],
+      ImgSize: [this.imgSize, Validators.min(1)]
     });
   }
 
@@ -43,6 +46,7 @@ export class KonfiguracijaComponent implements OnInit {
         this.form.patchValue({
           pomak: data,
         });
+        this.konfiguracijaClass.getData();
         this.cdref.detectChanges();
       },
       error: (err: any) => {
@@ -61,6 +65,14 @@ export class KonfiguracijaComponent implements OnInit {
       return;
     }
 
+    this.imgSize = this.form.value.ImgSize;
+    this.pomak = this.pomak;
+    this.stranicenje = this.form.value.Stranicenje;
+
+    this.form.patchValue({
+      ImgSize: this.form.value.ImgSize * 1024
+    })
+
     this.konfiguracijaService.postaviStranicenje(this.form.value).subscribe({
       next: (data: any) => {
         this.snackBar.open('Uspješno postavljeno novo straničenje!', 'Zatvori', {
@@ -68,6 +80,11 @@ export class KonfiguracijaComponent implements OnInit {
         });
 
         this.konfiguracijaClass.getData();
+        this.form.patchValue({
+          pomak: this.pomak,
+          Stranicenje: this.stranicenje,
+          ImgSize: this.imgSize
+        });
       },
       error: (err: any) => {
         this.snackBar.open(err.error.error.errstr, 'Zatvori', {

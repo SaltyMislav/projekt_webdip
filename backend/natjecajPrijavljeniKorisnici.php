@@ -38,7 +38,7 @@ if (isset($postData) && !empty($postData)) {
         $types .= 'i';
     }
 
-    $sql = "SELECT pnn.ID, k.Ime, k.Prezime, pnn.Slika 
+    $sql = "SELECT pnn.ID, k.Ime, k.Prezime, pnn.Slika, pnn.KorisnikID
             FROM prijavananatjecaj pnn
             LEFT JOIN korisnik k ON pnn.KorisnikID = k.ID";
 
@@ -59,11 +59,11 @@ if (isset($postData) && !empty($postData)) {
 
         $cr = 0;
         while ($row = mysqli_fetch_assoc($result)) {
-            $base64image = base64_encode($row['Slika']);
             $korisnici[$cr]['ID'] = (int)$row['ID'];
             $korisnici[$cr]['Ime'] = $row['Ime'];
             $korisnici[$cr]['Prezime'] = $row['Prezime'];
-            $korisnici[$cr]['Slika'] = $base64image;
+            $korisnici[$cr]['Slika'] = $row['Slika'];
+            $korisnici[$cr]['KorisnikID'] = (int)$row['KorisnikID'];
             $cr++;
         }
         echo json_encode(['data' => $korisnici]);

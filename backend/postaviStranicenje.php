@@ -7,14 +7,13 @@ $postData = file_get_contents("php://input");
 if(isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
-    $stranicenje = $result->data->stranicenje;
+    $stranicenje = filter_var($result->data->Stranicenje, FILTER_SANITIZE_NUMBER_INT);
+    $imgSize = filter_var($result->data->ImgSize, FILTER_SANITIZE_NUMBER_INT);
 
-    mysqli_real_escape_string($con, (int)$stranicenje);
-
-    $sql = "UPDATE konfiguracija SET Stranicenje = ? WHERE ID = 1";
+    $sql = "UPDATE konfiguracija SET Stranicenje = ?, ImgSize = ? WHERE ID = 1";
 
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $stranicenje);
+    mysqli_stmt_bind_param($stmt, "ii", $stranicenje, $imgSize);
 
     $success = mysqli_stmt_execute($stmt);
 

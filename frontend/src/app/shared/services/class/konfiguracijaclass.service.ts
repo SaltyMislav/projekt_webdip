@@ -8,6 +8,7 @@ import { KonfiguracijaService } from '../konfiguracija.service';
 export class KonfiguracijaClass {
   private _stranicenje = 0;
   private _pomak = 0;
+  private _imageSize = 0;
 
   constructor(private konfiguracijaService: KonfiguracijaService) {}
 
@@ -27,8 +28,15 @@ export class KonfiguracijaClass {
     this._pomak = value;
   }
 
+  public get imageSize(): number {
+    return this._imageSize;
+  }
 
-  //TODO - netreba behaviour subject, service injectan u rutu i nije potrebno ga onda korisntiti (promijniti doma)
+  public set imageSize(value: number) {
+    this._imageSize = value;
+  }
+
+
   public getData() {
     this.konfiguracijaService
       .getdata()
@@ -37,6 +45,7 @@ export class KonfiguracijaClass {
         tap((response) => {
           this.pomak = response[0].Pomak ?? this._pomak;
           this.stranicenje = response[0].Stranicenje ?? this._stranicenje;
+          this.imageSize = (response[0].ImgSize / 1024) ?? this._imageSize;
         }),
         catchError((err) => {
           return of(err);

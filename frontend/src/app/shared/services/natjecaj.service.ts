@@ -57,4 +57,20 @@ export class NatjecajService {
       })
     );
   }
+
+  prijavaKorisnika(data: any) {
+    return this.http.post(environment.apiUrl + '/natjecajprijavakorisnika', {data: data}).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
+  removePrijavljeniKorisnik(data: any) {
+    return this.http.post(environment.apiUrl + '/deletenatjecajprijava', {data: data}).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
 }

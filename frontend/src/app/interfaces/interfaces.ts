@@ -40,6 +40,13 @@ export interface ZaposlenikPrivatno extends Zaposlenik {
   BrojNeodradenihZadataka: number;
 }
 
+export interface KorisniciPrijava {
+  ID: number;
+  Ime: string;
+  Prezime: string;
+  Slika: string;
+}
+
 export interface Korisnik {
   ID: number;
   Ime: string;

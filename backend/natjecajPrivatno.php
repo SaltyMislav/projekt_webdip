@@ -53,7 +53,7 @@ if (isset($postData) && !empty($postData)) {
         $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
                 n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, 
                 s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
-                pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
+                pn.ID AS PrijavaID, pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
                 FROM natjecaj n 
                 LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
                 LEFT JOIN korisnik k on k.ID = pn.KorisnikID
@@ -65,7 +65,7 @@ if (isset($postData) && !empty($postData)) {
         $sql .= " WHERE " . implode(' AND ', $conditions);
     }
 
-    $sql .= " ORDER BY s.ID ASC, n.ID ASC";
+    $sql .= " ORDER BY n.ID ASC";
 
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
@@ -93,12 +93,12 @@ if (isset($postData) && !empty($postData)) {
             }
 
             if ($row['KorisnikID'] != null) {
-                $base64Image = base64_encode($row['SlikaKorisnika']);
                 $natjecaji[$row['ID']]['Prijavljeni'][] = [
+                    'ID' => (int)$row['PrijavaID'],
                     'KorisnikID' => (int)$row['KorisnikID'],
                     'Ime' => $row['PrijavljeniIme'],
                     'Prezime' => $row['PrijavljeniPrezime'],
-                    'Slika' => $base64Image
+                    'Slika' => $row['SlikaKorisnika']
                 ];
             }
         }

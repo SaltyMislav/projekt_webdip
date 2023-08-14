@@ -41,6 +41,15 @@ export class KorisniciService {
         );
     }
 
+    getKorisniciZaPrijavu() {
+        return this.http.get(environment.apiUrl + '/korisniciNatjecaj').pipe(
+            map((res: any) => {
+                return res['data'];
+            })
+        );
+    }
+
+
     onSaveKorisnik(korisnik: any) {
         return this.http.post(environment.apiUrl + '/korisniciSave', {data: korisnik}).pipe(
             map((res: any) => {
