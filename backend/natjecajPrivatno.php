@@ -8,13 +8,13 @@ $natjecaji = [];
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
-    $userID = filter_var($result->data->KorisinkID, FILTER_SANITIZE_NUMBER_INT);
+    $userID = filter_var($result->data->KorisnikID, FILTER_SANITIZE_NUMBER_INT);
     $ulogaID = filter_var($result->data->UlogaID, FILTER_SANITIZE_NUMBER_INT);
     $nazivNatjecaja = mysqli_real_escape_string($con, trim($result->data->NazivNatjecaja));
     $vrijemePocetka = mysqli_real_escape_string($con, trim($result->data->VrijemePocetka));
 
-    if (empty($userID)) {
-        trigger_error("Potrebno je dodati podatak koji moderator je tražio podatake", E_USER_ERROR);
+    if (empty($userID) || empty($ulogaID)) {
+        trigger_error("Nedovoljno podataka za izvršiti upit", E_USER_ERROR);
     }
 
     $conditions = [];
@@ -36,15 +36,14 @@ if (isset($postData) && !empty($postData)) {
     if ($ulogaID == 2) {
         $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
                 n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, 
-                s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
+                s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, n.PoduzeceID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
                 pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
                 FROM natjecaj n 
-                INNER JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
-                INNER JOIN korisnik k on k.ID = pn.KorisnikID
-                INNER JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
-                INNER JOIN natjecaj_poduzeca np ON np.NatjecajID = n.ID 
-                INNER JOIN poduzece p ON p.ID = np.PoduzeceID
-                INNER JOIN moderatorpoduzeca mp on mp.PoduzeceID = np.PoduzeceID";
+                LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
+                LEFT JOIN korisnik k on k.ID = pn.KorisnikID
+                LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
+                LEFT JOIN poduzece p ON p.ID = n.PoduzeceID
+                LEFT JOIN moderatorpoduzeca mp on mp.PoduzeceID = n.PoduzeceID";
         if ($userID != '') {
             $conditions[] = "mp.KorisnikID = ?";
             $params[] = $userID;
@@ -56,11 +55,10 @@ if (isset($postData) && !empty($postData)) {
                 s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
                 pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
                 FROM natjecaj n 
-                INNER JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
-                INNER JOIN korisnik k on k.ID = pn.KorisnikID
-                INNER JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
-                INNER JOIN natjecaj_poduzeca np ON np.NatjecajID = n.ID 
-                INNER JOIN poduzece p ON p.ID = np.PoduzeceID";
+                LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
+                LEFT JOIN korisnik k on k.ID = pn.KorisnikID
+                LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
+                LEFT JOIN poduzece p ON p.ID = n.PoduzeceID";
     }
 
     if (count($conditions) > 0) {
@@ -69,7 +67,7 @@ if (isset($postData) && !empty($postData)) {
 
     $sql .= " ORDER BY s.ID ASC, n.ID ASC";
 
-    $stmt = mysqli_prepare($con, $sql);
+    $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
         mysqli_stmt_bind_param($stmt, $types, ...$params);
@@ -79,7 +77,7 @@ if (isset($postData) && !empty($postData)) {
         $result = mysqli_stmt_get_result($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
-            if (!isset($row['ID'])) {
+            if (!isset($natjecaji[$row['ID']])) {
                 $natjecaji[$row['ID']] = [
                     'ID' => (int)$row['ID'],
                     'Naziv' => $row['Naziv'],

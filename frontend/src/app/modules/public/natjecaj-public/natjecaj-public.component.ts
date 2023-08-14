@@ -49,7 +49,6 @@ export class NatjecajPublicComponent implements OnInit {
   getNatjecaj(data: any): void {
     this.natjecajService.getAllNatjecaj(data).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.dataSource = this.natjecaji = data;
         this.ukupnoNatjecaja = data.length;
         this.stranicenje = this.konfiguracijaClass.stranicenje;

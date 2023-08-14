@@ -18,6 +18,30 @@ export class NatjecajService {
     );
   }
 
+  getStatusNatjecaja() {
+    return this.http.get(environment.apiUrl + '/statusnatjecaja').pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
+  getPoduzece(data?: any) {
+    return this.http.post(environment.apiUrl + '/poduzecezanatjecaj', data ? {data: data} : null).pipe(
+      map((res: any) => {
+        return res['data'];
+      }
+    ));
+  }
+
+  saveNatjecaj(data: any) {
+    return this.http.post(environment.apiUrl + '/natjecajsave', {data: data}).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
   getModeratoriNatjecaj(data?: any) {
     return this.http.post(environment.apiUrl + '/natjecajprivatno', data ? {data: data} : null).pipe(
       map((res: any) => {

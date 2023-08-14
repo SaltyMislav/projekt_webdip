@@ -59,6 +59,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.component';
 import { NatjecajDialogComponent } from './modules/natjecaj/natjecaj-dialog/natjecaj-dialog.component';
+import { PrijavaNatjecajComponent } from './modules/natjecaj/prijava-natjecaj/prijava-natjecaj.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { NatjecajDialogComponent } from './modules/natjecaj/natjecaj-dialog/natj
     KorisniciDialogComponent,
     ZaposleniciComponent,
     NatjecajDialogComponent,
+    PrijavaNatjecajComponent,
   ],
   imports: [
     BrowserModule,

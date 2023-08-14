@@ -228,6 +228,8 @@ export class NatjecajComponent implements OnInit {
       const data = {
         NazivNatjecaja: '',
         VrijemePocetka: '',
+        KorisnikID: this.authService.getUser().user_ID,
+        UlogaID: this.authService.getUser().uloga,
       };
       this.getNatjecaji(data);
     });

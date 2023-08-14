@@ -35,8 +35,7 @@ if (isset($postData) && !empty($postData)) {
             LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
             LEFT JOIN korisnik k on k.ID = pn.KorisnikID
             LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
-            LEFT JOIN natjecaj_poduzeca np ON np.NatjecajID = n.ID 
-            LEFT JOIN poduzece p ON p.ID = np.PoduzeceID";
+            LEFT JOIN poduzece p ON p.ID = n.PoduzeceID";
 
     if (count($conditions) > 0) {
         $sql .= " WHERE " . implode(' AND ', $conditions);
