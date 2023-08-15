@@ -198,7 +198,7 @@ export class ZaposleniciComponent implements OnInit {
     if (this.IndexStranice < this.ukupnoZaposlenika / this.stranicenje - 1) {
       this.IndexStranice++;
       const sortiraniZaposlenici =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniZaposlenici);
     }
   }
@@ -207,7 +207,7 @@ export class ZaposleniciComponent implements OnInit {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
       const sortiraniZaposlenici =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniZaposlenici);
     }
   }

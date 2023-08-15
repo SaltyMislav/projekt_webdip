@@ -165,7 +165,7 @@ export class PoduzecaComponent implements OnInit {
   nextPage(): void {
     if (this.IndexStranice < this.ukupnoZapisa / this.stranicenje - 1) {
       this.IndexStranice++;
-      const sortiranaPoduzeca = this.sortColumn !== '' && this.sortOrder !== '';
+      const sortiranaPoduzeca = this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiranaPoduzeca);
     }
   }
@@ -173,7 +173,7 @@ export class PoduzecaComponent implements OnInit {
   previousPage(): void {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
-      const sortiranaPoduzeca = this.sortColumn !== '' && this.sortOrder !== '';
+      const sortiranaPoduzeca = this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiranaPoduzeca);
     }
   }

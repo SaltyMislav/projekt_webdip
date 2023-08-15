@@ -205,7 +205,7 @@ export class NatjecajPublicComponent implements OnInit {
     if (this.IndexStranice < this.ukupnoNatjecaja / this.stranicenje - 1) {
       this.IndexStranice++;
       const sortiraniNatjecaji =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniNatjecaji);
     }
   }
@@ -214,7 +214,7 @@ export class NatjecajPublicComponent implements OnInit {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
       const sortiraniNatjecaji =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniNatjecaji);
     }
   }

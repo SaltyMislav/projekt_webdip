@@ -64,6 +64,7 @@ import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.componen
 import { NatjecajDialogComponent } from './modules/natjecaj/natjecaj-dialog/natjecaj-dialog.component';
 import { PrijavaNatjecajComponent } from './modules/natjecaj/prijava-natjecaj/prijava-natjecaj.component';
 import { NatjecajDialogPublicComponent } from './modules/public/natjecaj-public/natjecaj-dialog-public/natjecaj-dialog-public.component';
+import { RadniZadatakDialogComponent } from './modules/radni-zadatak/radni-zadatak-dialog/radni-zadatak-dialog.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { NatjecajDialogPublicComponent } from './modules/public/natjecaj-public/
     NatjecajDialogComponent,
     PrijavaNatjecajComponent,
     NatjecajDialogPublicComponent,
+    RadniZadatakDialogComponent,
   ],
   imports: [
     BrowserModule,

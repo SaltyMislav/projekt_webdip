@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'korisnici', component: KorisniciComponent, canActivate: [adminGuard] },
   { path: 'natjecaj', component: NatjecajComponent, canActivate: [authGuard] },
   { path: 'poduzeca', component: PoduzecaComponent, canActivate: [adminGuard] },
-  { path: 'radni-zadatak', component: RadniZadatakComponent },
+  { path: 'radni-zadatak', component: RadniZadatakComponent, canActivate: [authGuard] },
   { path: 'aktivacija', component: AktivacijaComponent },
   { path: 'zaboravljena-lozinka', component: ZaboravljenaLozinkaComponent },
   { path: 'konfiguracija', component: KonfiguracijaComponent, canActivate: [adminGuard] },

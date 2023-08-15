@@ -186,7 +186,7 @@ export class KorisniciComponent implements OnInit {
     if (this.IndexStranice < this.ukupnoKorisnika / this.stranicenje - 1) {
       this.IndexStranice++;
       const sortiraniKorisnici =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniKorisnici);
     }
   }
@@ -195,7 +195,7 @@ export class KorisniciComponent implements OnInit {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
       const sortiraniKorisnici =
-        this.sortColumn !== '' && this.sortOrder !== '';
+        this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniKorisnici);
     }
   }

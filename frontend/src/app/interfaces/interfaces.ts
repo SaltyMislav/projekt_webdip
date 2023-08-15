@@ -84,3 +84,17 @@ export interface PrijavaKorisnika {
   Prezime: string;
   Slika: string;
 }
+
+export interface RadniZadatak {
+  ID: number;
+  Naziv: string;
+  Opis: string;
+  Datum: string;
+  Odradeno: boolean;
+  OcijenaZaposlenikaID: number;
+  KorisnikID: number;
+  PoduzeceID: number;
+  Ocijena: number;
+  ImePrezime: string;
+  PoduzeceNaziv: string;
+}
