@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Prijava korisnika</h2>
 <mat-dialog-content>
-  <form [formGroup]="form">
-    <mat-form-field>
+  <form [formGroup]="form" class="grid">
+    <mat-form-field class="col-12">
       <mat-label>Korisnik</mat-label>
       <mat-select formControlName="KorisnikID" [(value)]="selectedKorisnik">
         <mat-option *ngFor="let korisnik of korisnici" [value]="korisnik.ID">
@@ -9,19 +9,19 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <input
+    <input class="col-12"
       (change)="onFileSelected($event)"
       type="file"
       accept="image/*"
     />
   </form>
-  <div *ngIf="base64Image" style="height: 200px !important; width: 200px !important;">
+  <div *ngIf="base64Image" style="height: 200px !important; width: 200px !important; margin: auto;">
     <img [src]="'data:image/png;base64,' + base64Image" alt="Slika" style="max-width: 100%; height: auto;">
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Odustani</button>
   <span class="flex-spacer"></span>
-  <button mat-raised-button color="danger" (click)="onRemoveClick()" [disabled]="data?.ID === undefined">Obrisi</button>
+  <button mat-raised-button color="warn" (click)="onRemoveClick()" [disabled]="data?.ID === undefined">Obrisi</button>
   <button mat-raised-button color="primary" (click)="onYesClick()" [disabled]="!form.valid || base64Image == '' || base64Image == undefined" cdkFocusInitial>Prijava</button>
 </mat-dialog-actions>

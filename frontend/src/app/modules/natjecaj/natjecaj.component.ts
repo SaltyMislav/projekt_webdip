@@ -219,9 +219,8 @@ export class NatjecajComponent implements OnInit {
   }
 
   onDodaj(row?: any): void {
-    console.log(row);
     const dialogRef = this.dialog.open(NatjecajDialogComponent, {
-      width: '40%',
+      width: '60%',
       data: row,
     });
 

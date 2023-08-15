@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
     this.konfiguracijaClass.getData();
   }
 
+  //todo provjera da li treba natjecaj zatvoriti
+
   ngOnInit(): void {
     if (!this.cookieService.check('prihvaceniKolacici')) {
       this.bottomSheet.open(CookieSheet);

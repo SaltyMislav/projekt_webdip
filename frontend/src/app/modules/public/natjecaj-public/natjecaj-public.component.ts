@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Natjecaj } from '../../../../app/interfaces/interfaces';
 import { KonfiguracijaClass } from '../../../shared/services/class/konfiguracijaclass.service';
 import { NatjecajService } from '../../../shared/services/natjecaj.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NatjecajDialogPublicComponent } from './natjecaj-dialog-public/natjecaj-dialog-public.component';
 
 @Component({
   selector: 'app-natjecaj-public',
@@ -35,7 +37,8 @@ export class NatjecajPublicComponent implements OnInit {
   constructor(
     private natjecajService: NatjecajService,
     private cdref: ChangeDetectorRef,
-    private konfiguracijaClass: KonfiguracijaClass
+    private konfiguracijaClass: KonfiguracijaClass,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -214,5 +217,23 @@ export class NatjecajPublicComponent implements OnInit {
         this.sortColumn !== '' && this.sortOrder !== '';
       this.updatePageData(false, sortiraniNatjecaji);
     }
+  }
+
+  onPogledaj(row: any): void {
+    console.log(row);
+
+    const dialogRef = this.dialog.open(NatjecajDialogPublicComponent, {
+      width: '60%',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      const data = {
+        fromDate: '',
+        toDate: '',
+      };
+
+      this.getNatjecaj(data);
+    });
   }
 }

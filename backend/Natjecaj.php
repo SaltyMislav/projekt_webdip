@@ -69,12 +69,11 @@ if (isset($postData) && !empty($postData)) {
             }
 
             if ($row['KorisnikID'] != null) {
-                $base64Image = base64_encode($row['SlikaKorisnika']);
                 $natjecaj[$row['ID']]['Prijavljeni'][] = [
                     'KorisnikID' => (int)$row['KorisnikID'],
                     'Ime' => $row['PrijavljeniIme'],
                     'Prezime' => $row['PrijavljeniPrezime'],
-                    'Slika' => $base64Image
+                    'Slika' => $row['SlikaKorisnika']
                 ];
             }
         }

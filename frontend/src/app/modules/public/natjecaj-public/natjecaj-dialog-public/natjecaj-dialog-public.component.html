@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Natječaj</h2>
 <mat-dialog-content>
-  <form class="grid" [formGroup]="form">
+  <form [formGroup]="form" class="grid">
     <mat-form-field class="col-6">
       <mat-label>Naziv</mat-label>
       <input matInput placeholder="Naziv" formControlName="Naziv" />
@@ -16,7 +16,6 @@
         matInput
         placeholder="Datum početka"
         formControlName="VrijemePocetka"
-        (blur)="setDatumZavrsetka($event)"
       />
     </mat-form-field>
     <mat-form-field class="col-6">
@@ -30,37 +29,19 @@
     </mat-form-field>
     <mat-form-field class="col-6">
       <mat-label>Poduzeće</mat-label>
-      <mat-select formControlName="PoduzeceID" [(value)]="selectedPoduzece">
-        <mat-option *ngFor="let poduzece of poduzeca" [value]="poduzece.ID">
-          {{ poduzece.Naziv }}
-        </mat-option>
-      </mat-select>
+      <input matInput placeholder="Poduzeće" formControlName="PoduzeceNaziv" />
     </mat-form-field>
     <mat-form-field class="col-6">
       <mat-label>Status</mat-label>
-      <mat-select
-        formControlName="StatusNatjecajaID"
-        [(value)]="selectedStatus"
-      >
-        <mat-option *ngFor="let status of statusNatjecaja" [value]="status.ID">
-          {{ status.Naziv }}
-        </mat-option>
-      </mat-select>
+      <input
+        matInput
+        placeholder="Status"
+        formControlName="StatusNatjecajaNaziv"
+      />
     </mat-form-field>
   </form>
   <mat-card class="razmak">
-    <mat-card-title>
-      Prijavljeni korisnici
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="onAdd()"
-        *ngIf="this.data?.ID"
-      >
-        <mat-icon>add</mat-icon>
-        Dodaj
-      </button>
-    </mat-card-title>
+    <mat-card-title> Prijavljeni korisnici </mat-card-title>
     <table
       mat-table
       [dataSource]="dataSource"
@@ -91,11 +72,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (click)="onAdd(row)"
-      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="3"><h3>Nema podataka!!!!</h3></td>
       </tr>
@@ -142,16 +119,12 @@
   </mat-card-actions>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="false">Odustani</button>
   <button
-    *ngIf="this.authService.isModerator()"
     mat-raised-button
     color="primary"
     [mat-dialog-close]="true"
     type="button"
-    [disabled]="!form.valid"
-    (click)="onSave()"
   >
-    Spremi
+    Uredu
   </button>
 </mat-dialog-actions>

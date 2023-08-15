@@ -59,6 +59,19 @@ if (isset($postData) && !empty($postData)) {
                 LEFT JOIN korisnik k on k.ID = pn.KorisnikID
                 LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
                 LEFT JOIN poduzece p ON p.ID = n.PoduzeceID";
+    } else if ($ulogaID == 1) {
+        $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
+                n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, 
+                s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, p.ID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
+                pn.ID AS PrijavaID, pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
+                FROM natjecaj n 
+                LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
+                LEFT JOIN korisnik k on k.ID = pn.KorisnikID
+                LEFT JOIN statusnatjecaja s ON s.ID = n.StatusNatjecajaID 
+                LEFT JOIN poduzece p ON p.ID = n.PoduzeceID";
+        $conditions[] = "n.StatusNatjecajaID = ?";
+        $params[] = 1;
+        $types .= 'i';
     }
 
     if (count($conditions) > 0) {

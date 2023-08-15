@@ -1,25 +1,25 @@
 <h2 mat-dialog-title>Detalji korisnika</h2>
 <mat-dialog-content>
-    <form class="full-width" [formGroup]="form">
-        <mat-form-field class="full-width">
+    <form class="grid" [formGroup]="form">
+        <mat-form-field class="col-6">
             <mat-label>Ime</mat-label>
             <input matInput placeholder="Ime" formControlName="Ime" />
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="col-6">
             <mat-label>Prezime</mat-label>
             <input matInput placeholder="Prezime" formControlName="Prezime" />
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="col-6">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" formControlName="Email" />
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="col-6">
             <mat-label>
                 Korisničko ime
             </mat-label>
             <input matInput placeholder="Korisničko ime" formControlName="KorisnickoIme" />
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="col-12">
             <mat-label>Uloga korisnika</mat-label>
             <mat-select formControlName="UlogaKorisnikaID" [(value)]="selectedUloga">
                 <mat-option *ngFor="let uloga of uloge" [value]="uloga.ID">
@@ -28,7 +28,7 @@
             </mat-select>
         </mat-form-field>
         
-    <mat-form-field class="full-width" *ngIf="this.form.controls['UlogaKorisnikaID'].value == 2">
+    <mat-form-field class="col-12" *ngIf="this.form.controls['UlogaKorisnikaID'].value == 2">
         <mat-label> Poduzeća </mat-label>
         <mat-chip-grid #chipGrid aria-label="Poduzeća">
           <mat-chip-row *ngFor="let pod of poduzeca" (removed)="remove(pod)">
@@ -60,16 +60,18 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="col-12">
             <mat-label>Neuspješne prijave</mat-label>
             <input matInput placeholder="Neuspješne prijave" formControlName="NeuspjesnePrijave" />
         </mat-form-field>
-        <mat-slide-toggle formControlName="Blokiran" style="margin-right: 10px;" color="warn">
-            Blokiran
-        </mat-slide-toggle>
-        <mat-slide-toggle formControlName="Active" color="primary">
-            Active
-        </mat-slide-toggle>
+        <div class="col-12">
+          <mat-slide-toggle class="col-6" formControlName="Blokiran" color="warn">
+              Blokiran
+          </mat-slide-toggle>
+          <mat-slide-toggle class="col-6" formControlName="Active" color="primary">
+              Active
+          </mat-slide-toggle>
+        </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>

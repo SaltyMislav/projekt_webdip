@@ -27,6 +27,8 @@ if(isset($postData) && !empty($postData)){
         $conditions[] = "mp.KorisnikID = ?";
         $params[] = $korisnikID;
         $types .= 'i';
+    } else if ($ulogaID == 1) {
+        $sql = "SELECT p.ID, p.Naziv from poduzece p";
     }
 
     if (count($conditions) > 0) {

@@ -14,6 +14,7 @@ import { moderatorGuard } from './guards/moderator.guard';
 import { ZaboravljenaLozinkaComponent } from './modules/public/zaboravljena-lozinka/zaboravljena-lozinka.component';
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 import { korisnikGuard } from './guards/korisnik.guard';
+import { authGuard } from './guards/auth.guard';
 import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.component';
 
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'prijava', component: PrijavaComponent },
   { path: 'dolazak-na-posao', component: DolazakNaPosaoComponent, canActivate: [korisnikGuard]},
   { path: 'korisnici', component: KorisniciComponent, canActivate: [adminGuard] },
-  { path: 'natjecaj', component: NatjecajComponent, canActivate: [moderatorGuard] },
+  { path: 'natjecaj', component: NatjecajComponent, canActivate: [authGuard] },
   { path: 'poduzeca', component: PoduzecaComponent, canActivate: [adminGuard] },
   { path: 'radni-zadatak', component: RadniZadatakComponent },
   { path: 'aktivacija', component: AktivacijaComponent },

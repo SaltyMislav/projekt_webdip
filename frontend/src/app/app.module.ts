@@ -20,7 +20,10 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -50,16 +53,17 @@ import { RadniZadatakComponent } from './modules/radni-zadatak/radni-zadatak.com
 import { RegistracijaComponent } from './modules/public/registracija/registracija.component';
 import { SearchDialogComponent } from './modules/search-dialog/search-dialog.component';
 import { RecaptchaModule } from 'ng-recaptcha';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ZaboravljenaLozinkaComponent } from './modules/public/zaboravljena-lozinka/zaboravljena-lozinka.component';
 import { KonfiguracijaComponent } from './modules/konfiguracija/konfiguracija.component';
 import { KorisniciDialogComponent } from './modules/korisnici/korisnici-dialog/korisnici-dialog.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ZaposleniciComponent } from './modules/zaposlenici/zaposlenici.component';
 import { NatjecajDialogComponent } from './modules/natjecaj/natjecaj-dialog/natjecaj-dialog.component';
 import { PrijavaNatjecajComponent } from './modules/natjecaj/prijava-natjecaj/prijava-natjecaj.component';
+import { NatjecajDialogPublicComponent } from './modules/public/natjecaj-public/natjecaj-dialog-public/natjecaj-dialog-public.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +91,7 @@ import { PrijavaNatjecajComponent } from './modules/natjecaj/prijava-natjecaj/pr
     ZaposleniciComponent,
     NatjecajDialogComponent,
     PrijavaNatjecajComponent,
+    NatjecajDialogPublicComponent,
   ],
   imports: [
     BrowserModule,
@@ -120,6 +125,10 @@ import { PrijavaNatjecajComponent } from './modules/natjecaj/prijava-natjecaj/pr
     MatAutocompleteModule,
   ],
   providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

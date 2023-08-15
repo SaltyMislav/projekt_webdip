@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>Poduzeće</h2>
 <mat-dialog-content>
-  <form class="full-width" [formGroup]="formGroup">
-    <mat-form-field class="full-width">
+  <form class="grid" [formGroup]="formGroup">
+    <mat-form-field class="col-12">
       <mat-label>Naziv</mat-label>
       <input matInput formControlName="Naziv" name="Naziv" />
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field class="col-12">
       <mat-label>RadnoVrijemeOd</mat-label>
       <input
         type="time"
@@ -14,7 +14,7 @@
         name="RadnoVrijemeOd"
       />
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field class="col-12">
       <mat-label>RadnoVrijemeDo</mat-label>
       <input
         type="time"
@@ -23,11 +23,11 @@
         name="RadnoVrijemeDo"
       />
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field class="col-12">
       <mat-label>Opis</mat-label>
       <textarea matInput formControlName="Opis" name="Opis"></textarea>
     </mat-form-field>
-    <mat-form-field class="full-width" *ngIf="this.data">
+    <mat-form-field class="col-12" *ngIf="this.data">
       <mat-label> Moderatori </mat-label>
       <mat-chip-grid #chipGrid aria-label="Moderatori">
         <mat-chip-row *ngFor="let mod of moderatori" (removed)="remove(mod)">

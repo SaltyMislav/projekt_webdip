@@ -2,7 +2,7 @@
   <mat-card-title>
     Popis natječaja
 
-    <button mat-fab extended color="primary" (click)="onDodaj()">
+    <button mat-fab extended color="primary" (click)="onDodaj()" *ngIf="this.authService.isModerator()">
       <mat-icon>add</mat-icon>
       Dodaj natječaj
     </button>

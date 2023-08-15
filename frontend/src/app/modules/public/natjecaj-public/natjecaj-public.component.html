@@ -135,7 +135,11 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="onPogledaj(row)"
+      ></tr>
 
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="8"><h3>Nema podataka!!!!</h3></td>

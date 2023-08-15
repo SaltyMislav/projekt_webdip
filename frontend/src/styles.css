@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 * {
   margin: 0;
+  box-sizing: border-box;
   padding: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -531,53 +532,78 @@ article {
   margin-left: 20px;
 }
 
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.col {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
 .col-1 {
-  width: 8.33%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 8.3333%;
+  padding: 0.5rem;
 }
 .col-2 {
-  width: 16.66%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 16.6667%;
+  padding: 0.5rem;
 }
 .col-3 {
+  flex: 0 0 auto;
   width: 25%;
-  margin: 2px;
+  padding: 0.5rem;
 }
 .col-4 {
-  width: 33.33%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 33.3333%;
+  padding: 0.5rem;
 }
 .col-5 {
-  width: 41.66%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 41.6667%;
+  padding: 0.5rem;
 }
 .col-6 {
+  flex: 0 0 auto;
   width: 50%;
-  margin: 2px;
+  padding: 0.5rem;
 }
 .col-7 {
-  width: 58.33%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 58.3333%;
+  padding: 0.5rem;
 }
 .col-8 {
-  width: 66.66%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 66.6667%;
+  padding: 0.5rem;
 }
 .col-9 {
+  flex: 0 0 auto;
   width: 75%;
-  margin: 2px;
+  padding: 0.5rem;
 }
 .col-10 {
-  width: 83.33%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 83.3333%;
+  padding: 0.5rem;
 }
 .col-11 {
-  width: 91.66%;
-  margin: 2px;
+  flex: 0 0 auto;
+  width: 91.6667%;
+  padding: 0.5rem;
 }
 .col-12 {
+  flex: 0 0 auto;
   width: 100%;
-  margin: 2px;
+  padding: 0.5rem;
 }
 
 .green-snackbar {

@@ -15,7 +15,7 @@
       <li class="elementi" *ngIf="this.authService.isModerator()">
         <a routerLink="/zaposlenici">Zaposlenici</a>
       </li>
-      <li class="elementi" *ngIf="this.authService.isModerator()">
+      <li class="elementi" *ngIf="this.authService.isAuthentificated()">
         <a routerLink="/natjecaj">Natječaji</a>
       </li>
       <li class="elementi">

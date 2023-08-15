@@ -48,7 +48,7 @@ export class NatjecajDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private natjecajService: NatjecajService,
-    private authService: AuthenticationService,
+    protected authService: AuthenticationService,
     private konfiguracijaClass: KonfiguracijaClass,
     private cdref: ChangeDetectorRef,
     private snackBar: MatSnackBar,
@@ -67,28 +67,55 @@ export class NatjecajDialogComponent implements OnInit {
 
     this.natjecajService
       .getPoduzece(postData)
-      .subscribe((poduzeca: Poduzece[]) => {
-        this.poduzeca = poduzeca;
+      .subscribe((result: Poduzece[]) => {
+        this.poduzeca = result;
       });
 
     this.natjecajService
       .getStatusNatjecaja()
-      .subscribe((statusNatjecaja: StatusNatjecaja[]) => {
-        this.statusNatjecaja = statusNatjecaja;
+      .subscribe((result: StatusNatjecaja[]) => {
+        this.statusNatjecaja = result;
       });
 
-    this.form = this.fb.group({
-      ID: [this.data?.ID],
-      Naziv: [this.data?.Naziv, Validators.required],
-      Opis: [this.data?.Opis, Validators.required],
-      VrijemePocetka: [this.data?.VrijemePocetka, Validators.required],
-      VrijemeKraja: [
-        { value: this.data?.VrijemeKraja, disabled: true },
-        Validators.required,
-      ],
-      PoduzeceID: [this.data?.PoduzeceID, Validators.required],
-      StatusNatjecajaID: [this.data?.StatusNatjecajaID, Validators.required],
-    });
+    if (this.authService.isUser()) {
+      this.form = this.fb.group({
+        ID: { value: this.data?.ID, disabled: true },
+        Naziv: [
+          { value: this.data?.Naziv, disabled: true },
+          Validators.required,
+        ],
+        Opis: [{ value: this.data?.Opis, disabled: true }, Validators.required],
+        VrijemePocetka: [
+          { value: this.data?.VrijemePocetka, disabled: true },
+          Validators.required,
+        ],
+        VrijemeKraja: [
+          { value: this.data?.VrijemeKraja, disabled: true },
+          Validators.required,
+        ],
+        PoduzeceID: [
+          { value: this.data?.PoduzeceID, disabled: true },
+          Validators.required,
+        ],
+        StatusNatjecajaID: [
+          { value: this.data?.StatusNatjecajaID, disabled: true },
+          Validators.required,
+        ],
+      });
+    } else {
+      this.form = this.fb.group({
+        ID: [this.data?.ID],
+        Naziv: [this.data?.Naziv, Validators.required],
+        Opis: [this.data?.Opis, Validators.required],
+        VrijemePocetka: [this.data?.VrijemePocetka, Validators.required],
+        VrijemeKraja: [
+          { value: this.data?.VrijemeKraja, disabled: true },
+          Validators.required,
+        ],
+        PoduzeceID: [this.data?.PoduzeceID, Validators.required],
+        StatusNatjecajaID: [this.data?.StatusNatjecajaID, Validators.required],
+      });
+    }
 
     this.selectedStatus = this.data?.StatusNatjecajaID;
     this.selectedPoduzece = this.data?.PoduzeceID;

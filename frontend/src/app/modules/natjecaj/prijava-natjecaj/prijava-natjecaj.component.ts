@@ -35,20 +35,24 @@ export class PrijavaNatjecajComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isModerator()){
-      this.korisniciService.getKorisniciZaPrijavu().subscribe((res: any) => {
-        this.korisnici = res;
-      });
-    } else {
-      this.selectedKorisnik = this.authService.getUser().user_ID;
-      this.form.controls['KorisnikID'].disable();
-    }
-
     this.form = this.fb.group({
       ID: [this.data?.ID],
       KorisnikID: [this.data?.KorisnikID, Validators.required],
       NatjecajID: [this.data?.NatjecajID, Validators.required],
     });
+
+    if (this.authService.isModerator()){
+      this.korisniciService.getKorisniciZaPrijavu().subscribe((res: any) => {
+        this.korisnici = res;
+      });
+    } else {
+      this.korisniciService.getKorisniciZaPrijavu().subscribe((res: any) => {
+        this.korisnici = res;
+      });
+      this.selectedKorisnik = this.authService.getUser().user_ID;
+      this.form.controls['KorisnikID'].disable();
+    }
+
 
     this.base64Image = this.data?.Slika;
   }

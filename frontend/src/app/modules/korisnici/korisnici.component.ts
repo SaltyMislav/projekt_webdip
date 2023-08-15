@@ -202,7 +202,7 @@ export class KorisniciComponent implements OnInit {
 
   onDetail(row: any): void {
     const dialogRef = this.dialog.open(KorisniciDialogComponent, {
-      width: '400px',
+      width: '40%',
       data: row,
     });
 
