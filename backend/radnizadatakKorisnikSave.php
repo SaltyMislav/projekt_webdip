@@ -18,6 +18,7 @@ if (isset($postData) && !empty($postData)) {
     provjeraPrijaveNaPosao($con, $datum, $korisnikID);
 
     $odradeno = 1;
+    $opis .= " - Odrađeno";
 
     $sql = "UPDATE radnizadatak SET Opis = ?, Datum = ?, Odradeno = ? WHERE ID = ? AND KorisnikID = ?";
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));

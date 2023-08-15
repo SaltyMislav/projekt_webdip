@@ -35,9 +35,7 @@ export class RadniZadatakDialogComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<RadniZadatakDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(data);
-  }
+  ) { }
 
   ngOnInit(): void {
     this.radnizadatakService.getOcijena().subscribe((ocijene) => {
@@ -57,6 +55,7 @@ export class RadniZadatakDialogComponent implements OnInit {
 
     if (this.authService.isModerator()) {
       this.form = this.fb.group({
+        ID: [this.data?.ID],
         Naziv: [this.data?.Naziv, Validators.required],
         Opis: [this.data?.Opis, Validators.required],
         Datum: [this.data?.Datum, Validators.required],
@@ -111,6 +110,7 @@ export class RadniZadatakDialogComponent implements OnInit {
       ? this.data.OcijenaZaposlenikaID
       : 1;
     this.selectedZaposlenik = this.data?.UlogaKorisnikaID;
+    this.selectedPoduzece = this.data?.PoduzeceID;
 
     if (this.data == undefined) {
       this.form.controls['Odradeno'].setValue(false);
