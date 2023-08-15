@@ -37,7 +37,7 @@ if (isset($postData) && !empty($postData)) {
         $sql = "SELECT n.ID AS ID, n.Naziv AS Naziv, 
                 n.VrijemeKraja AS VrijemeKraja, n.VrijemePocetka AS VrijemePocetka, n.Opis AS Opis, 
                 s.ID AS StatusNatjecajaID, s.Naziv AS VrstaStatusa, n.PoduzeceID AS PoduzeceID, p.Naziv AS NazivPoduzeca,
-                pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
+                pn.ID AS PrijavaID, pn.KorisnikID AS KorisnikID, pn.Slika AS SlikaKorisnika, k.Ime AS PrijavljeniIme, k.Prezime AS PrijavljeniPrezime
                 FROM natjecaj n 
                 LEFT JOIN prijavananatjecaj pn ON pn.NatjecajID = n.ID
                 LEFT JOIN korisnik k on k.ID = pn.KorisnikID

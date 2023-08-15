@@ -41,7 +41,7 @@ if (isset($postdata) && !empty($postdata)) {
                 LEFT JOIN korisnik k ON rz.KorisnikID = k.ID
                 LEFT JOIN moderatorpoduzeca mp ON rz.PoduzeceID = mp.PoduzeceID 
                 LEFT JOIN poduzece p ON mp.PoduzeceID = p.ID";
-        if ($poduzeceID != '') {
+        if ($korisnikID != '') {
             $conditions[] = 'mp.KorisnikID = ?';
             $params[] = $korisnikID;
             $types .= 'i';

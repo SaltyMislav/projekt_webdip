@@ -13,10 +13,6 @@ if (isset($postData) && !empty($postData)) {
     $datumVrijemeDolaska = date('Y-m-d H:i:s', strtotime($request->data->DatumVrijemeDolaska));
     $datumDolaska = date('Y-m-d', strtotime($request->data->DatumVrijemeDolaska));
 
-    if ($korisnikID != 1){
-        trigger_error("Samo korisnici smiju evidentirati dolazak na posao!", E_USER_ERROR);
-    }
-
     $sql = "SELECT * FROM dolascinaposao WHERE KorisnikID = ? AND DatumVrijemeDolaska LIKE CONCAT(? ,'%')";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'is', $korisnikID, $datumDolaska);

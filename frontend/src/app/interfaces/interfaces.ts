@@ -88,7 +88,7 @@ export interface PrijavaKorisnika {
 export interface RadniZadatak {
   ID: number;
   Naziv: string;
-  Opis: string;
+  Opis?: string;
   Datum: string;
   Odradeno: boolean;
   OcijenaZaposlenikaID: number;
@@ -97,4 +97,15 @@ export interface RadniZadatak {
   Ocijena: number;
   ImePrezime: string;
   PoduzeceNaziv: string;
+}
+
+export interface OcijenaZaposlenika {
+  ID: number;
+  Ocijena: number;
+}
+
+export interface ZaposleniciOdabir {
+  ID: number;
+  ImePrezime: string;
+  PoduzeceID: number;
 }

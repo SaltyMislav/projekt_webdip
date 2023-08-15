@@ -1,1 +1,59 @@
-<p>radni-zadatak-dialog works!</p>
+<h2 mat-dialog-title>Radni zadatak</h2>
+<mat-dialog-content>
+  <form class="grid" [formGroup]="form">
+    <mat-form-field class="col-6">
+      <mat-label>Naziv</mat-label>
+      <input matInput placeholder="Naziv" formControlName="Naziv" />
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <mat-label>Opis</mat-label>
+      <input matInput placeholder="Opis" formControlName="Opis" />
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <mat-label>Datum zadatka</mat-label>
+      <input type="date" matInput placeholder="Datum" formControlName="Datum" />
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <mat-label>Zaposlenik</mat-label>
+      <mat-select
+        formControlName="KorisnikID"
+        (selectionChange)="onKorisnikChange($event)"
+        [(value)]="selectedZaposlenik"
+      >
+        <mat-option
+          *ngFor="let zaposlenik of zaposlenici"
+          [value]="zaposlenik.ID"
+        >
+          {{ zaposlenik.ImePrezime }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <mat-label>Ocijena zaposlenika</mat-label>
+      <mat-select
+        formControlName="OcijenaZaposlenikaID"
+        [(value)]="selectedOcijena"
+      >
+        <mat-option *ngFor="let ocijena of ocijene" [value]="ocijena.ID">
+          {{ ocijena.Ocijena }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="col-6">
+      <mat-slide-toggle formControlName="Odradeno">Odrađeno</mat-slide-toggle>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Odustani</button>
+  <span class="flex-spacer"></span>
+  <button
+    [disabled]="this.data?.Odradeno && !this.authService.isModerator()"
+    mat-raised-button
+    color="primary"
+    (click)="onYesClick()"
+    cdkFocusInitial
+  >
+    Uredu
+  </button>
+</mat-dialog-actions>

@@ -18,4 +18,36 @@ export class RadnizadatakService {
         })
       );
   }
+
+  getOcijena() {
+    return this.http.get(environment.apiUrl + '/ocijenazaposlenika').pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
+  getZaposlenici(data: any) {
+    return this.http.post(environment.apiUrl + '/zaposleniciodabir', {data: data}).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
+  radniZadatakSave(data: any) {
+    return this.http.post(environment.apiUrl + '/radnizadataksave', { data: data }).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+
+  radniZadatakKorisnikSave(data: any) {
+    return this.http.post(environment.apiUrl + '/radnizadatakkorisniksave', { data: data }).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
 }

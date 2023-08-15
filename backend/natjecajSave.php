@@ -43,8 +43,6 @@ if (isset($postData) && !empty($postData)) {
                 $status = 2;
             updateZaposlenika($con, $id, $poduzece, $status);
         } else {
-            if ($trenutnoVrijeme < $vrijemeKraja)
-                $status = 1;
             updateZaposlenika($con, $id, $poduzece, $status);
         }
 
