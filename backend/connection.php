@@ -4,7 +4,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'WebDiP2022x057');
 define('DB_PASS', 'admin_iZ8g');
-define('DB_NAME', 'webdip2022x057');
+define('DB_NAME', 'WebDiP2022x057');
 
 // Connect with the database.
 function connect()

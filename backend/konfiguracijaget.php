@@ -1,7 +1,7 @@
 <?php
 
-require_once 'connection.php';
-require_once 'dnevnikClass.php';
+require_once ("./connection.php");
+require_once ("./dnevnikclass.php");
 
 Dnevnik::upisiUDnevnik($con, 'Pokretanje konfiguracijaget', Dnevnik::TrenutnoVrijeme($con), 6);
 

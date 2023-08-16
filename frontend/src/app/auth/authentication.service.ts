@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Buffer } from "buffer";
+import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 
 window.Buffer = window.Buffer || require('buffer').Buffer;
@@ -9,7 +10,9 @@ window.Buffer = window.Buffer || require('buffer').Buffer;
 })
 export class AuthenticationService {
 
-  constructor() { }
+  constructor(
+    private cookieService: CookieService
+    ) { }
 
   setRememberedUser(user: any): void {
     let zapis = this.jsonToBase64(user);
@@ -47,6 +50,7 @@ export class AuthenticationService {
   removeUser(): void {
     sessionStorage.removeItem('user');
     localStorage.removeItem('user');
+    this.cookieService.delete('PHPSESSID', '/');
     location.href = environment.homePage;
   }
 

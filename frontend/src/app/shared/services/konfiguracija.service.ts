@@ -10,7 +10,7 @@ export class KonfiguracijaService {
     constructor(private http: HttpClient) {}
 
     dohvatPomaka() {
-        return this.http.get(environment.apiUrl + "/dohvatiVirtualnoVrijeme").pipe(
+        return this.http.get(environment.apiUrl + "/dohvativirtualnovrijeme").pipe(
             map((res: any) => {
                 return res["data"];
             })
@@ -27,7 +27,7 @@ export class KonfiguracijaService {
 
     postaviStranicenje(data: any) {
         return this.http
-            .post(environment.apiUrl + "/postaviStranicenje", { data: data })
+            .post(environment.apiUrl + "/postavistranicenje", { data: data })
             .pipe(
                 map((res: any) => {
                     return res["data"];

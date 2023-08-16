@@ -26,7 +26,7 @@ export class KorisniciService {
     }
 
     getZaposleniciPrivatno(data?: any) {
-        return this.http.post(environment.apiUrl + '/zaposleniciPrivatno', data ? {data: data} : null).pipe(
+        return this.http.post(environment.apiUrl + '/zaposleniciprivatno', data ? {data: data} : null).pipe(
             map((res: any) => {
                 return res['data'];
             })
@@ -34,7 +34,7 @@ export class KorisniciService {
     }
 
     getKorisniciModeratori() {
-        return this.http.get(environment.apiUrl + '/korisniciModeratori').pipe(
+        return this.http.get(environment.apiUrl + '/korisnicimoderatori').pipe(
             map((res: any) => {
                 return res['data'];
             })
@@ -42,7 +42,7 @@ export class KorisniciService {
     }
 
     getKorisniciZaPrijavu() {
-        return this.http.get(environment.apiUrl + '/korisniciNatjecaj').pipe(
+        return this.http.get(environment.apiUrl + '/korisnicinatjecaj').pipe(
             map((res: any) => {
                 return res['data'];
             })
@@ -51,7 +51,7 @@ export class KorisniciService {
 
 
     onSaveKorisnik(korisnik: any) {
-        return this.http.post(environment.apiUrl + '/korisniciSave', {data: korisnik}).pipe(
+        return this.http.post(environment.apiUrl + '/korisnicisave', {data: korisnik}).pipe(
             map((res: any) => {
                 return res['data'];
             })

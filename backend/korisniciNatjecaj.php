@@ -1,7 +1,7 @@
 <?php
 
-require_once 'connection.php';
-require_once 'dnevnikClass.php';
+require_once ("./connection.php");
+require_once ("./dnevnikclass.php");
 
 $korisnici = array();
 

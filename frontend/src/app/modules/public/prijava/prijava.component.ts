@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { PrijavaService } from '../../../shared/services/prijava.service';
-import { PrijavaEnforcehttpsService } from '../../../shared/services/prijavaEnforcehttps.service';
 
 @Component({
   selector: 'app-prijava',
@@ -18,15 +17,12 @@ export class PrijavaComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private enforceHttps: PrijavaEnforcehttpsService,
     private prijavaService: PrijavaService,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.enforceHttps.canActivate();
-
     this.prijavaForm = this.fb.group({
       korisnickoIme: ['', Validators.required],
       password: ['', Validators.required],

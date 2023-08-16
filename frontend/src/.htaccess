@@ -1,15 +1,7 @@
-<Directory ~ "/WebDiP/2022_projekti/WebDiP2022x057/blokirano"
-#Authentication
-  AuthType Basic
-  AuthName "Ulazak u projekt"
-  AuthUserFile /var/www/WebDiP/2022_projekti/WebDiP2022x057/.htpasswd
-  Require valid-user
-</Directory>
-
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  
-# Remove the php extension from the filename
+
+  # Remove the php extension from the filename
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
@@ -17,6 +9,7 @@
   RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
   RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
   RewriteRule ^ - [L]
+  
 # Redirect all non-file routes to index.html
   RewriteRule ^ /WebDiP/2022_projekti/WebDiP2022x057/index.html
 </IfModule>

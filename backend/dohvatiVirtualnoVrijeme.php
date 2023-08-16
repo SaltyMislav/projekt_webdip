@@ -1,7 +1,7 @@
 <?php
 
-require_once 'connection.php';
-require_once 'virtualnoVrijemeClass.php';
+require_once ("./connection.php");
+require_once ("./virtualnoVrijemeClass.php");
 
 VirtualnoVrijeme::postaviVrijemeUBazu($con);
 

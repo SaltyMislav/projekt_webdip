@@ -1,6 +1,6 @@
 <?php
 
-require_once 'virtualnoVrijemeClass.php';
+require_once ("./virtualnoVrijemeClass.php");
 class Dnevnik
 {
     public static function upisiUDnevnik($con, $detail, $datumVrijeme, $vrstaPromjene) {

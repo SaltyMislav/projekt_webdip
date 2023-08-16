@@ -1,8 +1,8 @@
 <?php
 
-require_once 'connection.php';
-require_once 'virtualnoVrijemeClass.php';
-require_once 'dnevnikClass.php';
+require_once ("./connection.php");
+require_once ("./virtualnoVrijemeClass.php");
+require_once ("./dnevnikclass.php");
 
 
 $postData = file_get_contents("php://input");
