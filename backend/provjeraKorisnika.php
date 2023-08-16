@@ -1,11 +1,14 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData, true);
+
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje provjera korisnika', Dnevnik::TrenutnoVrijeme($con), 5);
 
     $username = mysqli_real_escape_string($con, $result['params']['updates'][0]['value']);
 
@@ -20,6 +23,9 @@ if (isset($postData) && !empty($postData)) {
 
 
 function find_user_by_username($username, $con){
+
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje funkcije za pronalazak korisnika', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $sql = "SELECT * FROM korisnik WHERE KorisnickoIme = ? LIMIT 1";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, "s", $username);
@@ -31,8 +37,10 @@ function find_user_by_username($username, $con){
     mysqli_stmt_close($stmt);
 
     if ($user) {
+        Dnevnik::upisiUDnevnik($con, 'Korisnik pronaden', Dnevnik::TrenutnoVrijeme($con), 9);
         return $user;
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Korisnik nije pronaden', Dnevnik::TrenutnoVrijeme($con), 8);
         return null;
     }
 }

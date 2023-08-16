@@ -1,11 +1,14 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
 if(isset($postData) && !empty($postData)){
     $result = json_decode($postData);
+
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 5);
 
     $ulogaID = filter_var($result->data->UlogaID, FILTER_SANITIZE_NUMBER_INT);
     $korisnikID = filter_var($result->data->KorisnikID, FILTER_SANITIZE_NUMBER_INT);
@@ -16,6 +19,7 @@ if(isset($postData) && !empty($postData)){
     $types = '';
 
     if (empty($ulogaID) || empty($korisnikID)) {
+        Dnevnik::upisiUDnevnik($con, 'Nedovoljno podataka za izvršiti upit', Dnevnik::TrenutnoVrijeme($con), 7);
         trigger_error("Nedovoljno podataka za izvršiti upit", E_USER_ERROR);
     }
 
@@ -37,6 +41,8 @@ if(isset($postData) && !empty($postData)){
 
     $sql .= " ORDER BY p.ID ASC";
 
+    Dnevnik::upisiUDnevnik($con, 'Upit poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 3);
+
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
@@ -44,6 +50,9 @@ if(isset($postData) && !empty($postData)){
     }
 
     if (mysqli_stmt_execute($stmt)) {
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješan upit poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
+
         $result = mysqli_stmt_get_result($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -52,8 +61,11 @@ if(isset($postData) && !empty($postData)){
                 'Naziv' => $row['Naziv']
             ];
         }
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješno dohvaćanje poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $poduzeca]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješan upit poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 }

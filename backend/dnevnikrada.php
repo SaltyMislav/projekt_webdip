@@ -1,6 +1,6 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
 
 $dnevnikrada = [];
 $sql = "SELECT dr.ID, dr.Detail, dr.DatumPromjene, dr.VrstaPromjeneID, vp.Naziv FROM dnevnikrada dr LEFT JOIN vrstapromjene vp ON dr.VrstaPromjeneID = vp.ID";

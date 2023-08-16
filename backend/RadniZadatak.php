@@ -1,11 +1,14 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postdata = file_get_contents("php://input");
 
 if (isset($postdata) && !empty($postdata)) {
     $result = json_decode($postdata);
+
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje radni zadatak', Dnevnik::TrenutnoVrijeme($con), 5);
 
     $naziv = mysqli_real_escape_string($con, trim($result->data->Naziv));
     $opis = mysqli_real_escape_string($con, trim($result->data->Opis));
@@ -13,6 +16,7 @@ if (isset($postdata) && !empty($postdata)) {
     $korisnikID = filter_var($result->data->KorisnikID, FILTER_VALIDATE_INT);
 
     if (!isset($korisnikID) || !isset($ulogaID) || !isset($naziv) || !isset($opis)) {
+        Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
         trigger_error("Nisu proslijeđeni svi parametri", E_USER_ERROR);
     }
 
@@ -71,6 +75,8 @@ if (isset($postdata) && !empty($postdata)) {
         $sql .= ' WHERE ' . implode(' AND ', $conditions);
     }
 
+    Dnevnik::upisiUDnevnik($con, 'Upit radni zadatak', Dnevnik::TrenutnoVrijeme($con), 3);
+
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
@@ -79,6 +85,9 @@ if (isset($postdata) && !empty($postdata)) {
 
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješan upit radni zadatak', Dnevnik::TrenutnoVrijeme($con), 9);
 
         $cr = 0;
         while ($row = mysqli_fetch_assoc($result)) {
@@ -96,11 +105,14 @@ if (isset($postdata) && !empty($postdata)) {
             $cr++;
         }
 
+        Dnevnik::upisiUDnevnik($con, 'Uspješno dohvaćanje radni zadatak', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $radnizadaci]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješan upit radni zadatak', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    Dnevnik::upisiUDnevnik($con, 'Nemate pristup stranici', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error("Nemate pristup stranici", E_USER_ERROR);
 }
 

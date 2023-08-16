@@ -1,6 +1,8 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'virtualnoVrijemeClass.php';
+require_once 'dnevnikClass.php';
 
 
 $postData = file_get_contents("php://input");
@@ -8,10 +10,13 @@ $postData = file_get_contents("php://input");
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje aktivacije', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $token = $result->token;
     $username = $result->username;
 
     if (!checkifhexadecimal($token)) {
+        Dnevnik::upisiUDnevnik($con, $token." - token za korisnika" . $username . "nije validan", Dnevnik::TrenutnoVrijeme($con), 7);
         unset($token);
         trigger_error("Token nije validan", E_USER_ERROR);
     }
@@ -34,6 +39,7 @@ if (isset($postData) && !empty($postData)) {
         $tokenHash = password_hash($token, PASSWORD_DEFAULT);
         if ((int)$user['Istekao'] === 1) {
             deleteToken($user['ID'], $con);
+            Dnevnik::upisiUDnevnik($con, $user['ID']." - token je istekao, molimo ponovo se registrirajte", Dnevnik::TrenutnoVrijeme($con), 7);
             trigger_error("Token je istekao, molimo ponovo se registrirajte", E_USER_ERROR);
         }
 
@@ -44,17 +50,20 @@ if (isset($postData) && !empty($postData)) {
             mysqli_stmt_execute($stmt);
 
             if (mysqli_stmt_affected_rows($stmt) > 0) {
+                mysqli_stmt_close($stmt);
+                Dnevnik::upisiUDnevnik($con, $user['ID']." - korisnik je aktiviran",  Dnevnik::TrenutnoVrijeme($con), 9);
                 echo json_encode(['success' => 'true']);
                 http_response_code(201);
             } else {
+                mysqli_stmt_close($stmt);
+                Dnevnik::upisiUDnevnik($con, $user['ID']." - pogreška kod aktivacije",  Dnevnik::TrenutnoVrijeme($con), 8);
                 trigger_error("Došlo je do pogreške, molim pokušajte ponovo", E_USER_ERROR);
             }
         }
     } else {
+        Dnevnik::upisiUDnevnik($con, $user['ID']." - došlo je do pogreške ili je korisnik vec aktiviran",  Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Došlo je do pogreške ili je korisnik vec aktiviran", E_USER_ERROR);
     }
-
-    mysqli_stmt_close($stmt);
     mysqli_close($con);
 }
 

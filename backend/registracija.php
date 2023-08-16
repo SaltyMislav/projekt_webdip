@@ -1,23 +1,30 @@
 <?php
 
-require 'connection.php';
-require 'virtualnoVrijemeClass.php';
+require_once 'connection.php';
+require_once 'virtualnoVrijemeClass.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
-    $ime = validate_ime($result);
-    $prezime = validate_prezime($result);
-    $userName = validate_userName($result);
-    $email = validate_email($result);
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje registracije', Dnevnik::TrenutnoVrijeme($con), 5);
+
+    $ime = validate_ime($result, $con);
+    $prezime = validate_prezime($result, $con);
+    $userName = validate_userName($result, $con);
+    $email = validate_email($result, $con);
+
+    Dnevnik::upisiUDnevnik($con, 'Validacija uspješna', Dnevnik::TrenutnoVrijeme($con), 9);
+
     $password = $result->data->password;
     $confirmedPassword = $result->data->confirmedPassword;
 
     $captcha = $result->data->captcha;
 
     if (!$captcha) {
+        Dnevnik::upisiUDnevnik($con, 'Captcha nije ispunjena', Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Captcha nije ispunjena", E_USER_ERROR);
     }
 
@@ -28,6 +35,7 @@ if (isset($postData) && !empty($postData)) {
     $responseKeys = json_decode($response, true);
 
     if (!$responseKeys["success"]) {
+        Dnevnik::upisiUDnevnik($con, 'Captcha nije dobra', Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Captcha nije dobra, probajte ponovo", E_USER_ERROR);
     }
 
@@ -35,13 +43,19 @@ if (isset($postData) && !empty($postData)) {
     //check if user already exists
     provjeraKorisnika($userName, $con);
 
+    Dnevnik::upisiUDnevnik($con, 'Korisnik ne postoji', Dnevnik::TrenutnoVrijeme($con), 9);
+
     //check if passwords match
     if ($result->data->password != $result->data->confirmedPassword) {
+        Dnevnik::upisiUDnevnik($con, 'Lozinke se ne podudaraju', Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Lozinke se ne podudaraju", E_USER_ERROR);
     }
 
     //validate password with regex
     if (!preg_match("/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})$/", $password)) {
+
+        Dnevnik::upisiUDnevnik($con, 'Lozinka nije ispravna', Dnevnik::TrenutnoVrijeme($con), 8);
+
         trigger_error("Lozinka mora imati najmanje 8 znakova, jedno veliko slovo, jedan broj i jedan specijalni znak", E_USER_ERROR);
     } else {
         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
@@ -67,18 +81,20 @@ if (isset($postData) && !empty($postData)) {
 
     //insert data into database
     if (mysqli_stmt_affected_rows($stmt) > 0) {
-        slanjeMaila($userName, $email, $token);
+        mysqli_stmt_close($stmt);
+        Dnevnik::upisiUDnevnik($con, 'Uspješna registracija', Dnevnik::TrenutnoVrijeme($con), 9);
+        slanjeMaila($userName, $email, $token, $con);
         http_response_code(201);
     } else {
+        mysqli_stmt_close($stmt);
+        Dnevnik::upisiUDnevnik($con, 'Neuspješna registracija', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(422);
     }
-    
-    mysqli_stmt_close($stmt); //close statement
     mysqli_close($con);
 }
 
 
-function slanjeMaila($userName, $email, $token) {
+function slanjeMaila($userName, $email, $token, $con) {
     $subject = "Registracija";
 
     $query_string = http_build_query(array(
@@ -94,16 +110,20 @@ function slanjeMaila($userName, $email, $token) {
     //send email
     if (mail($email, $subject, $message, $headers))
     {
+        Dnevnik::upisiUDnevnik($con, 'Uspješno slanje maila', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => "Uspješno ste se registrirali na stranicu!"]);
     }
     else
     {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješno slanje maila', Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Greška kod slanja maila, molimo javite se administratoru radi aktivacije", E_USER_ERROR);
     };
 }
 
-function validate_ime($result)
+function validate_ime($result, $con)
 {
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje validacije imena', Dnevnik::TrenutnoVrijeme($con), 7);
+
     if (isset($result->data->ime) && !empty($result->data->ime)) {
         $ime = trim($result->data->ime);
         $ime = strip_tags($ime);
@@ -118,8 +138,10 @@ function validate_ime($result)
     }
 }
 
-function validate_prezime($result)
+function validate_prezime($result, $con)
 {
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje validacije prezimena', Dnevnik::TrenutnoVrijeme($con), 7);
+
     if (isset($result->data->prezime) && !empty($result->data->prezime)) {
         $prezime = trim($result->data->prezime);
         $prezime = strip_tags($prezime);
@@ -134,8 +156,10 @@ function validate_prezime($result)
     }
 }
 
-function validate_userName($result)
+function validate_userName($result, $con)
 {
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje validacije korisničkog imena', Dnevnik::TrenutnoVrijeme($con), 7);
+
     if (isset($result->data->userName) && !empty($result->data->userName)) {
         $userName = trim($result->data->userName);
         $userName = strip_tags($userName);
@@ -151,8 +175,9 @@ function validate_userName($result)
 }
 
 //function to validate email
-function validate_email($result)
+function validate_email($result, $con)
 {
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje validacije emaila', Dnevnik::TrenutnoVrijeme($con), 7);
     if (isset($result->data->email) && !empty($result->data->email)) {
         $email = trim($result->data->email);
         if (!filter_var($email, FILTER_SANITIZE_EMAIL)) //274 is FILTER_VALIDATE_EMAIL
@@ -169,6 +194,9 @@ function validate_email($result)
 
 function provjeraKorisnika($userName, $con)
 {
+
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje provjere korisnika', Dnevnik::TrenutnoVrijeme($con), 7);
+
     $sql = "SELECT * FROM korisnik WHERE KorisnickoIme = ?"; //sql query
     $stmt = mysqli_prepare($con, $sql); //prepare statement
     mysqli_stmt_bind_param($stmt, "s", $userName); //bind parameters
@@ -177,6 +205,7 @@ function provjeraKorisnika($userName, $con)
     $stmt_rows = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($stmt_rows) > 0) {
+        Dnevnik::upisiUDnevnik($con, 'Korisnik već postoji', Dnevnik::TrenutnoVrijeme($con), 8);
         trigger_error("Korisnik već postoji", E_USER_ERROR);
     }
 

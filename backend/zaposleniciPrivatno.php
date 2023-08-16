@@ -1,6 +1,7 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
@@ -9,12 +10,20 @@ $zaposlenici = [];
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData, true);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje zaposleniciPrivatno', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $ime = mysqli_real_escape_string($con, strtolower(trim($result['data']['Ime'])));
     $prezime = mysqli_real_escape_string($con, strtolower(trim($result['data']['Prezime'])));
     $ulogaID = filter_var($result['data']['UlogaID'], FILTER_SANITIZE_NUMBER_INT);
     $korisnikID = filter_var($result['data']['KorisnikID'], FILTER_SANITIZE_NUMBER_INT);
 
+    if (!isset($ulogaID) || !isset($korisnikID) || !isset($ime) || !isset($prezime)) {
+        Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
+        trigger_error("Nisu svi podaci uneseni", E_USER_ERROR);
+    }
+
     if (empty($korisnikID)) {
+        Dnevnik::upisiUDnevnik($con, 'Nije dodan podatak koji moderator je tražio podatake', Dnevnik::TrenutnoVrijeme($con), 7);
         trigger_error("Potrebno je dodati podatak koji moderator je tražio podatake", E_USER_ERROR);
     }
 
@@ -66,6 +75,7 @@ if (isset($postData) && !empty($postData)) {
 
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
             if ($ulogaID == 2) {
@@ -91,11 +101,16 @@ if (isset($postData) && !empty($postData)) {
                 ];
             }
         }
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $zaposlenici]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    mysqli_stmt_close($stmt);
+    Dnevnik::upisiUDnevnik($con, 'Neuspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error('Nije moguće dohvatiti podatke o zaposlenicima!', E_USER_ERROR);
 }
 

@@ -1,14 +1,22 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
 if (isset($postData) && !empty($postData)) {
     $request = json_decode($postData);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje zaposlenici', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $prezime = mysqli_real_escape_string($con, trim($request->data->Prezime));
     $prezime = strtolower($prezime);
+
+    if (!isset($prezime)){
+        Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
+        trigger_error("Nisu svi podaci uneseni", E_USER_ERROR);
+    }
 
     $zaposlenici = [];
     $conditions = [];
@@ -38,6 +46,9 @@ if (isset($postData) && !empty($postData)) {
 
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 9);
 
         while ($row = mysqli_fetch_assoc($result)) {
             $zaposlenici[] = [
@@ -50,9 +61,11 @@ if (isset($postData) && !empty($postData)) {
         }
         echo json_encode(['data' => $zaposlenici]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    Dnevnik::upisiUDnevnik($con, 'Neuspješno dohvaćeni zaposlenici', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error('Nije moguće dohvatiti podatke o zaposlenicima!', E_USER_ERROR);
 }
 

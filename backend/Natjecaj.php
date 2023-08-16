@@ -1,14 +1,22 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje natjecaj', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $datumOd = mysqli_real_escape_string($con, trim($result->data->fromDate));
     $datumDo = mysqli_real_escape_string($con, trim($result->data->toDate));
+
+    if (!isset($datumOd) && !isset($datumDo)) {
+        Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
+        trigger_error("Nisu svi podaci uneseni", E_USER_ERROR);
+    }
 
     $natjecaj = [];
     $conditions = [];
@@ -43,6 +51,8 @@ if (isset($postData) && !empty($postData)) {
 
     $sql .= " ORDER BY s.ID ASC, n.ID ASC";
 
+    Dnevnik::upisiUDnevnik($con, 'Upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 3);
+
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
@@ -51,6 +61,8 @@ if (isset($postData) && !empty($postData)) {
 
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
+        Dnevnik::upisiUDnevnik($con, 'Uspješan upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
 
         while ($row = mysqli_fetch_assoc($result)) {
             if (!isset($natjecaj[$row['ID']])) {
@@ -80,11 +92,14 @@ if (isset($postData) && !empty($postData)) {
 
         $natjecaj = array_values($natjecaj);
 
+        Dnevnik::upisiUDnevnik($con, 'Uspješan dohvat natjecaja', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $natjecaj]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješan upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    Dnevnik::upisiUDnevnik($con, 'Nemate pristup stranici!', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error("Nemate pristup stranici!", E_USER_ERROR);
 }
 

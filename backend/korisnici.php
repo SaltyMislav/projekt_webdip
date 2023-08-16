@@ -1,6 +1,7 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 $korisnici = [];
@@ -8,8 +9,15 @@ $korisnici = [];
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData, true);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje korisnici', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $UlogaKorisnikaNaziv = mysqli_real_escape_string($con, trim($result['data']['UlogaKorisnikaNaziv']));
     $Email = mysqli_real_escape_string($con, trim($result['data']['Email']));
+
+    if (!isset($UlogaKorisnikaNaziv) && !isset($Email)) {
+        Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
+        trigger_error("Nisu svi podaci uneseni", E_USER_ERROR);
+    }
 
     $conditions = [];
     $params = [];
@@ -37,6 +45,8 @@ if (isset($postData) && !empty($postData)) {
     if (count($conditions) > 0) {
         $sql .= " WHERE " . implode(' AND ', $conditions);
     }
+
+    Dnevnik::upisiUDnevnik($con, 'Upit Korisnici', Dnevnik::TrenutnoVrijeme($con), 3);
 
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
     if ($types != '') {
@@ -72,11 +82,16 @@ if (isset($postData) && !empty($postData)) {
         }
         $korisnici = array_values($korisnici);
 
+        mysqli_stmt_close($stmt);
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješan dohvat korisnika', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $korisnici]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješan dohvat korisnika', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    Dnevnik::upisiUDnevnik($con, 'Nisu postavljeni podaci', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error("Nisu postavljeni podaci", E_USER_ERROR);
 }
 mysqli_close($con);

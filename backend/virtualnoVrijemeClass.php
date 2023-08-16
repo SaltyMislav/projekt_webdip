@@ -47,10 +47,11 @@ class VirtualnoVrijeme
     public static function procitajVrijeme($con) {
         //read from base
         $sql = "SELECT Pomak FROM konfiguracija WHERE ID = 1";
-        $stmt = mysqli_prepare($con, $sql);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt2 = mysqli_prepare($con, $sql) or die(mysqli_error($con));
+        mysqli_stmt_execute($stmt2);
+        $result = mysqli_stmt_get_result($stmt2);
         $pomak = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt2);
         return $pomak['Pomak'];
     }
 }

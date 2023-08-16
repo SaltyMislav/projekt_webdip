@@ -1,6 +1,7 @@
 <?php
 
-require 'connection.php';
+require_once 'connection.php';
+require_once 'dnevnikClass.php';
 
 $postData = file_get_contents("php://input");
 $natjecaji = [];
@@ -8,12 +9,15 @@ $natjecaji = [];
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
 
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje natjecaj', Dnevnik::TrenutnoVrijeme($con), 5);
+
     $userID = filter_var($result->data->KorisnikID, FILTER_SANITIZE_NUMBER_INT);
     $ulogaID = filter_var($result->data->UlogaID, FILTER_SANITIZE_NUMBER_INT);
     $nazivNatjecaja = mysqli_real_escape_string($con, trim($result->data->NazivNatjecaja));
     $vrijemePocetka = mysqli_real_escape_string($con, trim($result->data->VrijemePocetka));
 
     if (empty($userID) || empty($ulogaID)) {
+        Dnevnik::upisiUDnevnik($con, 'Nedovoljno podataka za izvršiti upit', Dnevnik::TrenutnoVrijeme($con), 7);
         trigger_error("Nedovoljno podataka za izvršiti upit", E_USER_ERROR);
     }
 
@@ -80,6 +84,8 @@ if (isset($postData) && !empty($postData)) {
 
     $sql .= " ORDER BY n.ID ASC";
 
+    Dnevnik::upisiUDnevnik($con, 'Upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 3);
+
     $stmt = mysqli_prepare($con, $sql) or die(mysqli_error($con));
 
     if ($types != '') {
@@ -88,7 +94,9 @@ if (isset($postData) && !empty($postData)) {
 
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
-
+        mysqli_stmt_close($stmt);
+        Dnevnik::upisiUDnevnik($con, 'Uspješan upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
+        
         while ($row = mysqli_fetch_assoc($result)) {
             if (!isset($natjecaji[$row['ID']])) {
                 $natjecaji[$row['ID']] = [
@@ -118,11 +126,14 @@ if (isset($postData) && !empty($postData)) {
 
         $natjecaji = array_values($natjecaji);
 
+        Dnevnik::upisiUDnevnik($con, 'Uspješan dohvat natjecaja', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $natjecaji]);
     } else {
+        Dnevnik::upisiUDnevnik($con, 'Neuspješan upit natjecaj', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 } else {
+    Dnevnik::upisiUDnevnik($con, 'Nemate pristup stranici', Dnevnik::TrenutnoVrijeme($con), 8);
     trigger_error("Nemate pristup stranici", E_USER_ERROR);
 }
 
