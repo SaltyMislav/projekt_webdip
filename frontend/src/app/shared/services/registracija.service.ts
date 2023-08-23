@@ -13,7 +13,7 @@ export class RegistracijaService {
     const params = new HttpParams().set('username', username);
 
     return this.http
-      .post(environment.apiUrl + '/provjeraKorisnika', {
+      .post(environment.apiUrl + '/provjerakorisnika', {
         params: params,
       })
       .pipe(map((res: any) => res['exists']));

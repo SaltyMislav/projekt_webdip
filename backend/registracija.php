@@ -102,9 +102,10 @@ function slanjeMaila($userName, $email, $token, $con) {
         'token' => $token
     ));
 
-    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://localhost:4200/aktivacija?$query_string";
+    $message = "Uspješno ste se registrirali na stranicu! Molimo potvrdite svoj račun klikom na link: http://barka.foi.hr/WebDiP/2022_projekti/WebDiP2022x057/aktivacija?$query_string";
     $headers = array(
-        'From' => 'mznidarec@foi.hr',
+        'From' => 'mznidarec@foi.hr' . '\r\n',
+        'MIME-Version' => '1.0' . '\r\n',
         'Content-Type' => 'text/plain; charset=UTF-8' . '\r\n',
     );
     //send email
