@@ -50,10 +50,10 @@ if(isset($postData) && !empty($postData)){
     }
 
     if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
 
         Dnevnik::upisiUDnevnik($con, 'Uspješan upit poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
-
-        $result = mysqli_stmt_get_result($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
             $poduzeca[] = [
@@ -65,7 +65,10 @@ if(isset($postData) && !empty($postData)){
         Dnevnik::upisiUDnevnik($con, 'Uspješno dohvaćanje poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 9);
         echo json_encode(['data' => $poduzeca]);
     } else {
+        mysqli_stmt_close($stmt);
         Dnevnik::upisiUDnevnik($con, 'Neuspješan upit poduzece za natjecaj', Dnevnik::TrenutnoVrijeme($con), 8);
         http_response_code(404);
     }
 }
+
+mysqli_close($con);

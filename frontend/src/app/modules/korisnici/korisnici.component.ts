@@ -146,7 +146,15 @@ export class KorisniciComponent implements OnInit {
     this.emailFilter = '';
     this.sortColumn = '';
     this.sortOrder = '';
-    this.updatePageData();
+
+    const data = {
+      UlogaKorisnikaNaziv: this.ulogaFilter,
+      Email: this.emailFilter,
+      UlogaID: this.authService.getUser().uloga,
+      KorisnikID: this.authService.getUser().user_ID,
+    }
+
+    this.getKorisnici(data);
   }
 
   compare(

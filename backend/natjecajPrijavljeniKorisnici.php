@@ -61,8 +61,10 @@ if (isset($postData) && !empty($postData)) {
     }
 
     if (mysqli_stmt_execute($stmt)) {
-        Dnevnik::upisiUDnevnik($con, 'Uspješan upit natjecaj prijava korisnika', Dnevnik::TrenutnoVrijeme($con), 9);
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
+
+        Dnevnik::upisiUDnevnik($con, 'Uspješan upit natjecaj prijava korisnika', Dnevnik::TrenutnoVrijeme($con), 9);
 
         $cr = 0;
         while ($row = mysqli_fetch_assoc($result)) {

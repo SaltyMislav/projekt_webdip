@@ -34,8 +34,10 @@ export class KorisniciPublicComponent implements OnInit {
 
   ngOnInit(): void {
     const data = {
-      Prezime: this.prezimeFilter ? this.prezimeFilter.trim().toLowerCase() : '',
-    }
+      Prezime: this.prezimeFilter
+        ? this.prezimeFilter.trim().toLowerCase()
+        : '',
+    };
     this.zaposleniciGet(data);
   }
 
@@ -99,25 +101,24 @@ export class KorisniciPublicComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const prezime = this.prezimeFilter
-      ? this.prezimeFilter.trim().toLowerCase()
-      : '';
+    const data = {
+      Prezime: this.prezimeFilter
+        ? this.prezimeFilter.trim().toLowerCase()
+        : '',
+    };
 
-    if (prezime === '') {
-      this.IndexStranice = 0;
-      this.zaposleniciGet();
-      return;
-    } else {
-      this.IndexStranice = 0;
-      this.zaposleniciGet(prezime);
-    }
+    this.IndexStranice = 0;
+    this.zaposleniciGet(data);
   }
 
   clearFilter(): void {
     this.prezimeFilter = '';
     this.sortColumn = '';
     this.sortOrder = '';
-    this.zaposleniciGet();
+    const data = {
+      Prezime: this.prezimeFilter,
+    };
+    this.zaposleniciGet(data);
   }
 
   compare(a: string, b: string, isAsc: boolean): number {
@@ -148,8 +149,7 @@ export class KorisniciPublicComponent implements OnInit {
   nextPage(): void {
     if (this.IndexStranice < this.ukupnoZaposlenika / this.stranicenje - 1) {
       this.IndexStranice++;
-      const sortiraniKorisnici =
-        this.sortColumn != '' && this.sortOrder != '';
+      const sortiraniKorisnici = this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniKorisnici);
     }
   }
@@ -157,8 +157,7 @@ export class KorisniciPublicComponent implements OnInit {
   previousPage(): void {
     if (this.IndexStranice > 0) {
       this.IndexStranice--;
-      const sortiraniKorisnici =
-        this.sortColumn != '' && this.sortOrder != '';
+      const sortiraniKorisnici = this.sortColumn != '' && this.sortOrder != '';
       this.updatePageData(false, sortiraniKorisnici);
     }
   }

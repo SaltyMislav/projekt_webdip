@@ -10,9 +10,8 @@ if (isset($postData) && !empty($postData)) {
 
     $request = json_decode($postData);
 
-    Dnevnik::upisiUDnevnik($con, 'Pokretanje spremanja dolaska na posao po korisniku -' . $korisnikID, Dnevnik::TrenutnoVrijeme($con), 5);
-
     $korisnikID = filter_var($request->data->KorisnikID, FILTER_SANITIZE_NUMBER_INT);
+    Dnevnik::upisiUDnevnik($con, 'Pokretanje spremanja dolaska na posao po korisniku -' . $korisnikID, Dnevnik::TrenutnoVrijeme($con), 5);
     $datumVrijemeDolaska = date('Y-m-d H:i:s', strtotime($request->data->DatumVrijemeDolaska));
     $datumDolaska = date('Y-m-d', strtotime($request->data->DatumVrijemeDolaska));
 

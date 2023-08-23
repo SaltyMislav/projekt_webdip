@@ -7,6 +7,22 @@
       Dodaj natječaj
     </button>
   </mat-card-title>
+  <div class="roditelj">
+    <div class="dijete">
+      <label for="nazivNatjecajaFilter">Naziv: </label>
+      <input type="input" [(ngModel)]="nazivNatjecajaFilter" placeholder="Naziv" />
+    </div>
+    <div class="dijete">
+      <label for="vrijemePocetkaFilter">Vrijeme početka: </label>
+      <input type="datetime-local" [(ngModel)]="vrijemePocetkaFilter" placeholder="Vrijeme početka" />
+    </div>
+    <div class="dijete">
+      <button mat-raised-button color="primary" (click)="applyFilter()">
+        Filtriraj
+      </button>
+      <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+    </div>
+  </div>
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="Naziv">

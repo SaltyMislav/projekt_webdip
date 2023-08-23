@@ -15,8 +15,9 @@ export class AuthenticationService {
     ) { }
 
   setRememberedUser(user: any): void {
-    let zapis = this.jsonToBase64(user);
-    localStorage.setItem('user', zapis);
+    let zapis = user.user;
+    localStorage.setItem('userName', zapis);
+    this.setUser(user);
   }
 
   setUser(user: any): void {
@@ -34,11 +35,6 @@ export class AuthenticationService {
 
   getUser(): any {
     const user = sessionStorage.getItem('user');
-    const rememberedUser = localStorage.getItem('user');
-
-    if (rememberedUser) {
-      return this.base64ToJson(rememberedUser);
-    }
 
     if (user) {
       return this.base64ToJson(user);
@@ -49,7 +45,6 @@ export class AuthenticationService {
 
   removeUser(): void {
     sessionStorage.removeItem('user');
-    localStorage.removeItem('user');
     this.cookieService.delete('PHPSESSID', '/');
     location.href = environment.homePage;
   }

@@ -66,9 +66,11 @@ if (isset($postData) && !empty($postData)) {
         mysqli_stmt_bind_param($stmt, 'ssssiii', $naziv, $opis, $vrijemePocetka, $vrijemeKraja, $status, $poduzece, $id);
 
         if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
             Dnevnik::upisiUDnevnik($con, 'Uspješno uređen natječaj', Dnevnik::TrenutnoVrijeme($con), 9);
             echo json_encode(['data' => 'Uspješno uređen natječaj']);
         } else {
+            mysqli_stmt_close($stmt);
             Dnevnik::upisiUDnevnik($con, 'Problem kod uređivanja natječaja', Dnevnik::TrenutnoVrijeme($con), 8);
             trigger_error("Problem kod uređivanja natječaja", E_USER_ERROR);
         }
@@ -115,9 +117,11 @@ if (isset($postData) && !empty($postData)) {
         mysqli_stmt_bind_param($stmt, 'ssssii', $naziv, $opis, $vrijemePocetka, $vrijemeKraja, $status, $poduzece);
 
         if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
             Dnevnik::upisiUDnevnik($con, 'Uspješno dodan natječaj', Dnevnik::TrenutnoVrijeme($con), 9);
             echo json_encode(['data' => 'Uspješno dodan natječaj']);
         } else {
+            mysqli_stmt_close($stmt);
             Dnevnik::upisiUDnevnik($con, 'Problem kod dodavanja natječaja', Dnevnik::TrenutnoVrijeme($con), 8);
             trigger_error("Problem kod dodavanja natječaja", E_USER_ERROR);
         }
@@ -136,8 +140,10 @@ function updateZaposlenika($con, $id, $poduzece, $status)
         mysqli_stmt_bind_param($stmt, 'i', $id);
 
         if (mysqli_stmt_execute($stmt)) {
-            Dnevnik::upisiUDnevnik($con, 'Uspješan upit za dohvaćanje korisnika', Dnevnik::TrenutnoVrijeme($con), 9);
             $result = mysqli_stmt_get_result($stmt);
+            mysqli_stmt_close($stmt);
+
+            Dnevnik::upisiUDnevnik($con, 'Uspješan upit za dohvaćanje korisnika', Dnevnik::TrenutnoVrijeme($con), 9);
 
             while ($row = mysqli_fetch_assoc($result)) {
                 $korisnikID = $row['KorisnikID'];
@@ -149,11 +155,14 @@ function updateZaposlenika($con, $id, $poduzece, $status)
                 mysqli_stmt_bind_param($stmt, 'ii', $poduzece, $korisnikID);
 
                 if (!mysqli_stmt_execute($stmt)) {
+                    mysqli_stmt_close($stmt);
                     Dnevnik::upisiUDnevnik($con, 'Problem kod ažuriranja broja prijavljenih natječaja', Dnevnik::TrenutnoVrijeme($con), 8);
                     trigger_error("Problem kod ažuriranja broja prijavljenih natječaja", E_USER_ERROR);
                 }
+                mysqli_stmt_close($stmt);
             }
         } else {
+            mysqli_stmt_close($stmt);
             trigger_error("Problem kod dohvaćanja korisnika", E_USER_ERROR);
         }
     } else if ($status == 1) {
@@ -183,11 +192,11 @@ function updateZaposlenika($con, $id, $poduzece, $status)
                     Dnevnik::upisiUDnevnik($con, 'Problem kod ažuriranja broja prijavljenih natječaja', Dnevnik::TrenutnoVrijeme($con), 8);
                     trigger_error("Problem kod ažuriranja broja prijavljenih natječaja", E_USER_ERROR);
                 }
-                mysqli_stmt_close($stmt);
             }
 
             Dnevnik::upisiUDnevnik($con, 'Uspješno ažuriranje broj prijavljenih natječaja', Dnevnik::TrenutnoVrijeme($con), 2);
         } else {
+            mysqli_stmt_close($stmt);
             Dnevnik::upisiUDnevnik($con, 'Problem kod dohvaćanja korisnika', Dnevnik::TrenutnoVrijeme($con), 8);
             trigger_error("Problem kod dohvaćanja korisnika", E_USER_ERROR);
         }

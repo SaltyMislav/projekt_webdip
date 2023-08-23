@@ -138,7 +138,7 @@ export class RadniZadatakComponent implements OnInit {
     this.getRadniZadaci(data);
   }
 
-  clearFilters(): void {
+  clearFilter(): void {
     this.nazivZadatkaFilter = '';
     this.opisZadatkaFilter = '';
     this.sortColumn = '';

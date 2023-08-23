@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { PrijavaService } from '../../../shared/services/prijava.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-prijava',
@@ -11,7 +12,6 @@ import { PrijavaService } from '../../../shared/services/prijava.service';
   styleUrls: ['./prijava.component.css'],
 })
 export class PrijavaComponent implements OnInit {
-
   hide = true;
   prijavaForm!: FormGroup;
 
@@ -19,12 +19,13 @@ export class PrijavaComponent implements OnInit {
     private fb: FormBuilder,
     private prijavaService: PrijavaService,
     private authService: AuthenticationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
     this.prijavaForm = this.fb.group({
-      korisnickoIme: ['', Validators.required],
+      korisnickoIme: [localStorage.getItem("userName"), Validators.required],
       password: ['', Validators.required],
       zapamtiMe: [false],
     });
@@ -41,17 +42,30 @@ export class PrijavaComponent implements OnInit {
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });
-            setTimeout(() => {
+            if (
+              this.cookieService.get('prikupljanjePodataka') == 'noCollection'
+            ) {
+              setTimeout(() => {
+                location.href = environment.homePage;
+              }, 2000);
+            } else {
               location.href = environment.homePage;
-            }, 2000);
+            }
           } else {
+            localStorage.removeItem('userName');
             this.authService.setUser(result);
             this.snackBar.open('Prijava uspješna', 'U redu', {
               panelClass: 'green-snackbar',
             });
-            setTimeout(() => {
+            if (
+              this.cookieService.get('prikupljanjePodataka') == 'noCollection'
+            ) {
+              setTimeout(() => {
+                location.href = environment.homePage;
+              }, 2000);
+            } else {
               location.href = environment.homePage;
-            }, 2000);
+            }
           }
         },
         error: (error) => {

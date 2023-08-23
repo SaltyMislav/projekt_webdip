@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { KonfiguracijaClass } from '../../shared/services/class/konfiguracijaclass.service';
@@ -9,7 +14,7 @@ import { KonfiguracijaService } from '../../shared/services/konfiguracija.servic
   templateUrl: './konfiguracija.component.html',
   styleUrls: ['./konfiguracija.component.css'],
 })
-export class KonfiguracijaComponent implements OnInit {
+export class KonfiguracijaComponent implements OnInit, AfterViewInit {
   pomak!: number;
   stranicenje!: number;
   imgSize!: number;
@@ -28,11 +33,18 @@ export class KonfiguracijaComponent implements OnInit {
     this.imgSize = this.konfiguracijaClass.imageSize;
   }
 
+  ngAfterViewInit(): void {
+    this.pomak = this.konfiguracijaClass.pomak;
+    this.stranicenje = this.konfiguracijaClass.stranicenje;
+    this.imgSize = this.konfiguracijaClass.imageSize;
+    this.cdref.detectChanges();
+  }
+
   ngOnInit(): void {
     this.form = this.fb.group({
-      pomak: [{value: this.pomak, disabled: true}],
+      pomak: [{ value: this.pomak, disabled: true }],
       Stranicenje: [this.stranicenje, Validators.min(1)],
-      ImgSize: [this.imgSize, Validators.min(1)]
+      ImgSize: [this.imgSize, Validators.min(1)],
     });
   }
 
@@ -53,7 +65,7 @@ export class KonfiguracijaComponent implements OnInit {
         this.snackBar.open('Problem kod dohvata pomaka vremena', 'Zatvori', {
           panelClass: 'red-snackbar',
         });
-      }
+      },
     });
   }
 
@@ -70,20 +82,24 @@ export class KonfiguracijaComponent implements OnInit {
     this.stranicenje = this.form.value.Stranicenje;
 
     this.form.patchValue({
-      ImgSize: this.form.value.ImgSize * 1024
-    })
+      ImgSize: this.form.value.ImgSize * 1024,
+    });
 
     this.konfiguracijaService.postaviStranicenje(this.form.value).subscribe({
       next: (data: any) => {
-        this.snackBar.open('Uspješno postavljeno novo straničenje!', 'Zatvori', {
-          panelClass: 'green-snackbar',
-        });
+        this.snackBar.open(
+          'Uspješno postavljeno novo straničenje!',
+          'Zatvori',
+          {
+            panelClass: 'green-snackbar',
+          }
+        );
 
         this.konfiguracijaClass.getData();
         this.form.patchValue({
           pomak: this.pomak,
           Stranicenje: this.stranicenje,
-          ImgSize: this.imgSize
+          ImgSize: this.imgSize,
         });
       },
       error: (err: any) => {

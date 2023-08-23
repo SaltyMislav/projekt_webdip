@@ -34,7 +34,6 @@ export class NatjecajDialogPublicComponent implements OnInit {
     public dialogRef: MatDialogRef<NatjecajDialogPublicComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(data);
     this.stranicenje = this.konfiguracijaClass.stranicenje;
   }
 

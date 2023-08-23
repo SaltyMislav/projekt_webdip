@@ -1,7 +1,7 @@
 <?php
 
-require_once ("./connection.php");
-require_once ("./dnevnikclass.php");
+require_once("./connection.php");
+require_once("./dnevnikclass.php");
 
 $postData = file_get_contents("php://input");
 
@@ -13,7 +13,7 @@ if (isset($postData) && !empty($postData)) {
     $prezime = mysqli_real_escape_string($con, trim($request->data->Prezime));
     $prezime = strtolower($prezime);
 
-    if (!isset($prezime)){
+    if (!isset($prezime)) {
         Dnevnik::upisiUDnevnik($con, 'Nisu svi podaci uneseni', Dnevnik::TrenutnoVrijeme($con), 7);
         trigger_error("Nisu svi podaci uneseni", E_USER_ERROR);
     }

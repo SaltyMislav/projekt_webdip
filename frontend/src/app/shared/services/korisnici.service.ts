@@ -9,24 +9,24 @@ import { environment } from "src/environments/environment";
 export class KorisniciService {
     constructor(private http: HttpClient) {}
 
-    getAllKorisnici(data?: any) {
-        return this.http.post(environment.apiUrl + '/korisnici', data ? {data: data} : null).pipe(
+    getAllKorisnici(data: any) {
+        return this.http.post(environment.apiUrl + '/korisnici',{data: data} ).pipe(
             map((res: any) => {
                 return res['data'];
             })
         );
     }
 
-    getZaposlenici(data?: any) {
-        return this.http.post(environment.apiUrl + '/zaposlenici', data ? {data: data} : null).pipe(
+    getZaposlenici(data: any) {
+        return this.http.post(environment.apiUrl + '/zaposlenici',{data: data}).pipe(
             map((res: any) => {
                 return res['data'];
             })
         );
     }
 
-    getZaposleniciPrivatno(data?: any) {
-        return this.http.post(environment.apiUrl + '/zaposleniciprivatno', data ? {data: data} : null).pipe(
+    getZaposleniciPrivatno(data: any) {
+        return this.http.post(environment.apiUrl + '/zaposleniciprivatno', {data: data} ).pipe(
             map((res: any) => {
                 return res['data'];
             })

@@ -61,6 +61,22 @@
         Dodaj
       </button>
     </mat-card-title>
+    <div class="roditelj">
+      <div class="dijete">
+        <label for="imeKorisnikaFilter">Ime: </label>
+        <input type="input" [(ngModel)]="imeKorisnikaFilter" placeholder="Ime" />
+      </div>
+      <div class="dijete">
+        <label for="prezimeKorisnikaFilter">Prezime: </label>
+        <input type="input" [(ngModel)]="prezimeKorisnikaFilter" placeholder="Prezime" />
+      </div>
+      <div class="dijete">
+        <button mat-raised-button color="primary" (click)="applyFilter()">
+          Filtriraj
+        </button>
+        <button mat-raised-button (click)="clearFilter()">Očisti filter</button>
+      </div>
+    </div>
     <table
       mat-table
       [dataSource]="dataSource"
