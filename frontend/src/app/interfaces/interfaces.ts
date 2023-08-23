@@ -16,9 +16,10 @@ export interface StatusNatjecaja {
 
 export interface DnevnikRada {
   ID: number;
-  DatumPromjene: Date;
+  DatumPromjene: string;
   Detail: string;
   VrstaPromjeneID: number;
+  Naziv: string;
 }
 
 export interface VrstaPromjene {

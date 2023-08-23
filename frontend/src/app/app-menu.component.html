@@ -7,6 +7,9 @@
         <a routerLink="/konfiguracija">Konfiguracija</a>
       </li>
       <li class="elementi" *ngIf="this.authService.isAdmin()">
+        <a routerLink="/dnevnik-rada">Dnevnik rada</a>
+      </li>
+      <li class="elementi" *ngIf="this.authService.isAdmin()">
         <a routerLink="/korisnici">Korisnici</a>
       </li>
       <li class="elementi" *ngIf="this.authService.isUser()">
