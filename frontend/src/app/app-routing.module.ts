@@ -12,6 +12,8 @@ import { KorisniciComponent } from './modules/korisnici/korisnici.component';
 import { NatjecajComponent } from './modules/natjecaj/natjecaj.component';
 import { PoduzecaComponent } from './modules/poduzeca/poduzeca.component';
 import { AktivacijaComponent } from './modules/public/aktivacija/aktivacija.component';
+import { DokumentacijaComponent } from './modules/public/dokumentacija/dokumentacija.component';
+import { OAutoruComponent } from './modules/public/oautoru/oautoru.component';
 import { PrijavaComponent } from './modules/public/prijava/prijava.component';
 import { RegistracijaComponent } from './modules/public/registracija/registracija.component';
 import { ZaboravljenaLozinkaComponent } from './modules/public/zaboravljena-lozinka/zaboravljena-lozinka.component';
@@ -58,6 +60,14 @@ const routes: Routes = [
     path: 'zaposlenici',
     component: ZaposleniciComponent,
     canActivate: [moderatorGuard],
+  },
+  {
+    path: 'oautoru',
+    component: OAutoruComponent,
+  },
+  {
+    path: 'dokumentacija',
+    component: DokumentacijaComponent,
   },
   { path: '**', redirectTo: '' },
 ];
