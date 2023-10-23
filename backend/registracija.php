@@ -5,6 +5,7 @@ require_once ("./virtualnoVrijemeClass.php");
 require_once ("./dnevnikclass.php");
 
 $postData = file_get_contents("php://input");
+$config = parse_ini_file('../config/config.ini');
 
 if (isset($postData) && !empty($postData)) {
     $result = json_decode($postData);
@@ -28,8 +29,7 @@ if (isset($postData) && !empty($postData)) {
         trigger_error("Captcha nije ispunjena", E_USER_ERROR);
     }
 
-    $secretKey = '6Lc6JFknAAAAAEY00jpvfLEX5SuM3kd-ekLyJ7LW';
-    $url = "https://www.google.com/recaptcha/api/siteverify?secret=". urlencode($secretKey). "&response=" . urlencode($captcha);
+    $url = "https://www.google.com/recaptcha/api/siteverify?secret=". urlencode($config['secretKey']). "&response=" . urlencode($captcha);
 
     $response = file_get_contents($url);
     $responseKeys = json_decode($response, true);
